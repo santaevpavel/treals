@@ -1,7 +1,12 @@
 package ru.nsu.fit.nsuschedule.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Paint;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -16,11 +21,12 @@ import android.widget.Toast;
 import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.api.ApiService;
 import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
-import ru.nsu.fit.nsuschedule.api.response.GroupListResponse;
 import ru.nsu.fit.nsuschedule.api.response.WeatherResponse;
 import ru.nsu.fit.nsuschedule.util.Helper;
 import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
+import ru.nsu.fit.nsuschedule.util.RequestInfo;
 import ru.nsu.fit.nsuschedule.view.MainScreenItemView;
+import ru.nsu.fit.nsuschedule.view.WeatherView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,13 +36,14 @@ import ru.nsu.fit.nsuschedule.view.MainScreenItemView;
  * Use the {@link MainScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainScreenFragment extends Fragment {
+public class MainScreenFragment extends BaseFragment {
 
     private OnFragmentInteractionListener mListener;
 
     public static final int CODE_SCHEDULE = 0;
     public static final int CODE_LOGOUT = 1;
-    private TextView textViewTemp;
+
+    private WeatherView weatherView;
 
     public MainScreenFragment() {
         // Required empty public constructor
@@ -72,7 +79,7 @@ public class MainScreenFragment extends Fragment {
             }
         });
 
-        textViewTemp = (TextView) root.findViewById(R.id.text_weather);
+        weatherView = (WeatherView) root.findViewById(R.id.weather);
 
         TextView changeGroup = (TextView) root.findViewById(R.id.button_change_group);
         String groupName = PreferenceHelper.getGroupName();
@@ -111,29 +118,54 @@ public class MainScreenFragment extends Fragment {
         itemAcadem.setIcon(Helper.tintDrawable(getResources(), R.drawable.ic_domain_black_24dp, R.color.main_screen_item_color));
         itemNotebook.setIcon(Helper.tintDrawable(getResources(), R.drawable.ic_class_black_24dp, R.color.main_screen_item_color));
 
+        requestWeather();
+        return root;
+    }
+
+    private void requestWeather(){
+        weatherView.showProgress();
+        if (!requestInfo.tryToRequest()){
+            return;
+        }
         ApiServiceHelper.getWeather(getContext(), new ResultReceiver(new Handler()){
             @Override
             protected void onReceiveResult(int resultCode, Bundle resultData) {
                 super.onReceiveResult(resultCode, resultData);
+                requestInfo.finish(false);
                 if (!isAdded()){
                     return;
                 }
                 WeatherResponse response = (WeatherResponse)
                         resultData.getSerializable(ApiService.KEY_RESPONSE);
                 if (response == null){
-                    Toast.makeText(getContext(), "Error when loading weather", Toast.LENGTH_SHORT).show();
+                    showErrorInWeather();
                     return;
                 }
                 if (response.hasError()){
-                    Snackbar.make(textViewTemp, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(weatherView, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
+                    showErrorInWeather();
                 } else {
                     String temp = response.temp;
-                    textViewTemp.setText(null != temp ? temp : "-");
+                    if (temp != null || !temp.isEmpty()) {
+                        weatherView.setTemp(temp + "°C");
+                        requestInfo.finish(true);
+                    } else {
+                        showErrorInWeather();
+                    }
                 }
             }
         });
+    }
 
-        return root;
+    @Override
+    public void onInternetConnected() {
+        super.onInternetConnected();
+        requestWeather();
+    }
+
+    private void showErrorInWeather(){
+        weatherView.setStatus("Погода \nнедоступна");
+        requestInfo.finish(false);
     }
 
     @Override
@@ -166,4 +198,7 @@ public class MainScreenFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onClick(int code);
     }
+
+
+
 }

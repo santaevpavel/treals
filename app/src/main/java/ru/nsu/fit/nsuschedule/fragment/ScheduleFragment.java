@@ -58,7 +58,7 @@ import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
  * Use the {@link ScheduleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ScheduleFragment extends Fragment {
+public class ScheduleFragment extends BaseFragment {
 
     private OnFragmentInteractionListener mListener;
     private WeekView weekView;
@@ -83,12 +83,19 @@ public class ScheduleFragment extends Fragment {
     }
 
     @Override
+    public void onInternetConnected() {
+        super.onInternetConnected();
+        requestLessons();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Загрузка расписания...");
 
 
         weekView = (WeekView) root.findViewById(R.id.weekView);
@@ -107,9 +114,7 @@ public class ScheduleFragment extends Fragment {
                 DialogHelper.getLessonViewDialog(getContext(), response.lessons.get((int) id)).show();
             }
         });
-        progressDialog.show();
         requestLessons();
-
 
         /*weekView.setWeekViewLoader(new WeekViewLoader() {
             @Override
@@ -137,10 +142,14 @@ public class ScheduleFragment extends Fragment {
     }
 
     private void requestLessons(){
+        progressDialog.show();
         String group = PreferenceHelper.getGroup();
         if (group == null){
             Toast.makeText(getContext(), "You didn't choose a group", Toast.LENGTH_SHORT).show();
             progressDialog.hide();
+            return;
+        }
+        if (!requestInfo.tryToRequest()){
             return;
         }
 
@@ -151,12 +160,16 @@ public class ScheduleFragment extends Fragment {
                 response = (LessonsResponse)
                         resultData.getSerializable(ApiService.KEY_RESPONSE);
                 progressDialog.hide();
+                requestInfo.finish(false);
                 if (null != response){
                     if (response.hasError()){
                         Snackbar.make(weekView, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
                     } else {
+                        requestInfo.finish(true);
                         updateLessons();
                     }
+                } else {
+                    Snackbar.make(weekView, "Ошибка при загрузке расписания", Snackbar.LENGTH_LONG).show();
                 }
             }
         }, new GetLessonsRequest(group));

@@ -16,8 +16,16 @@ public class PreferenceHelper {
         return getReferences().getString("groupName", null);
     }
 
+    public static String getWeather(){
+        return getReferences().getString("weather", null);
+    }
+
     public static String getGroup(){
         return getReferences().getString("group", null);
+    }
+
+    public static void setWeather(String value){
+        setString("weather", value);
     }
 
     public static void setGroup(String value){

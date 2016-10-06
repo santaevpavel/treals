@@ -39,7 +39,8 @@ public class ScheduleActivity extends AppCompatActivity {
         //transaction.addToBackStack(null);
         transaction.commit();
 
-        toolbar.setTitle("Расписание");
+        //toolbar.setTitle("Расписание");
+        getSupportActionBar().setTitle("Расписание");
     }
 
     @Override

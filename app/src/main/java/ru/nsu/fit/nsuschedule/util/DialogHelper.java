@@ -1,8 +1,8 @@
 package ru.nsu.fit.nsuschedule.util;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,7 +15,7 @@ import ru.nsu.fit.nsuschedule.model.Lesson;
 public class DialogHelper {
 
     public static AlertDialog getLessonViewDialog(Context context, Lesson lesson){
-        View root = View.inflate(context, R.layout.lesson_dialog_layout, null);
+        /*View root = View.inflate(context, R.layout.lesson_dialog_layout, null);
         TextView textName = (TextView) root.findViewById(R.id.text_name);
         TextView textTeacher = (TextView) root.findViewById(R.id.text_teacher);
         TextView textRoom = (TextView) root.findViewById(R.id.text_room);
@@ -29,7 +29,11 @@ public class DialogHelper {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
-        }).create();
+        }).create();*/
+
+        String time = context.getString(R.string.lesson_dialog_time_str,
+                lesson.getStartTime(), lesson.getEndTime());
+        return new AlertDialog.Builder(context).setTitle(lesson.getName()).setMessage(lesson.getRoom() + "\n" + time).create();
     }
 
     private static String getLessonTypeChar(Lesson lesson){

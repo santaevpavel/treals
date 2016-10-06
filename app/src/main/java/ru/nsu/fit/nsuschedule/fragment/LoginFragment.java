@@ -2,8 +2,13 @@ package ru.nsu.fit.nsuschedule.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -27,6 +32,7 @@ import ru.nsu.fit.nsuschedule.api.response.GroupListResponse;
 import ru.nsu.fit.nsuschedule.model.Group;
 import ru.nsu.fit.nsuschedule.model.GroupSuggestion;
 import ru.nsu.fit.nsuschedule.util.Helper;
+import ru.nsu.fit.nsuschedule.util.RequestInfo;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +42,7 @@ import ru.nsu.fit.nsuschedule.util.Helper;
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends BaseFragment {
 
     public static final int MAX_SUGGESTIONS_COUNT = 5;
     private OnFragmentInteractionListener mListener;
@@ -68,28 +74,6 @@ public class LoginFragment extends Fragment {
         //Helper.addStatusBarPaddingToView(root.findViewById(R.id.content_frame), getContext());
         Helper.addStatusBarPaddingToView(root.findViewById(R.id.floating_search_view), getContext());
 
-        final Context context = getContext();
-
-        ApiServiceHelper.getGroups(context, new android.support.v4.os.ResultReceiver(new Handler()){
-            @Override
-            protected void onReceiveResult(int resultCode, Bundle resultData) {
-                super.onReceiveResult(resultCode, resultData);
-                if (!isAdded()){
-                    return;
-                }
-                response = (GroupListResponse)
-                        resultData.getSerializable(ApiService.KEY_RESPONSE);
-                if (response == null){
-                    Toast.makeText(getContext(), "Error due loading groups", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (response.hasError()){
-                    Snackbar.make(searchView, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
-                }
-                updateSuggestions();
-            }
-
-        });
         root.findViewById(R.id.buttonOK).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,28 +105,74 @@ public class LoginFragment extends Fragment {
                 searchView.clearQuery();
             }
         });
+
+        requestGroups();
+
         return root;
+    }
+
+    @Override
+    public void onInternetConnected() {
+        requestGroups();
+        super.onInternetConnected();
+    }
+
+    private void requestGroups(){
+        if (!requestInfo.tryToRequest()){
+            return;
+        }
+        ApiServiceHelper.getGroups(getContext(), new android.support.v4.os.ResultReceiver(new Handler()){
+            @Override
+            protected void onReceiveResult(int resultCode, Bundle resultData) {
+                super.onReceiveResult(resultCode, resultData);
+                requestInfo.finish(false);
+                if (!isAdded()){
+                    return;
+                }
+                response = (GroupListResponse)
+                        resultData.getSerializable(ApiService.KEY_RESPONSE);
+                if (response == null){
+                    Toast.makeText(getContext(), "Error due loading groups", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (response.hasError()){
+                    Snackbar.make(searchView, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+
+                requestInfo.finish(true);
+                updateSuggestions();
+            }
+
+        });
     }
 
     private void updateSuggestions(){
         searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, String newQuery) {
-                ArrayList<SearchSuggestion> suggestions = new ArrayList<>();
-                if (response == null || response.groups == null || response.groups.isEmpty()){
-                    return;
-                } else {
-                    List<Group> groups = response.groups;
-                    for (int i = 0; i < groups.size() && MAX_SUGGESTIONS_COUNT >= suggestions.size(); i++) {
-                        if (0 == groups.get(i).getName().indexOf(newQuery)) {
-                            suggestions.add(new GroupSuggestion(groups.get(i)));
-                        }
-                    }
-                }
-                searchView.swapSuggestions(suggestions);
+                changeSuggestions(newQuery);
             }
         });
+        String query = searchView.getQuery();
+        if (query != null) {
+            changeSuggestions(query);
+        }
+    }
 
+    private void changeSuggestions(String query){
+        ArrayList<SearchSuggestion> suggestions = new ArrayList<>();
+        if (response == null || response.groups == null || response.groups.isEmpty()){
+            return;
+        } else {
+            List<Group> groups = response.groups;
+            for (int i = 0; i < groups.size() && MAX_SUGGESTIONS_COUNT >= suggestions.size(); i++) {
+                if (0 == groups.get(i).getName().indexOf(query)) {
+                    suggestions.add(new GroupSuggestion(groups.get(i)));
+                }
+            }
+        }
+        searchView.swapSuggestions(suggestions);
     }
 
     private void showSearch(){
@@ -194,7 +224,7 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
+    public void onDetach(){
         super.onDetach();
         mListener = null;
     }

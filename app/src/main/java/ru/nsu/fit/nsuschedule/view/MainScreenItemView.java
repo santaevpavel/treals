@@ -33,6 +33,10 @@ public class MainScreenItemView extends FrameLayout{
         init();
     }
 
+    public MainScreenItemView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init();
+    }
 
     private void init(){
         View root = View.inflate(getContext(), R.layout.main_screen_item, this);
