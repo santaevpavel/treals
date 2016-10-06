@@ -11,7 +11,7 @@ import ru.nsu.fit.nsuschedule.model.Lesson;
 /**
  * Created by Pavel on 16.09.2016.
  */
-public class LessonsResponse  implements Serializable {
+public class LessonsResponse extends BaseResponse implements Serializable {
 
     @SerializedName("lessons")
     public List<Lesson> lessons;

@@ -7,6 +7,7 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IntegerRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.os.ResultReceiver;
 import android.view.ContextMenu;
@@ -150,15 +151,19 @@ public class ScheduleFragment extends Fragment {
                 response = (LessonsResponse)
                         resultData.getSerializable(ApiService.KEY_RESPONSE);
                 progressDialog.hide();
-                updateLessons();
-                if (null == response){
+                if (null != response){
+                    if (response.hasError()){
+                        Snackbar.make(weekView, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        updateLessons();
+                    }
                 }
             }
         }, new GetLessonsRequest(group));
     }
 
     private void updateLessons(){
-        if (null != weekView && response != null) {
+        if (null != weekView && response != null && response.lessons != null) {
             weekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
                 @Override
                 public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {

@@ -32,6 +32,10 @@ public class ApiServiceHelper {
         startService(null, ApiService.CODE_GET_ALL_GROUPS, resultReceiver);
     }
 
+    public static void getWeather(Context context, ResultReceiver resultReceiver){
+        startService(null, ApiService.CODE_GET_NSU_WEATHER, resultReceiver);
+    }
+
     private static void startService(Serializable data, int action, ResultReceiver onServiceResult) {
         Intent intent = getIntent(action, onServiceResult);
         intent.putExtra(ApiService.KEY_CALLBACK, onServiceResult);

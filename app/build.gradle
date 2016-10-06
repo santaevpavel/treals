@@ -31,5 +31,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.flaviofaria:kenburnsview:1.0.7'
     compile 'com.github.arimorty:floatingsearchview:2.0.3'
+    compile 'com.android.support:design:22.2.0'
 
 }

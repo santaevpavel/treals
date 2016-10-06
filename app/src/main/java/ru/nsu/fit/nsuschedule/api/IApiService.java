@@ -6,6 +6,7 @@ import retrofit2.http.Path;
 import ru.nsu.fit.nsuschedule.api.response.DepartmentListResponse;
 import ru.nsu.fit.nsuschedule.api.response.GroupListResponse;
 import ru.nsu.fit.nsuschedule.api.response.LessonsResponse;
+import ru.nsu.fit.nsuschedule.api.response.WeatherResponse;
 
 /**
  * Created by Pavel on 15.09.2016.
@@ -25,4 +26,7 @@ public interface IApiService {
 
     @GET("/api/CLASSES")
     Call<GroupListResponse> getGroups();
+
+    @GET("/api/WEATHER")
+    Call<WeatherResponse> getWeather();
 }

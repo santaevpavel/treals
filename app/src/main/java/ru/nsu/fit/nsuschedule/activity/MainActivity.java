@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         } else {
             openMainScreenFragment();
         }
+        //openMainScreenFragment();
     }
 
 
@@ -78,8 +79,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
     }
 
     @Override
-    public void onLogIn(String group) {
-        PreferenceHelper.setGroup(group);
+    public void onLogIn(String groupId, String groupName) {
+        PreferenceHelper.setGroup(groupId);
+        PreferenceHelper.setGroupName(groupName);
         openMainScreenFragment();
     }
 

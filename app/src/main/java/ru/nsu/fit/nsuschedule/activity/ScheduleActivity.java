@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import ru.nsu.fit.nsuschedule.R;
@@ -23,6 +24,10 @@ public class ScheduleActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.my_toolbar);
 
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         openSchedule();
     }
 
@@ -33,5 +38,18 @@ public class ScheduleActivity extends AppCompatActivity {
                 android.R.anim.fade_in, android.R.anim.fade_out);
         //transaction.addToBackStack(null);
         transaction.commit();
+
+        toolbar.setTitle("Расписание");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

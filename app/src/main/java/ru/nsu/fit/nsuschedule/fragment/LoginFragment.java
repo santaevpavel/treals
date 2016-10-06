@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -78,9 +79,12 @@ public class LoginFragment extends Fragment {
                 }
                 response = (GroupListResponse)
                         resultData.getSerializable(ApiService.KEY_RESPONSE);
-                if (response == null || response.hasError()){
+                if (response == null){
                     Toast.makeText(getContext(), "Error due loading groups", Toast.LENGTH_SHORT).show();
                     return;
+                }
+                if (response.hasError()){
+                    Snackbar.make(searchView, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
                 }
                 updateSuggestions();
             }
@@ -100,7 +104,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
                 searchView.setOnFocusChangeListener((FloatingSearchView.OnFocusChangeListener) null);
-                hideSearch(true, ((GroupSuggestion)searchSuggestion).getGroup().getId());
+                hideSearch(true, ((GroupSuggestion)searchSuggestion).getGroup());
             }
 
             @Override
@@ -165,7 +169,7 @@ public class LoginFragment extends Fragment {
 
     }
 
-    private void hideSearch(final boolean openMainScreen, final String groupId){
+    private void hideSearch(final boolean openMainScreen, final Group group){
         Helper.hideKeyboard(getActivity().getWindow());
         searchView.animate().alpha(0.0f).setDuration(100).setListener(new AnimatorListenerAdapter() {
             @Override
@@ -173,7 +177,7 @@ public class LoginFragment extends Fragment {
                 super.onAnimationEnd(animation);
                 searchView.setVisibility(View.GONE);
                 if (null != mListener && openMainScreen){
-                    mListener.onLogIn(groupId);
+                    mListener.onLogIn(group.getId(), group.getName());
                 }
             }
         });
@@ -206,7 +210,7 @@ public class LoginFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onLogIn(String group);
+        void onLogIn(String groupId, String groupName);
     }
 
 }

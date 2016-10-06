@@ -9,16 +9,20 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.nsu.fit.nsuschedule.api.request.GetGroupsRequest;
 import ru.nsu.fit.nsuschedule.api.request.GetLessonsRequest;
+import ru.nsu.fit.nsuschedule.api.response.BaseResponse;
 import ru.nsu.fit.nsuschedule.api.response.DepartmentListResponse;
 import ru.nsu.fit.nsuschedule.api.response.GroupListResponse;
 import ru.nsu.fit.nsuschedule.api.response.LessonsResponse;
+import ru.nsu.fit.nsuschedule.api.response.WeatherResponse;
 
 /**
  * Created by Pavel on 16.09.2016.
@@ -34,6 +38,8 @@ public class ApiService extends IntentService{
     public static final int CODE_GET_GROUPS = 1;
     public static final int CODE_GET_LESSONS = 2;
     public static final int CODE_GET_ALL_GROUPS = 3;
+    public static final int CODE_GET_NSU_WEATHER = 4;
+
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -73,6 +79,9 @@ public class ApiService extends IntentService{
                 break;
             case CODE_GET_ALL_GROUPS:
                 response = getClasses();
+                break;
+            case CODE_GET_NSU_WEATHER:
+                response = getWeather();
                 break;
         }
         resultReceiver.send(0, response);
@@ -117,6 +126,9 @@ public class ApiService extends IntentService{
         Response<LessonsResponse> response = null;
         try {
             response = call.execute();
+        } catch (UnknownHostException e){
+            e.printStackTrace();
+            return buildError(new LessonsResponse(), "Отсуствует интернет соединение");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e2){
@@ -125,6 +137,8 @@ public class ApiService extends IntentService{
         Bundle bundle = new Bundle();
         if (null != response && response.isSuccessful()) {
             bundle.putSerializable(KEY_RESPONSE, response.body());
+        } else {
+            return buildError(new LessonsResponse(), "Ошибка при загрузке расписания");
         }
         return bundle;
     }
@@ -132,17 +146,55 @@ public class ApiService extends IntentService{
     private Bundle getClasses(){
         Call<GroupListResponse> call = api.getGroups();
         Response<GroupListResponse> response = null;
+        Bundle bundle = new Bundle();
         try {
             response = call.execute();
-        } catch (IOException e) {
+        } catch (UnknownHostException e){
             e.printStackTrace();
-        } catch (Exception e2){
+            return buildError(new GroupListResponse(), "Отсуствует интернет соединение");
+        } catch (IOException e2) {
             e2.printStackTrace();
+            return buildError(new GroupListResponse(), "Ошибка при загрузке списка групп");
+        } catch (Exception e3){
+            e3.printStackTrace();
+            return buildError(new GroupListResponse(), "Внутренняя ошибка приложения");
         }
-        Bundle bundle = new Bundle();
         if (null != response && response.isSuccessful()) {
             bundle.putSerializable(KEY_RESPONSE, response.body());
+        } else {
+            return buildError(new GroupListResponse(), "Ошибка при загрузке списка групп");
         }
+        return bundle;
+    }
+
+    private Bundle getWeather(){
+        Call<WeatherResponse> call = api.getWeather();
+        Response<WeatherResponse> response = null;
+        Bundle bundle = new Bundle();
+        try {
+            response = call.execute();
+        } catch (UnknownHostException e){
+            e.printStackTrace();
+            return buildError(new WeatherResponse(), "Отсуствует интернет соединение");
+        } catch (IOException e2) {
+            e2.printStackTrace();
+            return buildError(new WeatherResponse(), "Ошибка при загрузке погоды");
+        } catch (Exception e3){
+            e3.printStackTrace();
+            return buildError(new WeatherResponse(), "Внутренняя ошибка приложения");
+        }
+        if (null != response && response.isSuccessful()) {
+            bundle.putSerializable(KEY_RESPONSE, response.body());
+        } else {
+            return buildError(new WeatherResponse(), "Ошибка при загрузке погоды");
+        }
+        return bundle;
+    }
+
+    private static <T extends BaseResponse> Bundle buildError(T t, String error){
+        Bundle bundle = new Bundle();
+        t.setErrorMsg(error);
+        bundle.putSerializable(KEY_RESPONSE, t);
         return bundle;
     }
 }

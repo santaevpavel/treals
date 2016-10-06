@@ -12,12 +12,20 @@ public class PreferenceHelper {
 
     private static final String PREFS = "PREFS";
 
+    public static String getGroupName(){
+        return getReferences().getString("groupName", null);
+    }
+
     public static String getGroup(){
         return getReferences().getString("group", null);
     }
 
     public static void setGroup(String value){
         setString("group", value);
+    }
+
+    public static void setGroupName(String value){
+        setString("groupName", value);
     }
 
     public static String getDepartment(){
