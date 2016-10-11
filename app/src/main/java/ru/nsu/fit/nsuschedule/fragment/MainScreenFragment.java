@@ -43,8 +43,6 @@ public class MainScreenFragment extends BaseFragment {
     public static final int CODE_SCHEDULE = 0;
     public static final int CODE_LOGOUT = 1;
 
-    private WeatherView weatherView;
-
     public MainScreenFragment() {
         // Required empty public constructor
     }
@@ -57,7 +55,7 @@ public class MainScreenFragment extends BaseFragment {
     private MainScreenItemView itemSchedule;
     private MainScreenItemView itemNews;
     private MainScreenItemView itemAcadem;
-    private MainScreenItemView itemNotebook;
+    private MainScreenItemView itemWeather;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,11 +77,9 @@ public class MainScreenFragment extends BaseFragment {
             }
         });
 
-        weatherView = (WeatherView) root.findViewById(R.id.weather);
-
-        TextView changeGroup = (TextView) root.findViewById(R.id.button_change_group);
+        //TextView changeGroup = (TextView) root.findViewById(R.id.button_change_group);
         String groupName = PreferenceHelper.getGroupName();
-        changeGroup.setText(null != groupName ? groupName : "Сменить группу");
+        /*changeGroup.setText(null != groupName ? groupName : "Сменить группу");
         changeGroup.setPaintFlags(changeGroup.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         changeGroup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,12 +88,13 @@ public class MainScreenFragment extends BaseFragment {
                     mListener.onClick(CODE_LOGOUT);
                 }
             }
-        });
+        });*/
 
+        itemWeather = (MainScreenItemView) root.findViewById(R.id.button_weather);
         itemSchedule = (MainScreenItemView) root.findViewById(R.id.button_schedule);
         itemNews = (MainScreenItemView) root.findViewById(R.id.button_news);
         itemAcadem = (MainScreenItemView) root.findViewById(R.id.button_academ);
-        itemNotebook = (MainScreenItemView) root.findViewById(R.id.button_notebook);
+
 
         itemSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,22 +105,43 @@ public class MainScreenFragment extends BaseFragment {
             }
         });
 
-        itemSchedule.setText("Расписание");
-        itemNews.setText("Новости НГУ");
-        itemAcadem.setText("Академ");
-        itemNotebook.setText("Блокнот");
+        itemNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        itemSchedule.setIcon(Helper.tintDrawable(getResources(), R.drawable.ic_today_black_24dp, R.color.main_screen_item_color));
-        itemNews.setIcon(Helper.tintDrawable(getResources(), R.drawable.ic_school_black_24dp, R.color.main_screen_item_color));
-        itemAcadem.setIcon(Helper.tintDrawable(getResources(), R.drawable.ic_domain_black_24dp, R.color.main_screen_item_color));
-        itemNotebook.setIcon(Helper.tintDrawable(getResources(), R.drawable.ic_class_black_24dp, R.color.main_screen_item_color));
+            }
+        });
+
+        itemAcadem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        itemWeather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        itemSchedule.setText("РАСПИСАНИЕ");
+        itemNews.setText("НОВОСТИ НГУ");
+        itemAcadem.setText("АКАДЕМ");
+        itemWeather.setText("ПОГОДА");
+
+        itemSchedule.setBackground(R.drawable.menu_img_schedule);
+        itemNews.setBackground(R.drawable.menu_img_nsu_news);
+        itemAcadem.setBackground(R.drawable.menu_img_academ);
+        itemWeather.setBackground(R.drawable.menu_img_weather);
 
         requestWeather();
         return root;
     }
 
     private void requestWeather(){
-        weatherView.showProgress();
+        //weatherView.showProgress();
         if (!requestInfo.tryToRequest()){
             return;
         }
@@ -142,12 +160,12 @@ public class MainScreenFragment extends BaseFragment {
                     return;
                 }
                 if (response.hasError()){
-                    Snackbar.make(weatherView, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(itemWeather, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
                     showErrorInWeather();
                 } else {
                     String temp = response.temp;
-                    if (temp != null || !temp.isEmpty()) {
-                        weatherView.setTemp(temp + "°C");
+                    if (temp != null && !temp.isEmpty()) {
+                        itemWeather.setText(temp + "°C ДОЖДЬ");
                         requestInfo.finish(true);
                     } else {
                         showErrorInWeather();
@@ -164,7 +182,7 @@ public class MainScreenFragment extends BaseFragment {
     }
 
     private void showErrorInWeather(){
-        weatherView.setStatus("Погода \nнедоступна");
+        itemWeather.setText("Погода \nнедоступна");
         requestInfo.finish(false);
     }
 

@@ -15,7 +15,7 @@ import ru.nsu.fit.nsuschedule.R;
  */
 public class MainScreenItemView extends FrameLayout{
 
-    private ImageView icon;
+    private ImageView background;
     private TextView text;
 
     public MainScreenItemView(Context context) {
@@ -40,7 +40,7 @@ public class MainScreenItemView extends FrameLayout{
 
     private void init(){
         View root = View.inflate(getContext(), R.layout.main_screen_item, this);
-        icon = (ImageView) root.findViewById(R.id.icon);
+        background = (ImageView) root.findViewById(R.id.background);
         text = (TextView) root.findViewById(R.id.text);
     }
 
@@ -48,7 +48,7 @@ public class MainScreenItemView extends FrameLayout{
         this.text.setText(text);
     }
 
-    public void setIcon(Drawable iconDrawable){
-        this.icon.setImageDrawable(iconDrawable);
+    public void setBackground(int id){
+        this.background.setImageResource(id);
     }
 }

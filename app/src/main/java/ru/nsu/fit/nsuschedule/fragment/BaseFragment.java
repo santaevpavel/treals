@@ -30,9 +30,15 @@ public abstract class BaseFragment extends Fragment{
         getActivity().registerReceiver(connectivityChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
 
+
+    @Override
+    public void onStop() {
+        getActivity().unregisterReceiver(connectivityChangeReceiver);
+        super.onStop();
+    }
+
     @Override
     public void onDetach() {
-        getActivity().unregisterReceiver(connectivityChangeReceiver);
         super.onDetach();
     }
 

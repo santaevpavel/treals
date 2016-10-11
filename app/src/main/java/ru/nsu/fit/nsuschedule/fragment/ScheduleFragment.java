@@ -100,6 +100,16 @@ public class ScheduleFragment extends BaseFragment {
 
         weekView = (WeekView) root.findViewById(R.id.weekView);
         weekView.setNumberOfVisibleDays(3);
+        Calendar calendarStart = Calendar.getInstance();
+        calendarStart.setTimeInMillis(System.currentTimeMillis());
+
+        Calendar calendarEnd = Calendar.getInstance();
+        calendarEnd.setTimeInMillis(System.currentTimeMillis());
+        calendarEnd.add(Calendar.DAY_OF_MONTH, 14);
+
+        weekView.setMinDate(calendarStart);
+        weekView.setMaxDate(calendarEnd);
+
         weekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
             @Override
             public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
@@ -114,6 +124,7 @@ public class ScheduleFragment extends BaseFragment {
                 DialogHelper.getLessonViewDialog(getContext(), response.lessons.get((int) id)).show();
             }
         });
+
         requestLessons();
 
         /*weekView.setWeekViewLoader(new WeekViewLoader() {
@@ -236,6 +247,13 @@ public class ScheduleFragment extends BaseFragment {
         event.setColor(color);
 
         return event;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Calendar now = Calendar.getInstance();
+        weekView.goToHour(now.get(Calendar.HOUR_OF_DAY));
     }
 
     @Override

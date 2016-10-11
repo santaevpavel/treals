@@ -4,8 +4,10 @@
     <color name="colorPrimaryDark">#356087</color>
     <color name="colorAccent">#aa1e4d79</color>
 
-    <color name="color_main_screen_item_bg">#bddee3e5</color>
     <color name="color_main_screen_item_stroke">#aa1e4d79</color>
+
+    <color name="color_main_screen_item_bg">#73000000</color>
+    <color name="color_main_screen_item_bg_pressed">#3b000000</color>
 
     <color name="button_login">#1e4d79</color>
 </resources>

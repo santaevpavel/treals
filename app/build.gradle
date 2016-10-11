@@ -23,14 +23,13 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.github.alamkanak:android-week-view:1.2.6'
+    compile 'com.github.quivr:android-week-view:2.0.2'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.android.support:support-v4:24.2.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.flaviofaria:kenburnsview:1.0.7'
     compile 'com.github.arimorty:floatingsearchview:2.0.3'
-    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:design:24.2.0'
 
 }
