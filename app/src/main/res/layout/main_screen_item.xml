@@ -10,6 +10,7 @@
         android:id="@+id/background" />
 
     <FrameLayout
+        android:id="@+id/background_shadow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_screen_item"/>
@@ -19,9 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_centerInParent="true"
-        android:textSize="30sp"
-        android:text="Item"
-        android:layout_marginRight="8dp"
+        android:textSize="@dimen/main_menu_item_text_size"
+        android:text="РАСПИСАНИЕ"
         android:textColor="#fff"
         android:id="@+id/text" />
 </RelativeLayout>

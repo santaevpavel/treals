@@ -1,5 +1,7 @@
 package ru.nsu.fit.nsuschedule.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -108,7 +110,6 @@ public class MainScreenFragment extends BaseFragment {
         itemNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
 

@@ -1,0 +1,3 @@
+[submodule "weekview"]
+	path = weekview
+	url = https://github.com/Quivr/Android-Week-View.git

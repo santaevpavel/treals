@@ -1,9 +1,13 @@
 package ru.nsu.fit.nsuschedule.view;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.TextView;
+
+import ru.nsu.fit.nsuschedule.util.CustomFontLoader;
 
 /**
  * Created by Pavel on 10.10.2016.
@@ -31,7 +35,6 @@ public class TextViewCenturyGothic extends TextView{
     }
 
     private void init(){
-        Typeface type = Typeface.createFromAsset(getContext().getAssets(),"century_gothic.ttf");
-        setTypeface(type);
+        setTypeface(CustomFontLoader.getTypeface(getContext(), CustomFontLoader.CENTURY_GOTHIC));
     }
 }
