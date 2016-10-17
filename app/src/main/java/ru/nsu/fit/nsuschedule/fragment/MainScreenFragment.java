@@ -1,14 +1,6 @@
 package ru.nsu.fit.nsuschedule.fragment;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Paint;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -17,18 +9,13 @@ import android.support.v4.os.ResultReceiver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.api.ApiService;
 import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
 import ru.nsu.fit.nsuschedule.api.response.WeatherResponse;
-import ru.nsu.fit.nsuschedule.util.Helper;
 import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
-import ru.nsu.fit.nsuschedule.util.RequestInfo;
 import ru.nsu.fit.nsuschedule.view.MainScreenItemView;
-import ru.nsu.fit.nsuschedule.view.WeatherView;
 
 /**
  * A simple {@link Fragment} subclass.

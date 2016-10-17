@@ -1,39 +1,60 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="ru.nsu.fit.nsuschedule.fragment.LoginFragment">
 
 
+    <ru.nsu.fit.nsuschedule.view.CalendarHeaderView
+        android:id="@+id/weekViewHeader"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:layout_below="@+id/weekViewHeader">
 
-        <com.alamkanak.weekview.WeekView
-            android:id="@+id/weekView"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:eventTextColor="@android:color/white"
-            app:textSize="12sp"
-            app:hourHeight="60dp"
-            app:headerColumnPadding="8dp"
-            app:headerColumnTextColor="#8f000000"
-            app:headerRowPadding="12dp"
-            app:columnGap="8dp"
-            app:noOfVisibleDays="3"
-            app:eventPadding="1dp"
-            app:eventMarginVertical="1dp"
-            app:eventCornerRadius="1dp"
-            app:headerRowBackgroundColor="#ffefefef"
-            app:dayBackgroundColor="#05000000"
-            app:todayBackgroundColor="#1848adff"
-            app:headerColumnBackground="#ffffffff"
-            app:showNowLine="true"
-            app:nowLineColor="@color/colorPrimary" />
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+            <com.alamkanak.weekview.WeekView
+                android:id="@+id/weekView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:eventTextColor="@android:color/white"
+                app:textSize="12sp"
+                app:hourHeight="60dp"
+                app:headerColumnPadding="8dp"
+                app:headerColumnTextColor="#8f000000"
+                app:columnGap="8dp"
+                app:noOfVisibleDays="3"
+                app:eventPadding="1dp"
+                app:eventMarginVertical="1dp"
+                app:eventCornerRadius="1dp"
+                app:headerRowBackgroundColor="#ffefefef"
+                app:dayBackgroundColor="#05000000"
+                app:todayBackgroundColor="#0fff"
+                app:headerColumnBackground="#ffffffff"
+                app:showNowLine="true"
+                app:nowLineColor="@color/colorPrimary" />
+
+        </LinearLayout>
     </RelativeLayout>
-</FrameLayout>
+
+</RelativeLayout>

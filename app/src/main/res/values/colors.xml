@@ -10,4 +10,23 @@
     <color name="color_main_screen_item_bg_pressed">#3b000000</color>
 
     <color name="button_login">#1e4d79</color>
+    <color name="calendar_header_week_day_text_color">#fff</color>
+
+    <color name="calendar_header_day_num_text_color">#fff</color>
+    <color name="calendar_header_day_num_text_color_selected">@color/colorPrimary</color>
+
+    <color name="calendar_header_day_bg_color">#0000</color>
+    <color name="calendar_header_day_bg_color_selected">#fff</color>
+
+    <color name="calendar_header_day_point_bg_color_selected">@color/colorPrimary</color>
+
+
+    <color name="lesson_color_lecture">#8cff6200</color>
+    <color name="lesson_text_color_lecture">#cf5000</color>
+
+    <color name="lesson_color_seminar">#8c0088ff</color>
+    <color name="lesson_text_color_seminar">#0066bf</color>
+
+    <color name="lesson_color_other">#8c00ff90</color>
+    <color name="lesson_text_color_other">#008f51</color>
 </resources>

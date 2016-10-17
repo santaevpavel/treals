@@ -35,6 +35,6 @@ public class TextViewCenturyGothic extends TextView{
     }
 
     private void init(){
-        setTypeface(CustomFontLoader.getTypeface(getContext(), CustomFontLoader.CENTURY_GOTHIC));
+        setTypeface(CustomFontLoader.getTypeface(getContext(), CustomFontLoader.CENTURY_GOTHIC_NORMAL));
     }
 }

@@ -49,6 +49,7 @@ import ru.nsu.fit.nsuschedule.model.Group;
 import ru.nsu.fit.nsuschedule.model.Lesson;
 import ru.nsu.fit.nsuschedule.util.DialogHelper;
 import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
+import ru.nsu.fit.nsuschedule.view.CalendarHeaderView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +63,7 @@ public class ScheduleFragment extends BaseFragment {
 
     private OnFragmentInteractionListener mListener;
     private WeekView weekView;
+    private CalendarHeaderView calendarHeaderView;
 
     private ProgressDialog progressDialog;
 
@@ -97,9 +99,23 @@ public class ScheduleFragment extends BaseFragment {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Загрузка расписания...");
 
+        calendarHeaderView = (CalendarHeaderView) root.findViewById(R.id.weekViewHeader);
+        calendarHeaderView.update(Calendar.getInstance());
 
+        calendarHeaderView.setOnDayClickListener(new CalendarHeaderView.OnDayClickListener() {
+            @Override
+            public void onClickDay(Calendar day) {
+                weekView.goToDate(day);
+            }
+        });
         weekView = (WeekView) root.findViewById(R.id.weekView);
-        weekView.setNumberOfVisibleDays(3);
+        weekView.setNumberOfVisibleDays(1);
+        weekView.setScrollListener(new WeekView.ScrollListener() {
+            @Override
+            public void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay) {
+                calendarHeaderView.update(newFirstVisibleDay);
+            }
+        });
         Calendar calendarStart = Calendar.getInstance();
         calendarStart.setTimeInMillis(System.currentTimeMillis());
 
@@ -232,16 +248,16 @@ public class ScheduleFragment extends BaseFragment {
         int color = Color.BLUE;
         switch (lesson.getType()){
             case LECTURE:
-                color = Color.MAGENTA;
+                color = getContext().getResources().getColor(R.color.lesson_color_lecture);
                 break;
             case SEMINAR:
-                color = Color.BLUE;
+                color = getContext().getResources().getColor(R.color.lesson_color_seminar);
                 break;
             case PRACTICUM:
-                color = Color.GREEN;
+                color = getContext().getResources().getColor(R.color.lesson_color_other);
                 break;
             case UNKNOWN:
-                color = Color.GRAY;
+                color = getContext().getResources().getColor(R.color.lesson_color_other);
                 break;
         }
         event.setColor(color);

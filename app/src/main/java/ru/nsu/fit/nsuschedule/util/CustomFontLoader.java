@@ -8,16 +8,19 @@ import android.graphics.Typeface;
  */
 public class CustomFontLoader {
 
-    public static final int CENTURY_GOTHIC = 0;
+    public static final int CENTURY_GOTHIC_BOLD = 0;
+    public static final int CENTURY_GOTHIC_NORMAL = 1;
 
-    private static final int NUM_OF_CUSTOM_FONTS = 1;
+
+    private static final int NUM_OF_CUSTOM_FONTS = 2;
 
     private static boolean fontsLoaded = false;
 
     private static Typeface[] fonts = new Typeface[3];
 
     private static String[] fontPath = {
-            "fonts/century_gothic.ttf"
+            "fonts/century_gothic_bold.ttf",
+            "fonts/century_gothic_normal.ttf"
     };
 
 
