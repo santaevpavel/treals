@@ -75,6 +75,9 @@ public class Lesson implements Serializable {
     @SerializedName("teacher_id")
     private String teacherId;
 
+    @SerializedName("teacher_name")
+    private String teacherName;
+
     public Lesson(String id, String groupId, String name, String startTime,
                   String endTime, String room, Type type, List<Date> days, String teacherId) {
         this.id = id;
@@ -158,5 +161,13 @@ public class Lesson implements Serializable {
 
     public void setTeacherId(String teacherId) {
         this.teacherId = teacherId;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 }

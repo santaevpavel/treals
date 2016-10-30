@@ -1,46 +1,40 @@
 package ru.nsu.fit.nsuschedule.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 
 import ru.nsu.fit.nsuschedule.R;
-import ru.nsu.fit.nsuschedule.fragment.ScheduleFragment;
+import ru.nsu.fit.nsuschedule.fragment.SettingsFragment;
 
-public class ScheduleActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements SettingsFragment.OnFragmentInteractionListener {
 
     private Toolbar toolbar;
-    private FrameLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
+        setContentView(R.layout.activity_settings);
 
-        container = (FrameLayout) findViewById(R.id.container);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Настройки");
 
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        openSchedule();
+        openLoginFragment();
     }
 
-    private void openSchedule(){
+    private void openLoginFragment(){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, ScheduleFragment.newInstance());
-        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
-                android.R.anim.fade_in, android.R.anim.fade_out);
-        //transaction.addToBackStack(null);
+        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+        transaction.replace(R.id.container, SettingsFragment.newInstance());
         transaction.commit();
-
-        //toolbar.setTitle("Расписание");
-        getSupportActionBar().setTitle("Расписание");
+        //setTransparentToolbar(true);
     }
 
     @Override
@@ -52,5 +46,10 @@ public class ScheduleActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onLogIn(String groupId, String groupName) {
+
     }
 }

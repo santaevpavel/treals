@@ -1,25 +1,17 @@
 package ru.nsu.fit.nsuschedule.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.WindowCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.fragment.LoginFragment;
 import ru.nsu.fit.nsuschedule.fragment.MainScreenFragment;
-import ru.nsu.fit.nsuschedule.fragment.ScheduleFragment;
 import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener,
@@ -35,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         setContentView(R.layout.activity_main);
 
         container = (FrameLayout) findViewById(R.id.container);
-        toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setVisibility(View.GONE);
         //setSupportActionBar(toolbar);
 
@@ -78,6 +70,16 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         startActivity(i);
     }
 
+    private void openSettings(){
+        Intent i = new Intent(this, SettingsActivity.class);
+        startActivity(i);
+    }
+
+    private void openNews(){
+        Intent i = new Intent(this, NewsActivity.class);
+        startActivity(i);
+    }
+
     @Override
     public void onLogIn(String groupId, String groupName) {
         PreferenceHelper.setGroup(groupId);
@@ -95,6 +97,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
             case MainScreenFragment.CODE_LOGOUT:
                 PreferenceHelper.setGroup(null);
                 openLoginFragment();
+                break;
+            case MainScreenFragment.CODE_SETTINGS:
+                openSettings();
+                break;
+            case MainScreenFragment.CODE_NEWS:
+                openNews();
                 break;
         }
     }

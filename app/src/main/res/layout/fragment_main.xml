@@ -9,11 +9,27 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ru.nsu.fit.nsuschedule.view.MainScreenItemView
-            android:id="@+id/button_weather"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1">
+
+            <ru.nsu.fit.nsuschedule.view.MainScreenItemView
+                android:id="@+id/button_weather"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_settings_white_36dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
 
         <ru.nsu.fit.nsuschedule.view.MainScreenItemView
             android:id="@+id/button_schedule"

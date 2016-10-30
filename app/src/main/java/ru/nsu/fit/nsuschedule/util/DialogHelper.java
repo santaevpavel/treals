@@ -32,8 +32,9 @@ public class DialogHelper {
         }).create();*/
 
         String time = context.getString(R.string.lesson_dialog_time_str,
-                lesson.getStartTime(), lesson.getEndTime());
-        return new AlertDialog.Builder(context).setTitle(lesson.getName()).setMessage(lesson.getRoom() + "\n" + time).create();
+                lesson.getStartTime().substring(0, 5), lesson.getEndTime().substring(0, 5));
+        String teacherName = lesson.getTeacherName() != null ? "\n" + lesson.getTeacherName() : "";
+        return new AlertDialog.Builder(context).setTitle(lesson.getName()).setMessage(lesson.getRoom() + "\n" + time + teacherName).create();
     }
 
     private static String getLessonTypeChar(Lesson lesson){

@@ -11,6 +11,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import java.util.Calendar;
+
 /**
  * Created by Pavel on 03.10.2016.
  */
@@ -40,5 +42,14 @@ public class Helper {
             result = resources.getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    public static Calendar getMondayOfWeek(Calendar today){
+        int dayOfWeek = today.get(Calendar.DAY_OF_WEEK);
+        int mondayOffset = ((dayOfWeek - 2) + 7) % 7;
+
+        Calendar monday = (Calendar) today.clone();
+        monday.add(Calendar.DATE, -1 * mondayOffset);
+        return monday;
     }
 }

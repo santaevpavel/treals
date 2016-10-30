@@ -48,6 +48,7 @@ import ru.nsu.fit.nsuschedule.model.Department;
 import ru.nsu.fit.nsuschedule.model.Group;
 import ru.nsu.fit.nsuschedule.model.Lesson;
 import ru.nsu.fit.nsuschedule.util.DialogHelper;
+import ru.nsu.fit.nsuschedule.util.Helper;
 import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
 import ru.nsu.fit.nsuschedule.view.CalendarHeaderView;
 
@@ -110,18 +111,17 @@ public class ScheduleFragment extends BaseFragment {
         });
         weekView = (WeekView) root.findViewById(R.id.weekView);
         weekView.setNumberOfVisibleDays(1);
+        //weekView.setScrollDuration(50);
         weekView.setScrollListener(new WeekView.ScrollListener() {
             @Override
             public void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay) {
                 calendarHeaderView.update(newFirstVisibleDay);
             }
         });
-        Calendar calendarStart = Calendar.getInstance();
-        calendarStart.setTimeInMillis(System.currentTimeMillis());
+        Calendar calendarStart = Helper.getMondayOfWeek(Calendar.getInstance());
 
-        Calendar calendarEnd = Calendar.getInstance();
-        calendarEnd.setTimeInMillis(System.currentTimeMillis());
-        calendarEnd.add(Calendar.DAY_OF_MONTH, 14);
+        Calendar calendarEnd = (Calendar) calendarStart.clone();
+        calendarEnd.add(Calendar.DAY_OF_MONTH, 13);
 
         weekView.setMinDate(calendarStart);
         weekView.setMaxDate(calendarEnd);
@@ -242,7 +242,11 @@ public class ScheduleFragment extends BaseFragment {
         endTime.set(Calendar.HOUR_OF_DAY, Integer.valueOf(lesson.getEndTime().substring(0, 2)));
         endTime.set(Calendar.MINUTE, Integer.valueOf(lesson.getEndTime().substring(3, 5)));
 
-        WeekViewEvent event = new WeekViewEvent(1, lesson.getName() + " " + lesson.getRoom()
+        String timeStartStr = lesson.getStartTime().substring(0, 5);
+        String timeEndStr = lesson.getEndTime().substring(0, 5);
+        String eventText = lesson.getName() + " " + lesson.getRoom() +
+                "\n" + timeStartStr + "-" + timeEndStr;
+        WeekViewEvent event = new WeekViewEvent(1, eventText
                 , startTime, endTime);
 
         int color = Color.BLUE;
@@ -275,7 +279,7 @@ public class ScheduleFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_schedule, menu);
+        //inflater.inflate(R.menu.menu_schedule, menu);
     }
 
     @Override

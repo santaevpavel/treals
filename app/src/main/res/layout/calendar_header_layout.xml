@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="4dp">
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -18,7 +18,7 @@
             android:layout_weight="1"
             android:text="пн" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:text="вт" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -36,7 +36,7 @@
             android:layout_weight="1"
             android:text="ср" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -45,7 +45,7 @@
             android:layout_weight="1"
             android:text="чт" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -54,7 +54,7 @@
             android:layout_weight="1"
             android:text="пт" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -63,7 +63,7 @@
             android:layout_weight="1"
             android:text="сб" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -92,7 +92,7 @@
                 android:id="@+id/day1bg"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -126,7 +126,7 @@
                 android:id="@+id/day2bg"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -159,7 +159,7 @@
                 android:id="@+id/day3bg"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -192,7 +192,7 @@
                 android:id="@+id/day4bg"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -225,7 +225,7 @@
                 android:id="@+id/day5bg"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -258,7 +258,7 @@
                 android:id="@+id/day6bg"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -291,7 +291,7 @@
                 android:id="@+id/day7bg"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

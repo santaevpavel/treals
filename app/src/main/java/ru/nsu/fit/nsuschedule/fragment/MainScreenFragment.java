@@ -14,6 +14,7 @@ import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.api.ApiService;
 import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
 import ru.nsu.fit.nsuschedule.api.response.WeatherResponse;
+import ru.nsu.fit.nsuschedule.model.Weather;
 import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
 import ru.nsu.fit.nsuschedule.view.MainScreenItemView;
 
@@ -31,6 +32,8 @@ public class MainScreenFragment extends BaseFragment {
 
     public static final int CODE_SCHEDULE = 0;
     public static final int CODE_LOGOUT = 1;
+    public static final int CODE_SETTINGS = 2;
+    public static final int CODE_NEWS = 3;
 
     public MainScreenFragment() {
         // Required empty public constructor
@@ -97,6 +100,9 @@ public class MainScreenFragment extends BaseFragment {
         itemNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mListener != null){
+                    mListener.onClick(CODE_NEWS);
+                }
             }
         });
 
@@ -110,7 +116,9 @@ public class MainScreenFragment extends BaseFragment {
         itemWeather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (mListener != null){
+                    mListener.onClick(CODE_SETTINGS);
+                }
             }
         });
 
@@ -151,9 +159,9 @@ public class MainScreenFragment extends BaseFragment {
                     Snackbar.make(itemWeather, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
                     showErrorInWeather();
                 } else {
-                    String temp = response.temp;
-                    if (temp != null && !temp.isEmpty()) {
-                        itemWeather.setText(temp + "°C ДОЖДЬ");
+                    Weather weather = response.weather;
+                    if (weather != null && weather.temp != null && !weather.temp.isEmpty()) {
+                        itemWeather.setText(weather.temp + "°C ДОЖДЬ");
                         requestInfo.finish(true);
                     } else {
                         showErrorInWeather();

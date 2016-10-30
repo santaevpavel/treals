@@ -27,6 +27,6 @@
     <color name="lesson_color_seminar">#8c0088ff</color>
     <color name="lesson_text_color_seminar">#0066bf</color>
 
-    <color name="lesson_color_other">#8c00ff90</color>
+    <color name="lesson_color_other">#a600894d</color>
     <color name="lesson_text_color_other">#008f51</color>
 </resources>
