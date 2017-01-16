@@ -36,9 +36,14 @@ public class ApiServiceHelper {
         startService(null, ApiService.CODE_GET_NSU_WEATHER, resultReceiver);
     }
 
-    public static void getNews(Context context, ResultReceiver resultReceiver){
-        startService(null, ApiService.CODE_GET_NEWS, resultReceiver);
+    public static void getAllNews(Context context, ResultReceiver resultReceiver){
+        startService(null, ApiService.CODE_GET_ALL_NEWS, resultReceiver);
     }
+
+    public static void getNews(Context context, ResultReceiver resultReceiver, String url){
+        startService(url, ApiService.CODE_GET_NEWS, resultReceiver);
+    }
+
 
     private static void startService(Serializable data, int action, ResultReceiver onServiceResult) {
         Intent intent = getIntent(action, onServiceResult);

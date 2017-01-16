@@ -24,30 +24,50 @@ import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
 /**
  * Created by Pavel on 19.10.2016.
  */
-public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
+
+    public interface IOnNewsClickListener{
+        void onClick(News news);
+    }
 
     private List<News> news;
+    private IOnNewsClickListener listener;
 
     private class NewsViewHolder extends RecyclerView.ViewHolder{
 
         public TextView title;
         public TextView desc;
         public TextView date;
+        public TextView type;
         public ImageView image;
+        public ImageView imageSmall;
 
         public NewsViewHolder(View itemView, TextView title,
-                              TextView desc, TextView date, ImageView image) {
+                              TextView desc, TextView date, ImageView image, TextView type, ImageView imageSmall) {
             super(itemView);
             this.title = title;
             this.desc = desc;
             this.date = date;
             this.image = image;
+            this.type = type;
+            this.imageSmall = imageSmall;
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        NewsViewHolder holder = (NewsViewHolder) view.getTag();
+        int position = holder.getAdapterPosition();
+        listener.onClick(news.get(position));
     }
 
     public void setNews(List<News> news) {
         this.news = news;
         //notifyDataSetChanged();
+    }
+
+    public void setListener(IOnNewsClickListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -68,9 +88,14 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         TextView title = (TextView) view.findViewById(R.id.item_title);
         TextView desc = (TextView) view.findViewById(R.id.item_dest);
         TextView date = (TextView) view.findViewById(R.id.item_date);
+        TextView type = (TextView) view.findViewById(R.id.item_type);
         ImageView img = (ImageView) view.findViewById(R.id.image);
+        ImageView imgSmall = (ImageView) view.findViewById(R.id.imageSmall);
 
-        return new NewsViewHolder(view, title, desc, date, img);
+        NewsViewHolder viewHolder = new NewsViewHolder(view, title, desc, date, img, type, imgSmall);
+        view.setOnClickListener(this);
+        view.setTag(viewHolder);
+        return viewHolder;
     }
 
     @Override
@@ -81,6 +106,14 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         newsViewHolder.desc.setText(item.getDescription());
         newsViewHolder.date.setText(item.getDate() != null ? item.getDate() : "");
 
+        String type = item.getType();
+        if (type != null && !type.isEmpty()) {
+            newsViewHolder.type.setText(type);
+            newsViewHolder.type.setVisibility(View.VISIBLE);
+        } else {
+            newsViewHolder.type.setVisibility(View.GONE);
+        }
+        newsViewHolder.desc.setText(item.getDescription());
         // Add a request (in this example, called stringRequest) to your RequestQueue.
         String url = item.getImg();
         if (url != null && !url.isEmpty()) {
@@ -90,8 +123,15 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     if (response.getBitmap() != null) {
-                        newsViewHolder.image.setImageBitmap(response.getBitmap());
-                        newsViewHolder.image.setVisibility(View.VISIBLE);
+                        if (isSmall(response.getBitmap())) {
+                            newsViewHolder.imageSmall.setImageBitmap(response.getBitmap());
+                            newsViewHolder.image.setVisibility(View.GONE);
+                            newsViewHolder.imageSmall.setVisibility(View.VISIBLE);
+                        } else {
+                            newsViewHolder.image.setImageBitmap(response.getBitmap());
+                            newsViewHolder.image.setVisibility(View.VISIBLE);
+                            newsViewHolder.imageSmall.setVisibility(View.GONE);
+                        }
                     }
                 }
 
@@ -102,6 +142,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             }, 1000, 1000, ImageView.ScaleType.CENTER_CROP);
         } else {
             newsViewHolder.image.setVisibility(View.GONE);
+            newsViewHolder.imageSmall.setVisibility(View.GONE);
         }
     }
 
@@ -113,4 +154,11 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             return news.size();
         }
     }
+
+    private static boolean isSmall(Bitmap bmp){
+        int minWidth = 256;
+        double minRate = 3. / 4;
+        return bmp.getWidth() < minWidth || minRate < ((double) bmp.getHeight() / bmp.getWidth());
+    }
 }
+

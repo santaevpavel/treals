@@ -44,29 +44,31 @@ public class CalendarHeaderView extends FrameLayout{
         init();
     }
 
-    public CalendarHeaderView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
-
     public void setOnDayClickListener(OnDayClickListener listener){
         onDayClickListener = listener;
     }
 
-    public void update(Calendar toSelect){
+    public boolean update(boolean isFirst, Calendar toSelect){
         Calendar today = Calendar.getInstance();
+        today.setFirstDayOfWeek(Calendar.MONDAY);
+        toSelect.setFirstDayOfWeek(Calendar.MONDAY);
         int dayOfWeek = toSelect.get(Calendar.DAY_OF_WEEK);
         int mondayOffset = ((dayOfWeek - 2) + 7) % 7;
-
+        boolean isInFirstWeek = today.get(Calendar.WEEK_OF_YEAR) == toSelect.get(Calendar.WEEK_OF_YEAR);
+        boolean isShowSelectedDay = isFirst == isInFirstWeek;
         Calendar monday = (Calendar) toSelect.clone();
         monday.add(Calendar.DATE, -1 * mondayOffset);
-
+        if (isFirst){
+            monday.add(Calendar.DATE, (isInFirstWeek ? 0 : -1) * 7);
+        } else {
+            monday.add(Calendar.DATE, (isInFirstWeek ? 1 : 0) * 7);
+        }
         boolean marginIsAdded = false;
         for (int i = 0; i < 7; i++){
-            int bgId = i != mondayOffset
+            int bgId = (i != mondayOffset || !isShowSelectedDay)
                     ? R.drawable.calendar_header_day_bg
                     : R.drawable.calendar_header_day_bg_selected;
-            int textColorId = i != mondayOffset
+            int textColorId = (i != mondayOffset || !isShowSelectedDay)
                     ? R.color.calendar_header_day_num_text_color
                     : R.color.calendar_header_day_num_text_color_selected;
             daysBgs[i].setImageResource(bgId);
@@ -77,7 +79,7 @@ public class CalendarHeaderView extends FrameLayout{
             RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) daysToday[i].getLayoutParams();
 
             if (today.get(Calendar.DAY_OF_YEAR) == monday.get(Calendar.DAY_OF_YEAR)){
-                if (i == mondayOffset) {
+                if (i == mondayOffset && isShowSelectedDay) {
                     daysToday[i].setBackgroundResource(R.drawable.calendar_header_day_point_bg_today);
                     lp.setMargins(0, (int)(getContext().getResources().getDimension(R.dimen.calendar_header_today_point_margin_top)), 0, 0);
                     daysToday[i].setLayoutParams(lp);
@@ -114,8 +116,9 @@ public class CalendarHeaderView extends FrameLayout{
 
             monday.add(Calendar.DATE, 1);
 
-
         }
+
+        return isInFirstWeek;
     }
 
     private void init(){

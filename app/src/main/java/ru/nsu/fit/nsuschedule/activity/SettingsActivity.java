@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.fragment.SettingsFragment;
+import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsFragment.OnFragmentInteractionListener {
 
@@ -50,6 +51,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
 
     @Override
     public void onLogIn(String groupId, String groupName) {
-
+        PreferenceHelper.setGroup(groupId);
+        PreferenceHelper.setGroupName(groupName);
     }
 }

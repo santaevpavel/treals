@@ -6,46 +6,32 @@ import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.IntegerRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.os.ResultReceiver;
-import android.view.ContextMenu;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
-import com.alamkanak.weekview.WeekViewLoader;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import ru.nsu.fit.nsuschedule.R;
+import ru.nsu.fit.nsuschedule.adapter.WeekViewFragmentPagerAdapter;
 import ru.nsu.fit.nsuschedule.api.ApiService;
 import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
-import ru.nsu.fit.nsuschedule.api.request.GetGroupsRequest;
 import ru.nsu.fit.nsuschedule.api.request.GetLessonsRequest;
-import ru.nsu.fit.nsuschedule.api.response.DepartmentListResponse;
-import ru.nsu.fit.nsuschedule.api.response.GroupListResponse;
 import ru.nsu.fit.nsuschedule.api.response.LessonsResponse;
-import ru.nsu.fit.nsuschedule.model.Department;
-import ru.nsu.fit.nsuschedule.model.Group;
 import ru.nsu.fit.nsuschedule.model.Lesson;
 import ru.nsu.fit.nsuschedule.util.DialogHelper;
 import ru.nsu.fit.nsuschedule.util.Helper;
@@ -60,15 +46,19 @@ import ru.nsu.fit.nsuschedule.view.CalendarHeaderView;
  * Use the {@link ScheduleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ScheduleFragment extends BaseFragment {
+public class ScheduleFragment extends BaseFragment implements CalendarHeaderView.OnDayClickListener{
 
     private OnFragmentInteractionListener mListener;
     private WeekView weekView;
-    private CalendarHeaderView calendarHeaderView;
+    private ViewPager viewPager;
+    //private CalendarHeaderView calendarHeaderView;
 
     private ProgressDialog progressDialog;
 
     LessonsResponse response;
+    private Calendar calendarStart;
+    private Calendar calendarEnd;
+    private WeekViewFragmentPagerAdapter adapter;
 
     public ScheduleFragment() {
         // Required empty public constructor
@@ -100,7 +90,7 @@ public class ScheduleFragment extends BaseFragment {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Загрузка расписания...");
 
-        calendarHeaderView = (CalendarHeaderView) root.findViewById(R.id.weekViewHeader);
+        /*calendarHeaderView = (CalendarHeaderView) root.findViewById(R.id.weekViewHeader);
         calendarHeaderView.update(Calendar.getInstance());
 
         calendarHeaderView.setOnDayClickListener(new CalendarHeaderView.OnDayClickListener() {
@@ -108,23 +98,39 @@ public class ScheduleFragment extends BaseFragment {
             public void onClickDay(Calendar day) {
                 weekView.goToDate(day);
             }
-        });
+        });*/
+        viewPager = (ViewPager) root.findViewById(R.id.view_pager);
+
         weekView = (WeekView) root.findViewById(R.id.weekView);
         weekView.setNumberOfVisibleDays(1);
+        weekView.setScrollDuration(200);
+        int lineHeight = (int) getResources().getDimension(R.dimen.now_line_height);
+        /*if (lineHeight == 0){
+            lineHeight = 1;
+        }*/
+        weekView.setNowLineThickness(lineHeight);
+        weekView.setmNowCircleRad(getResources().getDimension(R.dimen.now_circle_rad));
         //weekView.setScrollDuration(50);
         weekView.setScrollListener(new WeekView.ScrollListener() {
             @Override
             public void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay) {
-                calendarHeaderView.update(newFirstVisibleDay);
+                if (adapter == null || adapter.getCount() != 2){
+                    return;
+                }
+                boolean isSHowFirst = adapter.update(newFirstVisibleDay);
+                viewPager.setCurrentItem(isSHowFirst ? 0 : 1, true);
             }
         });
-        Calendar calendarStart = Helper.getMondayOfWeek(Calendar.getInstance());
+        calendarStart = Helper.getMondayOfWeek(Calendar.getInstance());
 
-        Calendar calendarEnd = (Calendar) calendarStart.clone();
+        calendarEnd = (Calendar) calendarStart.clone();
         calendarEnd.add(Calendar.DAY_OF_MONTH, 13);
 
         weekView.setMinDate(calendarStart);
         weekView.setMaxDate(calendarEnd);
+
+        weekView.setVerticalFlingEnabled(true);
+        weekView.setHorizontalFlingEnabled(true);
 
         weekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
             @Override
@@ -142,6 +148,9 @@ public class ScheduleFragment extends BaseFragment {
         });
 
         requestLessons();
+
+        adapter = new WeekViewFragmentPagerAdapter(getFragmentManager());
+        viewPager.setAdapter(adapter);
 
         /*weekView.setWeekViewLoader(new WeekViewLoader() {
             @Override
@@ -186,7 +195,9 @@ public class ScheduleFragment extends BaseFragment {
                 super.onReceiveResult(resultCode, resultData);
                 response = (LessonsResponse)
                         resultData.getSerializable(ApiService.KEY_RESPONSE);
-                progressDialog.hide();
+                if (progressDialog != null) {
+                    progressDialog.hide();
+                }
                 requestInfo.finish(false);
                 if (null != response){
                     if (response.hasError()){
@@ -210,8 +221,7 @@ public class ScheduleFragment extends BaseFragment {
                     List<WeekViewEvent> events = new ArrayList<>();
                     for (Lesson l : response.lessons) {
                         for (int i = 0; i < l.getDays().size(); i++) {
-
-                            WeekViewEvent event = getEventForLesson(l, newYear, newMonth, i);
+                            WeekViewEvent event = getEventForLesson(l, newYear, newMonth - 1, i);
                             if (null != event) {
                                 event.setId(response.lessons.indexOf(l));
                                 events.add(event);
@@ -230,7 +240,9 @@ public class ScheduleFragment extends BaseFragment {
         Calendar startTime = Calendar.getInstance();
         startTime.setTime(lesson.getDays().get(dayIdx));
 
-        if (newMonth != startTime.get(Calendar.MONTH)){
+        if (newMonth != startTime.get(Calendar.MONTH)
+                || startTime.before(calendarStart.get(Calendar.DATE))
+                || startTime.after(calendarEnd.get(Calendar.DATE))){
             return null;
         }
 
@@ -316,6 +328,10 @@ public class ScheduleFragment extends BaseFragment {
         progressDialog = null;
     }
 
+    @Override
+    public void onClickDay(Calendar day) {
+        weekView.goToDate(day);
+    }
 
 
     /**
@@ -331,4 +347,5 @@ public class ScheduleFragment extends BaseFragment {
     public interface OnFragmentInteractionListener {
         void onLogIn2(String department, String group);
     }
+
 }

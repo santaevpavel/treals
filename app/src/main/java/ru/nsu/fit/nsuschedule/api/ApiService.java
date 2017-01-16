@@ -7,12 +7,11 @@ import android.support.v4.os.ResultReceiver;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -23,9 +22,11 @@ import ru.nsu.fit.nsuschedule.api.response.BaseResponse;
 import ru.nsu.fit.nsuschedule.api.response.DepartmentListResponse;
 import ru.nsu.fit.nsuschedule.api.response.GroupListResponse;
 import ru.nsu.fit.nsuschedule.api.response.LessonsResponse;
+import ru.nsu.fit.nsuschedule.api.response.AllNewsResponse;
 import ru.nsu.fit.nsuschedule.api.response.NewsResponse;
 import ru.nsu.fit.nsuschedule.api.response.WeatherResponse;
 import ru.nsu.fit.nsuschedule.model.News;
+import ru.nsu.fit.nsuschedule.util.Helper;
 
 /**
  * Created by Pavel on 16.09.2016.
@@ -42,7 +43,8 @@ public class ApiService extends IntentService{
     public static final int CODE_GET_LESSONS = 2;
     public static final int CODE_GET_ALL_GROUPS = 3;
     public static final int CODE_GET_NSU_WEATHER = 4;
-    public static final int CODE_GET_NEWS = 5;
+    public static final int CODE_GET_ALL_NEWS = 5;
+    public static final int CODE_GET_NEWS = 6;
 
 
     /**
@@ -87,8 +89,11 @@ public class ApiService extends IntentService{
             case CODE_GET_NSU_WEATHER:
                 response = getWeather();
                 break;
+            case CODE_GET_ALL_NEWS:
+                response = getAllNews();
+                break;
             case CODE_GET_NEWS:
-                response = getNews();
+                response = getNews(intent.getStringExtra(KEY_OBJECT));
                 break;
         }
         resultReceiver.send(0, response);
@@ -176,7 +181,7 @@ public class ApiService extends IntentService{
 
     private Bundle getWeather(){
         Call<WeatherResponse> call = api.getWeather();
-        Response<WeatherResponse> response = null;
+        Response<WeatherResponse> response;
         Bundle bundle = new Bundle();
         try {
             response = call.execute();
@@ -198,26 +203,54 @@ public class ApiService extends IntentService{
         return bundle;
     }
 
-    private Bundle getNews(){
-        Call<NewsResponse> call = api.getNews();
-        Response<NewsResponse> response = null;
+    private Bundle getNews(String url){
+        Call<ResponseBody> call = api.getNews(url);
+        Response<ResponseBody> response;
+        Bundle bundle = new Bundle();
+        String responseString;
+        try {
+            response = call.execute();
+            responseString = response.body().string();
+        } catch (UnknownHostException e){
+            e.printStackTrace();
+            return buildError(new NewsResponse(), "Отсуствует интернет соединение");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return buildError(new NewsResponse(), "Ошибка при загрузке новости");
+        }
+        if (null != response && response.isSuccessful()) {
+            bundle.putSerializable(KEY_RESPONSE, responseString);
+        } else {
+            return buildError(new NewsResponse(), "Ошибка при загрузке новостей");
+        }
+        return bundle;
+    }
+
+    private Bundle getAllNews(){
+        Call<AllNewsResponse> call = api.getAllNews();
+        Response<AllNewsResponse> response;
         Bundle bundle = new Bundle();
         try {
             response = call.execute();
         } catch (UnknownHostException e){
             e.printStackTrace();
-            return buildError(new NewsResponse(), "Отсуствует интернет соединение");
+            return buildError(new AllNewsResponse(), "Отсуствует интернет соединение");
         } catch (IOException e2) {
             e2.printStackTrace();
-            return buildError(new NewsResponse(), "Ошибка при загрузке новостей");
+            return buildError(new AllNewsResponse(), "Ошибка при загрузке новостей");
         } catch (Exception e3){
             e3.printStackTrace();
-            return buildError(new NewsResponse(), "Внутренняя ошибка приложения");
+            return buildError(new AllNewsResponse(), "Внутренняя ошибка приложения");
         }
         if (null != response && response.isSuccessful()) {
-            bundle.putSerializable(KEY_RESPONSE, response.body());
+            AllNewsResponse body = response.body();
+            for (News news : body.news){
+                news.setTitle(Helper.removeQuotes(news.getTitle()));
+                news.setDescription(Helper.removeQuotes(news.getDescription()));
+            }
+            bundle.putSerializable(KEY_RESPONSE, body);
         } else {
-            return buildError(new NewsResponse(), "Ошибка при загрузке новостей");
+            return buildError(new AllNewsResponse(), "Ошибка при загрузке новостей");
         }
         return bundle;
     }

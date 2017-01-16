@@ -1,5 +1,6 @@
 package ru.nsu.fit.nsuschedule.activity;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,10 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import java.util.Calendar;
+
 import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.fragment.ScheduleFragment;
+import ru.nsu.fit.nsuschedule.view.CalendarHeaderView;
 
-public class ScheduleActivity extends AppCompatActivity {
+public class ScheduleActivity extends AppCompatActivity implements CalendarHeaderView.OnDayClickListener{
 
     private Toolbar toolbar;
     private FrameLayout container;
@@ -33,7 +37,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
     private void openSchedule(){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, ScheduleFragment.newInstance());
+        transaction.replace(R.id.container, ScheduleFragment.newInstance(), "TAG");
         transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
                 android.R.anim.fade_in, android.R.anim.fade_out);
         //transaction.addToBackStack(null);
@@ -52,5 +56,13 @@ public class ScheduleActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClickDay(Calendar day) {
+        ScheduleFragment fragmentByTag = (ScheduleFragment) getSupportFragmentManager().findFragmentByTag("TAG");
+        if (fragmentByTag != null){
+            fragmentByTag.onClickDay(day);
+        }
     }
 }

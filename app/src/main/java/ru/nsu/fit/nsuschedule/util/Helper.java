@@ -52,4 +52,8 @@ public class Helper {
         monday.add(Calendar.DATE, -1 * mondayOffset);
         return monday;
     }
+
+    public static String removeQuotes(String str){
+        return str.replace("&quot;", "\"");
+    }
 }

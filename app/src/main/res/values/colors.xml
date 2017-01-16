@@ -29,4 +29,10 @@
 
     <color name="lesson_color_other">#a600894d</color>
     <color name="lesson_text_color_other">#008f51</color>
+
+    <color name="news_second_bg_color">#e6e6e6</color>
+
+    <color name="now_line_color">#d6396791</color>
+
+
 </resources>

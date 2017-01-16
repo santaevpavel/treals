@@ -5,16 +5,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="ru.nsu.fit.nsuschedule.fragment.LoginFragment">
 
-
-    <ru.nsu.fit.nsuschedule.view.CalendarHeaderView
-        android:id="@+id/weekViewHeader"
-        android:background="@color/colorPrimary"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"/>
+        android:layout_height="70dp">
+    </android.support.v4.view.ViewPager>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +19,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="8dp"
-        android:layout_below="@+id/weekViewHeader">
+        android:layout_below="@+id/view_pager">
 
         <LinearLayout
             android:orientation="vertical"
@@ -43,7 +38,7 @@
                 app:headerColumnPadding="8dp"
                 app:headerColumnTextColor="#8f000000"
                 app:columnGap="8dp"
-                app:noOfVisibleDays="3"
+                app:noOfVisibleDays="1"
                 app:eventPadding="1dp"
                 app:eventMarginVertical="1dp"
                 app:eventCornerRadius="1dp"
@@ -52,7 +47,7 @@
                 app:todayBackgroundColor="#0fff"
                 app:headerColumnBackground="#ffffffff"
                 app:showNowLine="true"
-                app:nowLineColor="@color/colorPrimary" />
+                app:nowLineColor="@color/now_line_color" />
 
         </LinearLayout>
     </RelativeLayout>

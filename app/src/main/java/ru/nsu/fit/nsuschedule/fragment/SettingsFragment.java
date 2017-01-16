@@ -3,7 +3,9 @@ package ru.nsu.fit.nsuschedule.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -12,6 +14,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
@@ -44,6 +47,7 @@ public class SettingsFragment extends BaseFragment {
 
     private GroupListResponse response;
     private FloatingSearchView searchView;
+    private TextView hintGroup;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -65,6 +69,7 @@ public class SettingsFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.settings_fragment_layout, container, false);
 
+        hintGroup = (TextView) root.findViewById(R.id.hint_group);
         //Helper.addStatusBarPaddingToView(root.findViewById(R.id.content_frame), getContext());
         //Helper.addStatusBarPaddingToView(root.findViewById(R.id.floating_search_view), getContext());
 
@@ -73,6 +78,18 @@ public class SettingsFragment extends BaseFragment {
             public void onClick(View v) {
                 showSearch();
                 //PreferenceHelper.setGroup(null);
+            }
+        });
+
+        root.findViewById(R.id.settings_feedback).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto","santaevp@gmail.com", null));
+                intent.putExtra(Intent.EXTRA_SUBJECT, "NsuSchedule отзыв");
+                intent.putExtra(Intent.EXTRA_TEXT, "");
+
+                startActivity(Intent.createChooser(intent, "Оставить отзыв"));
             }
         });
 
@@ -103,6 +120,7 @@ public class SettingsFragment extends BaseFragment {
         });
 
         requestGroups();
+        updateHintGroup();
 
         return root;
     }
@@ -111,6 +129,10 @@ public class SettingsFragment extends BaseFragment {
     public void onInternetConnected() {
         requestGroups();
         super.onInternetConnected();
+    }
+
+    private void updateHintGroup(){
+        hintGroup.setText(PreferenceHelper.getGroupName());
     }
 
     private void requestGroups(){
@@ -204,6 +226,7 @@ public class SettingsFragment extends BaseFragment {
                 searchView.setVisibility(View.GONE);
                 if (null != mListener && openMainScreen){
                     mListener.onLogIn(group.getId(), group.getName());
+                    updateHintGroup();
                 }
             }
         });

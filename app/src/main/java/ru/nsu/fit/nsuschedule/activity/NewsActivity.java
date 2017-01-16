@@ -13,18 +13,15 @@ import android.view.View;
 
 import com.android.volley.RequestQueue;
 
-import java.util.ArrayList;
-
 import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.adapter.NewsAdapter;
 import ru.nsu.fit.nsuschedule.api.ApiService;
 import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
-import ru.nsu.fit.nsuschedule.api.response.NewsResponse;
-import ru.nsu.fit.nsuschedule.api.response.WeatherResponse;
+import ru.nsu.fit.nsuschedule.api.response.AllNewsResponse;
 import ru.nsu.fit.nsuschedule.model.News;
 import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity implements NewsAdapter.IOnNewsClickListener {
 
     private RecyclerView newRecyclerView;
 
@@ -50,17 +47,18 @@ public class NewsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         adapter = new NewsAdapter();
+        adapter.setListener(this);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         newRecyclerView = (RecyclerView) findViewById(R.id.listNews);
         newRecyclerView.setLayoutManager(mLayoutManager);
         newRecyclerView.setAdapter(adapter);
 
-        ApiServiceHelper.getNews(this, new ResultReceiver(new Handler()){
+        ApiServiceHelper.getAllNews(this, new ResultReceiver(new Handler()){
             @Override
             protected void onReceiveResult(int resultCode, Bundle resultData) {
                 super.onReceiveResult(resultCode, resultData);
-                NewsResponse response = (NewsResponse)
+                AllNewsResponse response = (AllNewsResponse)
                         resultData.getSerializable(ApiService.KEY_RESPONSE);
                 if (response == null){
                     Snackbar.make(newRecyclerView, "Ошибка", Snackbar.LENGTH_LONG).show();
@@ -89,4 +87,8 @@ public class NewsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(News news) {
+        SingleNewsActivity.start(this, news.getLink());
+    }
 }

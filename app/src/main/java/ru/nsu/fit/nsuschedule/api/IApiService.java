@@ -1,6 +1,6 @@
 package ru.nsu.fit.nsuschedule.api;
 
-import java.util.ArrayList;
+import com.squareup.okhttp.ResponseBody;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -8,9 +8,8 @@ import retrofit2.http.Path;
 import ru.nsu.fit.nsuschedule.api.response.DepartmentListResponse;
 import ru.nsu.fit.nsuschedule.api.response.GroupListResponse;
 import ru.nsu.fit.nsuschedule.api.response.LessonsResponse;
-import ru.nsu.fit.nsuschedule.api.response.NewsResponse;
+import ru.nsu.fit.nsuschedule.api.response.AllNewsResponse;
 import ru.nsu.fit.nsuschedule.api.response.WeatherResponse;
-import ru.nsu.fit.nsuschedule.model.News;
 
 /**
  * Created by Pavel on 15.09.2016.
@@ -34,6 +33,9 @@ public interface IApiService {
     @GET("/api/WEATHER")
     Call<WeatherResponse> getWeather();
 
+    @GET("/api/NEWS/{url}")
+    Call<ResponseBody> getNews(@Path("url") String url);
+
     @GET("/api/NEWS")
-    Call<NewsResponse> getNews();
+    Call<AllNewsResponse> getAllNews();
 }
