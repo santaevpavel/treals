@@ -38,4 +38,7 @@ public interface IApiService {
 
     @GET("/api/NEWS")
     Call<AllNewsResponse> getAllNews();
+
+    @GET("/api/ACADEM")
+    Call<AllNewsResponse> getAllAcademNews();
 }

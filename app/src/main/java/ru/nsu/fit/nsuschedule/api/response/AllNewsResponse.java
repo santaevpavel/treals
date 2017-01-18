@@ -14,7 +14,7 @@ public class AllNewsResponse extends BaseResponse{
 
     //{temp: $temp, phrase: $phrase, high: :$high, low: $low, uvindex: $uvindex}
     // => {temp:  "-3°", phrase: "ясно", high: :"12°", low:  "-5°", uvindex: "3"}
-    @SerializedName("news")
+    @SerializedName(value = "news", alternate = {"academ"})
     public List<News> news;
 
     public AllNewsResponse() {

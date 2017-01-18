@@ -80,6 +80,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         startActivity(i);
     }
 
+    private void openAcadem(){
+        Intent i = new Intent(this, AcademActivity.class);
+        startActivity(i);
+    }
+
     @Override
     public void onLogIn(String groupId, String groupName) {
         PreferenceHelper.setGroup(groupId);
@@ -103,6 +108,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
                 break;
             case MainScreenFragment.CODE_NEWS:
                 openNews();
+                break;
+            case MainScreenFragment.CODE_ACADEM:
+                openAcadem();
                 break;
         }
     }

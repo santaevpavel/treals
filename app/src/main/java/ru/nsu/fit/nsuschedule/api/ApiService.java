@@ -45,6 +45,7 @@ public class ApiService extends IntentService{
     public static final int CODE_GET_NSU_WEATHER = 4;
     public static final int CODE_GET_ALL_NEWS = 5;
     public static final int CODE_GET_NEWS = 6;
+    public static final int CODE_GET_ALL_ACADEM_NEWS = 7;
 
 
     /**
@@ -94,6 +95,9 @@ public class ApiService extends IntentService{
                 break;
             case CODE_GET_NEWS:
                 response = getNews(intent.getStringExtra(KEY_OBJECT));
+                break;
+            case CODE_GET_ALL_ACADEM_NEWS:
+                response = getAllAcademNews();
                 break;
         }
         resultReceiver.send(0, response);
@@ -255,6 +259,34 @@ public class ApiService extends IntentService{
         return bundle;
     }
 
+    private Bundle getAllAcademNews(){
+        Call<AllNewsResponse> call = api.getAllAcademNews();
+        Response<AllNewsResponse> response;
+        Bundle bundle = new Bundle();
+        try {
+            response = call.execute();
+        } catch (UnknownHostException e){
+            e.printStackTrace();
+            return buildError(new AllNewsResponse(), "Отсуствует интернет соединение");
+        } catch (IOException e2) {
+            e2.printStackTrace();
+            return buildError(new AllNewsResponse(), "Ошибка при загрузке новостей");
+        } catch (Exception e3){
+            e3.printStackTrace();
+            return buildError(new AllNewsResponse(), "Внутренняя ошибка приложения");
+        }
+        if (null != response && response.isSuccessful()) {
+            AllNewsResponse body = response.body();
+            for (News news : body.news){
+                news.setTitle(Helper.removeQuotes(news.getTitle()));
+                news.setDescription(Helper.removeQuotes(news.getDescription()));
+            }
+            bundle.putSerializable(KEY_RESPONSE, body);
+        } else {
+            return buildError(new AllNewsResponse(), "Ошибка при загрузке новостей");
+        }
+        return bundle;
+    }
 
     private static <T extends BaseResponse> Bundle buildError(T t, String error){
         Bundle bundle = new Bundle();

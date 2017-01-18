@@ -35,6 +35,7 @@
             android:name=".activity.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity android:name=".activity.NewsActivity" />
+        <activity android:name=".activity.AcademActivity" />
         <activity android:name=".activity.SingleNewsActivity"></activity>
     </application>
 

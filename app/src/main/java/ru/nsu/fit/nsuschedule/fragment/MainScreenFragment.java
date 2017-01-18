@@ -34,6 +34,7 @@ public class MainScreenFragment extends BaseFragment {
     public static final int CODE_LOGOUT = 1;
     public static final int CODE_SETTINGS = 2;
     public static final int CODE_NEWS = 3;
+    public static final int CODE_ACADEM = 4;
 
     public MainScreenFragment() {
         // Required empty public constructor
@@ -109,7 +110,9 @@ public class MainScreenFragment extends BaseFragment {
         itemAcadem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (mListener != null){
+                    mListener.onClick(CODE_ACADEM);
+                }
             }
         });
 

@@ -17,6 +17,7 @@ import com.android.volley.toolbox.ImageRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.nsu.fit.nsuschedule.NsuScheduleApplication;
 import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.model.News;
 import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
@@ -119,7 +120,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         if (url != null && !url.isEmpty()) {
             //if (ImageLoaderSingleton.getInstance(null).getImageLoader().get`)
             //
-            ImageLoaderSingleton.getInstance(null).getImageLoader().get(url, new ImageLoader.ImageListener() {
+            ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader().get(url, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     if (response.getBitmap() != null) {

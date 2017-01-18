@@ -30,15 +30,8 @@ public class News implements Serializable{
     private String type;
     @SerializedName("date")
     private String date;
-
-    public News(String title, String description, String link, String img, String type, String date) {
-        this.title = title;
-        this.description = description;
-        this.link = link;
-        this.img = img;
-        this.type = type;
-        this.date = date;
-    }
+    @SerializedName("section")
+    private String section;
 
     public News() {
     }
@@ -89,5 +82,13 @@ public class News implements Serializable{
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 }

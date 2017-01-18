@@ -40,6 +40,10 @@ public class ApiServiceHelper {
         startService(null, ApiService.CODE_GET_ALL_NEWS, resultReceiver);
     }
 
+    public static void getAllAcademNews(Context context, ResultReceiver resultReceiver){
+        startService(null, ApiService.CODE_GET_ALL_ACADEM_NEWS, resultReceiver);
+    }
+
     public static void getNews(Context context, ResultReceiver resultReceiver, String url){
         startService(url, ApiService.CODE_GET_NEWS, resultReceiver);
     }
