@@ -54,10 +54,14 @@ public class CalendarHeaderView extends FrameLayout{
         toSelect.setFirstDayOfWeek(Calendar.MONDAY);
         int dayOfWeek = toSelect.get(Calendar.DAY_OF_WEEK);
         int mondayOffset = ((dayOfWeek - 2) + 7) % 7;
-        boolean isInFirstWeek = today.get(Calendar.WEEK_OF_YEAR) == toSelect.get(Calendar.WEEK_OF_YEAR);
-        boolean isShowSelectedDay = isFirst == isInFirstWeek;
+        int mondayOffsetToday = ((today.get(Calendar.DAY_OF_WEEK) - 2) + 7) % 7;
         Calendar monday = (Calendar) toSelect.clone();
+        Calendar mondayToday = (Calendar) today.clone();
         monday.add(Calendar.DATE, -1 * mondayOffset);
+        mondayToday.add(Calendar.DATE, -1 * mondayOffsetToday);
+        boolean isInFirstWeek = monday.get(Calendar.DAY_OF_YEAR) == mondayToday.get(Calendar.DAY_OF_YEAR);
+        boolean isShowSelectedDay = isFirst == isInFirstWeek;
+
         if (isFirst){
             monday.add(Calendar.DATE, (isInFirstWeek ? 0 : -1) * 7);
         } else {

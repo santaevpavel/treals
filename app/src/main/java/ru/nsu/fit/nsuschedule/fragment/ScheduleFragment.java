@@ -152,6 +152,22 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
         adapter = new WeekViewFragmentPagerAdapter(getFragmentManager());
         viewPager.setAdapter(adapter);
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         /*weekView.setWeekViewLoader(new WeekViewLoader() {
             @Override
             public double toWeekViewPeriodIndex(Calendar instance) {

@@ -24,7 +24,6 @@ import ru.nsu.fit.nsuschedule.api.ApiService;
 import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
 import ru.nsu.fit.nsuschedule.api.response.AllNewsResponse;
 import ru.nsu.fit.nsuschedule.databinding.ActivityAcademBinding;
-import ru.nsu.fit.nsuschedule.databinding.ActivityNewsBinding;
 import ru.nsu.fit.nsuschedule.fragment.NewsFragment;
 import ru.nsu.fit.nsuschedule.model.News;
 
@@ -51,25 +50,7 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        ApiServiceHelper.getAllAcademNews(this, new ResultReceiver(new Handler()){
-            @Override
-            protected void onReceiveResult(int resultCode, Bundle resultData) {
-                super.onReceiveResult(resultCode, resultData);
-                AllNewsResponse response = (AllNewsResponse)
-                        resultData.getSerializable(ApiService.KEY_RESPONSE);
-                if (response == null){
-                    Snackbar.make(binding.toolbar, "Ошибка", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (response.hasError()){
-                    Snackbar.make(binding.toolbar, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
-                } else {
-                    //NewsFragment newsFragment = (NewsFragment) getSupportFragmentManager().findFragmentByTag(KEY_ACADEM);
-                    news = response.news;
-                    onNewsLoaded(news);
-                }
-            }
-        });
+        loadNews();
 
         fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -90,6 +71,29 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
         };
         binding.pager.setAdapter(fragmentPagerAdapter);
         binding.tablayout.setupWithViewPager(binding.pager, true);
+    }
+
+    private void loadNews(){
+        ApiServiceHelper.getAllAcademNews(this, new ResultReceiver(new Handler()){
+            @Override
+            protected void onReceiveResult(int resultCode, Bundle resultData) {
+                super.onReceiveResult(resultCode, resultData);
+                AllNewsResponse response = (AllNewsResponse)
+                        resultData.getSerializable(ApiService.KEY_RESPONSE);
+                if (response == null){
+                    Snackbar.make(binding.toolbar, "Ошибка", Snackbar.LENGTH_LONG).show();
+                    onNewsLoadFailed();
+                    return;
+                }
+                if (response.hasError()){
+                    Snackbar.make(binding.toolbar, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
+                    onNewsLoadFailed();
+                } else {
+                    news = response.news;
+                    onNewsLoaded(news);
+                }
+            }
+        });
     }
 
     @Override
@@ -113,7 +117,7 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
     }
 
     @Override
-    public List<News> getNews() {
+    public List<News> getNews(int code) {
         return null;
     }
 
@@ -135,6 +139,11 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
     private void onNewsLoaded(List<News> news){
         sections =  getSections(news);
         showNews(news);
+    }
+
+    private void onNewsLoadFailed(){
+        fragmentEvents.setNews(null);
+        fragmentLocations.setNews(null);
     }
 
     private void onClickFilter() {
@@ -188,5 +197,10 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
     public void onDetach(NewsFragment fragment, int code) {
         fragmentEvents = null;
         fragmentLocations = null;
+    }
+
+    @Override
+    public void onRefresh(int code) {
+        loadNews();
     }
 }

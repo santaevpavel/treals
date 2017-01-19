@@ -4,17 +4,23 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/listNews"/>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/listNews"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <ProgressBar
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:id="@+id/progress"
             android:layout_centerInParent="true" />
-
 
     </RelativeLayout>
 </layout>

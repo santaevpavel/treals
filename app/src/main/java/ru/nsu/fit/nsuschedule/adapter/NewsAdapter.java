@@ -8,13 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.ImageRequest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ru.nsu.fit.nsuschedule.NsuScheduleApplication;
@@ -27,14 +23,19 @@ import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
  */
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
-    public interface IOnNewsClickListener{
-        void onClick(News news);
+    public interface INewsAdapterParent {
+        void onClickNews(News news);
+        void onLoadedImg(int pos, long id, Bitmap bmp, NewsViewHolder holder);
     }
 
     private List<News> news;
-    private IOnNewsClickListener listener;
+    private INewsAdapterParent listener;
 
-    private class NewsViewHolder extends RecyclerView.ViewHolder{
+    public NewsAdapter() {
+        setHasStableIds(true);
+    }
+
+    public class NewsViewHolder extends RecyclerView.ViewHolder{
 
         public TextView title;
         public TextView desc;
@@ -59,7 +60,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void onClick(View view) {
         NewsViewHolder holder = (NewsViewHolder) view.getTag();
         int position = holder.getAdapterPosition();
-        listener.onClick(news.get(position));
+        listener.onClickNews(news.get(position));
     }
 
     public void setNews(List<News> news) {
@@ -67,18 +68,13 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         //notifyDataSetChanged();
     }
 
-    public void setListener(IOnNewsClickListener listener) {
+    public void setListener(INewsAdapterParent listener) {
         this.listener = listener;
     }
 
     @Override
     public long getItemId(int position) {
         return position;
-    }
-
-    @Override
-    public void setHasStableIds(boolean hasStableIds) {
-        super.setHasStableIds(true);
     }
 
     @Override
@@ -96,11 +92,12 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         NewsViewHolder viewHolder = new NewsViewHolder(view, title, desc, date, img, type, imgSmall);
         view.setOnClickListener(this);
         view.setTag(viewHolder);
+
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
         News item = news.get(position);
         newsViewHolder.title.setText(item.getTitle());
@@ -117,23 +114,18 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         newsViewHolder.desc.setText(item.getDescription());
         // Add a request (in this example, called stringRequest) to your RequestQueue.
         String url = item.getImg();
+
+        final long id = holder.getItemId();//getItemId(position);
         if (url != null && !url.isEmpty()) {
-            //if (ImageLoaderSingleton.getInstance(null).getImageLoader().get`)
-            //
+
             ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader().get(url, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    if (response.getBitmap() != null) {
-                        if (isSmall(response.getBitmap())) {
-                            newsViewHolder.imageSmall.setImageBitmap(response.getBitmap());
-                            newsViewHolder.image.setVisibility(View.GONE);
-                            newsViewHolder.imageSmall.setVisibility(View.VISIBLE);
-                        } else {
-                            newsViewHolder.image.setImageBitmap(response.getBitmap());
-                            newsViewHolder.image.setVisibility(View.VISIBLE);
-                            newsViewHolder.imageSmall.setVisibility(View.GONE);
-                        }
+                    Bitmap bitmap = response.getBitmap();
+                    if (bitmap != null) {
+                        listener.onLoadedImg(position, id, bitmap, newsViewHolder);
                     }
+
                 }
 
                 @Override
@@ -145,6 +137,10 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             newsViewHolder.image.setVisibility(View.GONE);
             newsViewHolder.imageSmall.setVisibility(View.GONE);
         }
+
+        /*ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext())
+                .getImageLoader()
+                .get(url, ImageLoader.getImageListener(newsViewHolder.image, R.drawable.menu_img_academ, R.drawable.menu_img_academ));*/
     }
 
     @Override
@@ -156,10 +152,5 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
     }
 
-    private static boolean isSmall(Bitmap bmp){
-        int minWidth = 256;
-        double minRate = 3. / 4;
-        return bmp.getWidth() < minWidth || minRate < ((double) bmp.getHeight() / bmp.getWidth());
-    }
 }
 

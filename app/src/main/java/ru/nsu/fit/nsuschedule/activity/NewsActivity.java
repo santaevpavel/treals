@@ -2,23 +2,14 @@ package ru.nsu.fit.nsuschedule.activity;
 
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.os.ResultReceiver;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Pair;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-
-import com.android.volley.RequestQueue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +25,8 @@ import ru.nsu.fit.nsuschedule.api.response.AllNewsResponse;
 import ru.nsu.fit.nsuschedule.databinding.ActivityNewsBinding;
 import ru.nsu.fit.nsuschedule.fragment.NewsFragment;
 import ru.nsu.fit.nsuschedule.model.News;
-import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
 
-public class NewsActivity extends AppCompatActivity implements NewsAdapter.IOnNewsClickListener, NewsFragment.INewsFragmentParent {
+public class NewsActivity extends AppCompatActivity implements NewsFragment.INewsFragmentParent {
 
     public static final String KEY_ACADEM = "news";
     private List<News> news;
@@ -60,25 +50,7 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.IOnNe
                 .replace(R.id.container, NewsFragment.getInstance(0), KEY_ACADEM)
                 .commit();
 
-        ApiServiceHelper.getAllNews(this, new ResultReceiver(new Handler()){
-            @Override
-            protected void onReceiveResult(int resultCode, Bundle resultData) {
-                super.onReceiveResult(resultCode, resultData);
-                AllNewsResponse response = (AllNewsResponse)
-                        resultData.getSerializable(ApiService.KEY_RESPONSE);
-                if (response == null){
-                    Snackbar.make(binding.toolbar, "Ошибка", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (response.hasError()){
-                    Snackbar.make(binding.toolbar, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
-                } else {
-                    news = response.news;
-
-                    onNewsLoaded(news);
-                }
-            }
-        });
+        loadNews();
     }
 
     public static Map<String, List<News>> getSections(List<News> news){
@@ -121,6 +93,10 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.IOnNe
         showNews(news);
     }
 
+    private void onNewsLoadFailed(){
+        showNews(null);
+    }
+
     private void onClickFilter() {
         if (null == news){
             return;
@@ -157,12 +133,7 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.IOnNe
     }
 
     @Override
-    public void onClick(News news) {
-        SingleNewsActivity.start(this, news.getLink());
-    }
-
-    @Override
-    public List<News> getNews() {
+    public List<News> getNews(int code) {
         return null;
     }
 
@@ -171,4 +142,32 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.IOnNe
 
     @Override
     public void onDetach(NewsFragment fragment, int code) {}
+
+    @Override
+    public void onRefresh(int code) {
+        loadNews();
+    }
+
+    private void loadNews(){
+        ApiServiceHelper.getAllNews(this, new ResultReceiver(new Handler()){
+            @Override
+            protected void onReceiveResult(int resultCode, Bundle resultData) {
+                super.onReceiveResult(resultCode, resultData);
+                AllNewsResponse response = (AllNewsResponse)
+                        resultData.getSerializable(ApiService.KEY_RESPONSE);
+                if (response == null){
+                    Snackbar.make(binding.toolbar, "Ошибка", Snackbar.LENGTH_LONG).show();
+                    onNewsLoadFailed();
+                    return;
+                }
+                if (response.hasError()){
+                    Snackbar.make(binding.toolbar, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
+                    onNewsLoadFailed();
+                } else {
+                    news = response.news;
+                    onNewsLoaded(news);
+                }
+            }
+        });
+    }
 }
