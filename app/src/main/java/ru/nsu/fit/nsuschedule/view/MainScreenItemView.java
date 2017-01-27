@@ -59,7 +59,7 @@ public class MainScreenItemView extends FrameLayout{
         background.animate();
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                backgroundShadow.animate().alpha(0.5f).setDuration(200);
+                backgroundShadow.animate().alpha(0.5f).setDuration(50);
                 break;
             case MotionEvent.ACTION_UP:
                 backgroundShadow.animate().alpha(1).setDuration(200);

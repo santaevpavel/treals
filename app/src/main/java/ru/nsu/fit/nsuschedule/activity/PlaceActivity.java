@@ -18,7 +18,6 @@ import ru.nsu.fit.nsuschedule.NsuScheduleApplication;
 import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.fragment.PlaceFragment;
 import ru.nsu.fit.nsuschedule.model.Place;
-import ru.nsu.fit.nsuschedule.util.CustomFontLoader;
 import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
 
 public class PlaceActivity extends AppCompatActivity {
@@ -37,6 +36,8 @@ public class PlaceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
         place = (Place) getIntent().getSerializableExtra(KEY_PLACE);
 
         setContentView(R.layout.activity_place);
@@ -50,7 +51,7 @@ public class PlaceActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         collapsingToolbar.setTitle(place.getTitle());
-        collapsingToolbar.setExpandedTitleTypeface(CustomFontLoader.getTypeface(this, CustomFontLoader.CENTURY_GOTHIC_BOLD));
+        //collapsingToolbar.setExpandedTitleTypeface(CustomFontLoader.getTypeface(this, CustomFontLoader.CENTURY_GOTHIC_BOLD));
         //collapsingToolbar.setStatusBarScrimColor(getResources().getColor(android.R.color.holo_red_dark));
 
         ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader()
@@ -71,7 +72,6 @@ public class PlaceActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, PlaceFragment.getInstance(place)).commit();
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
     @Override
