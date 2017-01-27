@@ -18,11 +18,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.nsu.fit.nsuschedule.api.request.GetGroupsRequest;
 import ru.nsu.fit.nsuschedule.api.request.GetLessonsRequest;
+import ru.nsu.fit.nsuschedule.api.response.AllNewsResponse;
+import ru.nsu.fit.nsuschedule.api.response.AllPlacesResponse;
 import ru.nsu.fit.nsuschedule.api.response.BaseResponse;
 import ru.nsu.fit.nsuschedule.api.response.DepartmentListResponse;
 import ru.nsu.fit.nsuschedule.api.response.GroupListResponse;
 import ru.nsu.fit.nsuschedule.api.response.LessonsResponse;
-import ru.nsu.fit.nsuschedule.api.response.AllNewsResponse;
 import ru.nsu.fit.nsuschedule.api.response.NewsResponse;
 import ru.nsu.fit.nsuschedule.api.response.WeatherResponse;
 import ru.nsu.fit.nsuschedule.model.News;
@@ -46,6 +47,7 @@ public class ApiService extends IntentService{
     public static final int CODE_GET_ALL_NEWS = 5;
     public static final int CODE_GET_NEWS = 6;
     public static final int CODE_GET_ALL_ACADEM_NEWS = 7;
+    public static final int CODE_GET_ALL_ACADEM_PLACES = 8;
 
 
     /**
@@ -67,6 +69,13 @@ public class ApiService extends IntentService{
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         api = retrofit.create(IApiService.class);
+    }
+
+    private static <T extends BaseResponse> Bundle buildError(T t, String error) {
+        Bundle bundle = new Bundle();
+        t.setErrorMsg(error);
+        bundle.putSerializable(KEY_RESPONSE, t);
+        return bundle;
     }
 
     @Override
@@ -98,6 +107,9 @@ public class ApiService extends IntentService{
                 break;
             case CODE_GET_ALL_ACADEM_NEWS:
                 response = getAllAcademNews();
+                break;
+            case CODE_GET_ALL_ACADEM_PLACES:
+                response = getAllPlaces();
                 break;
         }
         resultReceiver.send(0, response);
@@ -259,25 +271,25 @@ public class ApiService extends IntentService{
         return bundle;
     }
 
-    private Bundle getAllAcademNews(){
+    private Bundle getAllAcademNews() {
         Call<AllNewsResponse> call = api.getAllAcademNews();
         Response<AllNewsResponse> response;
         Bundle bundle = new Bundle();
         try {
             response = call.execute();
-        } catch (UnknownHostException e){
+        } catch (UnknownHostException e) {
             e.printStackTrace();
             return buildError(new AllNewsResponse(), "Отсуствует интернет соединение");
         } catch (IOException e2) {
             e2.printStackTrace();
             return buildError(new AllNewsResponse(), "Ошибка при загрузке новостей");
-        } catch (Exception e3){
+        } catch (Exception e3) {
             e3.printStackTrace();
             return buildError(new AllNewsResponse(), "Внутренняя ошибка приложения");
         }
         if (null != response && response.isSuccessful()) {
             AllNewsResponse body = response.body();
-            for (News news : body.news){
+            for (News news : body.news) {
                 news.setTitle(Helper.removeQuotes(news.getTitle()));
                 news.setDescription(Helper.removeQuotes(news.getDescription()));
             }
@@ -288,10 +300,28 @@ public class ApiService extends IntentService{
         return bundle;
     }
 
-    private static <T extends BaseResponse> Bundle buildError(T t, String error){
+    private Bundle getAllPlaces() {
+        Call<AllPlacesResponse> call = api.getAllPlacesNews();
+        Response<AllPlacesResponse> response;
         Bundle bundle = new Bundle();
-        t.setErrorMsg(error);
-        bundle.putSerializable(KEY_RESPONSE, t);
+        try {
+            response = call.execute();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return buildError(new AllPlacesResponse(), "Отсуствует интернет соединение");
+        } catch (IOException e2) {
+            e2.printStackTrace();
+            return buildError(new AllPlacesResponse(), "Ошибка при загрузке новостей");
+        } catch (Exception e3) {
+            e3.printStackTrace();
+            return buildError(new AllPlacesResponse(), "Внутренняя ошибка приложения");
+        }
+        if (null != response && response.isSuccessful()) {
+            AllPlacesResponse body = response.body();
+            bundle.putSerializable(KEY_RESPONSE, body);
+        } else {
+            return buildError(new AllPlacesResponse(), "Ошибка при загрузке новостей");
+        }
         return bundle;
     }
 }

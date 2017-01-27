@@ -5,10 +5,11 @@ import com.squareup.okhttp.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import ru.nsu.fit.nsuschedule.api.response.AllNewsResponse;
+import ru.nsu.fit.nsuschedule.api.response.AllPlacesResponse;
 import ru.nsu.fit.nsuschedule.api.response.DepartmentListResponse;
 import ru.nsu.fit.nsuschedule.api.response.GroupListResponse;
 import ru.nsu.fit.nsuschedule.api.response.LessonsResponse;
-import ru.nsu.fit.nsuschedule.api.response.AllNewsResponse;
 import ru.nsu.fit.nsuschedule.api.response.WeatherResponse;
 
 /**
@@ -41,4 +42,7 @@ public interface IApiService {
 
     @GET("/api/ACADEM")
     Call<AllNewsResponse> getAllAcademNews();
+
+    @GET("/api/ACADEM/PLACES")
+    Call<AllPlacesResponse> getAllPlacesNews();
 }

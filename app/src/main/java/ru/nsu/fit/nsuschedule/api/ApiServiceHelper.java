@@ -48,6 +48,10 @@ public class ApiServiceHelper {
         startService(url, ApiService.CODE_GET_NEWS, resultReceiver);
     }
 
+    public static void getAllPlaces(Context context, ResultReceiver resultReceiver) {
+        startService(null, ApiService.CODE_GET_ALL_ACADEM_PLACES, resultReceiver);
+    }
+
 
     private static void startService(Serializable data, int action, ResultReceiver onServiceResult) {
         Intent intent = getIntent(action, onServiceResult);

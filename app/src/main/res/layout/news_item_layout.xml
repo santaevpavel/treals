@@ -5,111 +5,112 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fcfcfc">
+        android:background="#fcfcfc"
+        android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:id="@+id/image" />
+            android:scaleType="centerCrop" />
 
         <RelativeLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true">
+                android:layout_alignParentTop="true"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="vertical"
-                        android:paddingRight="8dp"
-                        android:layout_weight="1">
+                        android:paddingRight="8dp">
 
                         <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:text="Title"
-                            android:textColor="#002534"
                             android:id="@+id/item_title"
-                            android:paddingRight="8dp" />
-
-                        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
-                            android:textSize="14sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Desc Desc \n Desc "
+                            android:paddingRight="8dp"
+                            android:text="Title"
+                            android:textColor="@color/news_item_title_color"
+                            android:textSize="16sp" />
+
+                        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+                            android:id="@+id/item_dest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:paddingTop="4dp"
-                            android:textColor="#555"
-                            android:id="@+id/item_dest" />
+                            android:text="Desc Desc \n Desc "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/news_item_desc_color"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 
                     <ImageView
+                        android:id="@+id/imageSmall"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
                         android:layout_marginTop="8dp"
                         android:layout_weight="0"
-                        android:id="@+id/imageSmall" />
+                        android:adjustViewBounds="true" />
                 </LinearLayout>
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="8dp">
 
                     <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
-                        android:textSize="12sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#7894a5"
-                        android:text="12.23.16"
                         android:id="@+id/item_date"
-                        android:layout_toLeftOf="@+id/item_type"
-                        android:paddingRight="8dp"
-                        android:ellipsize="end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true" />
+                        android:layout_alignParentStart="true"
+                        android:layout_toLeftOf="@+id/item_type"
+                        android:ellipsize="end"
+                        android:paddingRight="8dp"
+                        android:text="12.23.16"
+                        android:textColor="#7894a5"
+                        android:textSize="12sp" />
 
 
                     <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
-                        android:textSize="10sp"
+                        android:id="@+id/item_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_alignParentRight="true"
                         android:layout_gravity="right"
-                        android:textColor="#555"
                         android:background="@drawable/news_type_bg"
-                        android:text="Тип Тип"
+                        android:ellipsize="end"
                         android:lines="1"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
+                        android:text="Тип Тип"
                         android:textAllCaps="true"
-                        android:id="@+id/item_type"
-                        android:layout_alignParentRight="true" />
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#555"
+                        android:textSize="10sp" />
 
                 </RelativeLayout>
 
@@ -120,11 +121,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
+        android:layout_height="10dp"
         android:layout_alignParentBottom="true"
         android:background="@color/news_second_bg_color"
-        android:layout_height="10dp">
+        android:orientation="vertical">
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
