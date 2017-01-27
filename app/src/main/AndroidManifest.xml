@@ -33,10 +33,21 @@
 
         <activity
             android:name=".activity.SettingsActivity"
-            android:label="@string/title_activity_settings" />
-        <activity android:name=".activity.NewsActivity" />
-        <activity android:name=".activity.AcademActivity" />
-        <activity android:name=".activity.SingleNewsActivity"></activity>
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NewsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AcademActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SingleNewsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.PlaceActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

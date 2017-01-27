@@ -9,13 +9,18 @@ import android.support.v4.os.ResultReceiver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+
+import ru.nsu.fit.nsuschedule.NsuScheduleApplication;
 import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.api.ApiService;
 import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
 import ru.nsu.fit.nsuschedule.api.response.WeatherResponse;
 import ru.nsu.fit.nsuschedule.model.Weather;
-import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
+import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
 import ru.nsu.fit.nsuschedule.view.MainScreenItemView;
 
 /**
@@ -26,16 +31,18 @@ import ru.nsu.fit.nsuschedule.view.MainScreenItemView;
  * Use the {@link MainScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainScreenFragment extends BaseFragment {
-
-    private OnFragmentInteractionListener mListener;
+public class MainScreenFragment extends BaseFragment implements ImageLoader.ImageListener {
 
     public static final int CODE_SCHEDULE = 0;
     public static final int CODE_LOGOUT = 1;
     public static final int CODE_SETTINGS = 2;
     public static final int CODE_NEWS = 3;
     public static final int CODE_ACADEM = 4;
-
+    private OnFragmentInteractionListener mListener;
+    private MainScreenItemView itemSchedule;
+    private MainScreenItemView itemNews;
+    private MainScreenItemView itemAcadem;
+    private MainScreenItemView itemWeather;
     public MainScreenFragment() {
         // Required empty public constructor
     }
@@ -44,11 +51,6 @@ public class MainScreenFragment extends BaseFragment {
         MainScreenFragment fragment = new MainScreenFragment();
         return fragment;
     }
-
-    private MainScreenItemView itemSchedule;
-    private MainScreenItemView itemNews;
-    private MainScreenItemView itemAcadem;
-    private MainScreenItemView itemWeather;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,19 +71,6 @@ public class MainScreenFragment extends BaseFragment {
                 }
             }
         });
-
-        //TextView changeGroup = (TextView) root.findViewById(R.id.button_change_group);
-        String groupName = PreferenceHelper.getGroupName();
-        /*changeGroup.setText(null != groupName ? groupName : "Сменить группу");
-        changeGroup.setPaintFlags(changeGroup.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        changeGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null){
-                    mListener.onClick(CODE_LOGOUT);
-                }
-            }
-        });*/
 
         itemWeather = (MainScreenItemView) root.findViewById(R.id.button_weather);
         itemSchedule = (MainScreenItemView) root.findViewById(R.id.button_schedule);
@@ -140,7 +129,6 @@ public class MainScreenFragment extends BaseFragment {
     }
 
     private void requestWeather(){
-        //weatherView.showProgress();
         if (!requestInfo.tryToRequest()){
             return;
         }
@@ -164,7 +152,9 @@ public class MainScreenFragment extends BaseFragment {
                 } else {
                     Weather weather = response.weather;
                     if (weather != null && weather.temp != null && !weather.temp.isEmpty()) {
-                        itemWeather.setText(weather.temp + "°C ДОЖДЬ");
+                        itemWeather.setText(weather.temp + "°C");
+                        ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext())
+                                .getImageLoader().get(response.weather.img, MainScreenFragment.this);
                         requestInfo.finish(true);
                     } else {
                         showErrorInWeather();
@@ -200,6 +190,22 @@ public class MainScreenFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+        if (response.getBitmap() == null) {
+            return;
+        }
+        ImageView icon = itemWeather.getIcon();
+        icon.setVisibility(View.VISIBLE);
+        icon.setImageBitmap(response.getBitmap());
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Snackbar.make(itemWeather, "Не удалось загрузить иконку погоды", Snackbar.LENGTH_LONG).show();
+        error.printStackTrace();
     }
 
     /**

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
     <ImageView
+        android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:id="@+id/background" />
+        android:scaleType="centerCrop" />
 
     <FrameLayout
         android:id="@+id/background_shadow"
@@ -15,13 +16,30 @@
         android:layout_height="match_parent"
         android:background="@drawable/main_screen_item"/>
 
-    <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_centerInParent="true"
-        android:textSize="@dimen/main_menu_item_text_size"
-        android:text="РАСПИСАНИЕ"
-        android:textColor="#fff"
-        android:id="@+id/text" />
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="8dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="РАСПИСАНИЕ"
+            android:textColor="#fff"
+            android:textSize="@dimen/main_menu_item_text_size" />
+
+    </LinearLayout>
+
 </RelativeLayout>

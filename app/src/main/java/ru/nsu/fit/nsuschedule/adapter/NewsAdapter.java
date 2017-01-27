@@ -23,37 +23,10 @@ import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
  */
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
-    public interface INewsAdapterParent {
-        void onClickNews(News news);
-        void onLoadedImg(int pos, long id, Bitmap bmp, NewsViewHolder holder);
-    }
-
     private List<News> news;
     private INewsAdapterParent listener;
-
     public NewsAdapter() {
         setHasStableIds(true);
-    }
-
-    public class NewsViewHolder extends RecyclerView.ViewHolder{
-
-        public TextView title;
-        public TextView desc;
-        public TextView date;
-        public TextView type;
-        public ImageView image;
-        public ImageView imageSmall;
-
-        public NewsViewHolder(View itemView, TextView title,
-                              TextView desc, TextView date, ImageView image, TextView type, ImageView imageSmall) {
-            super(itemView);
-            this.title = title;
-            this.desc = desc;
-            this.date = date;
-            this.image = image;
-            this.type = type;
-            this.imageSmall = imageSmall;
-        }
     }
 
     @Override
@@ -106,6 +79,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
         String type = item.getType();
         if (type != null && !type.isEmpty()) {
+            type = type.length() > 30 ? type.substring(0, 30) + "..." : type;
             newsViewHolder.type.setText(type);
             newsViewHolder.type.setVisibility(View.VISIBLE);
         } else {
@@ -149,6 +123,33 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             return 0;
         } else {
             return news.size();
+        }
+    }
+
+    public interface INewsAdapterParent {
+        void onClickNews(News news);
+
+        void onLoadedImg(int pos, long id, Bitmap bmp, NewsViewHolder holder);
+    }
+
+    public class NewsViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView title;
+        public TextView desc;
+        public TextView date;
+        public TextView type;
+        public ImageView image;
+        public ImageView imageSmall;
+
+        public NewsViewHolder(View itemView, TextView title,
+                              TextView desc, TextView date, ImageView image, TextView type, ImageView imageSmall) {
+            super(itemView);
+            this.title = title;
+            this.desc = desc;
+            this.date = date;
+            this.image = image;
+            this.type = type;
+            this.imageSmall = imageSmall;
         }
     }
 

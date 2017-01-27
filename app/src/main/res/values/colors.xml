@@ -34,5 +34,10 @@
 
     <color name="now_line_color">#d6396791</color>
 
+    <color name="news_item_title_color">#002534</color>
+    <color name="news_item_desc_color">#555</color>
+
+    <color name="divider_color">#ddd</color>
+    <color name="place_item_color_text">#4c5359</color>
 
 </resources>

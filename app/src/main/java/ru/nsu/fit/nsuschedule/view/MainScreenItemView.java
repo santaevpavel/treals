@@ -3,7 +3,6 @@ package ru.nsu.fit.nsuschedule.view;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +20,7 @@ public class MainScreenItemView extends FrameLayout{
     private View backgroundShadow;
     private ImageView background;
     private TextView text;
+    private ImageView icon;
 
     public MainScreenItemView(Context context) {
         super(context);
@@ -47,6 +47,11 @@ public class MainScreenItemView extends FrameLayout{
         backgroundShadow = root.findViewById(R.id.background_shadow);
         background = (ImageView) root.findViewById(R.id.background);
         text = (TextView) root.findViewById(R.id.text);
+        icon = (ImageView) root.findViewById(R.id.icon);
+    }
+
+    public ImageView getIcon() {
+        return icon;
     }
 
     @Override
