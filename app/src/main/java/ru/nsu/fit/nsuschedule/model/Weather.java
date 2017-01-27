@@ -26,6 +26,9 @@ public class Weather extends BaseResponse{
     @SerializedName("uvindex")
     public String uvindex;
 
+    @SerializedName("img")
+    public String img;
+
     public Weather() {
     }
 }
