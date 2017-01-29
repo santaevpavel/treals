@@ -48,17 +48,15 @@ import ru.nsu.fit.nsuschedule.view.CalendarHeaderView;
  */
 public class ScheduleFragment extends BaseFragment implements CalendarHeaderView.OnDayClickListener{
 
+    LessonsResponse response;
     private OnFragmentInteractionListener mListener;
     private WeekView weekView;
     private ViewPager viewPager;
-    //private CalendarHeaderView calendarHeaderView;
-
     private ProgressDialog progressDialog;
-
-    LessonsResponse response;
     private Calendar calendarStart;
     private Calendar calendarEnd;
     private WeekViewFragmentPagerAdapter adapter;
+    private Calendar selectedDay = Calendar.getInstance();
 
     public ScheduleFragment() {
         // Required empty public constructor
@@ -90,33 +88,21 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Загрузка расписания...");
 
-        /*calendarHeaderView = (CalendarHeaderView) root.findViewById(R.id.weekViewHeader);
-        calendarHeaderView.update(Calendar.getInstance());
-
-        calendarHeaderView.setOnDayClickListener(new CalendarHeaderView.OnDayClickListener() {
-            @Override
-            public void onClickDay(Calendar day) {
-                weekView.goToDate(day);
-            }
-        });*/
         viewPager = (ViewPager) root.findViewById(R.id.view_pager);
 
         weekView = (WeekView) root.findViewById(R.id.weekView);
         weekView.setNumberOfVisibleDays(1);
         weekView.setScrollDuration(200);
         int lineHeight = (int) getResources().getDimension(R.dimen.now_line_height);
-        /*if (lineHeight == 0){
-            lineHeight = 1;
-        }*/
         weekView.setNowLineThickness(lineHeight);
         weekView.setmNowCircleRad(getResources().getDimension(R.dimen.now_circle_rad));
-        //weekView.setScrollDuration(50);
         weekView.setScrollListener(new WeekView.ScrollListener() {
             @Override
             public void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay) {
                 if (adapter == null || adapter.getCount() != 2){
                     return;
                 }
+                selectedDay = newFirstVisibleDay;
                 boolean isSHowFirst = adapter.update(newFirstVisibleDay);
                 viewPager.setCurrentItem(isSHowFirst ? 0 : 1, true);
             }
@@ -155,7 +141,22 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                boolean selectedFirst = adapter.isDateInFirstWeek(selectedDay);
+                Calendar dayTo = (Calendar) selectedDay.clone();
+                switch (position) {
+                    case 0:
+                        dayTo.add(Calendar.DAY_OF_YEAR, -7);
+                        if (!selectedFirst) {
+                            goToDate(dayTo);
+                        }
+                        break;
+                    case 1:
+                        dayTo.add(Calendar.DAY_OF_YEAR, 7);
+                        if (selectedFirst) {
+                            goToDate(dayTo);
+                        }
+                        break;
+                }
             }
 
             @Override
@@ -168,29 +169,13 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
 
             }
         });
-        /*weekView.setWeekViewLoader(new WeekViewLoader() {
-            @Override
-            public double toWeekViewPeriodIndex(Calendar instance) {
-                return 0;
-            }
-
-            @Override
-            public List<? extends WeekViewEvent> onLoad(int periodIndex) {
-                List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
-
-                Calendar now = Calendar.getInstance();
-                now.setTimeInMillis(System.currentTimeMillis());
-                Calendar end = Calendar.getInstance();
-                now.setTimeInMillis(System.currentTimeMillis()+ 1000 * 60 * 60 * 2);
-
-                //events.add(new WeekViewEvent(0, "Пара", now, end));
-
-                return events;
-
-            }
-        });
-*/
         return root;
+    }
+
+    private void goToDate(Calendar date) {
+        selectedDay = date;
+        adapter.update(date);
+        weekView.goToDate(date);
     }
 
     private void requestLessons(){

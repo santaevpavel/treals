@@ -1,7 +1,6 @@
 package ru.nsu.fit.nsuschedule.view;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -18,15 +17,10 @@ import ru.nsu.fit.nsuschedule.R;
  */
 public class CalendarHeaderView extends FrameLayout{
 
-    public interface OnDayClickListener{
-        void onClickDay(Calendar day);
-    }
-
     private TextView daysTextViews[] = new TextView[7];
     private ImageView daysBgs[] = new ImageView[7];
     private View daysLayout[] = new View[7];
     private View daysToday[] = new View[7];
-
     private OnDayClickListener onDayClickListener;
 
     public CalendarHeaderView(Context context) {
@@ -125,6 +119,20 @@ public class CalendarHeaderView extends FrameLayout{
         return isInFirstWeek;
     }
 
+    public boolean isInFirstWeek(boolean isFirst, Calendar toSelect) {
+        Calendar today = Calendar.getInstance();
+        today.setFirstDayOfWeek(Calendar.MONDAY);
+        toSelect.setFirstDayOfWeek(Calendar.MONDAY);
+        int dayOfWeek = toSelect.get(Calendar.DAY_OF_WEEK);
+        int mondayOffset = ((dayOfWeek - 2) + 7) % 7;
+        int mondayOffsetToday = ((today.get(Calendar.DAY_OF_WEEK) - 2) + 7) % 7;
+        Calendar monday = (Calendar) toSelect.clone();
+        Calendar mondayToday = (Calendar) today.clone();
+        monday.add(Calendar.DATE, -1 * mondayOffset);
+        mondayToday.add(Calendar.DATE, -1 * mondayOffsetToday);
+        return monday.get(Calendar.DAY_OF_YEAR) == mondayToday.get(Calendar.DAY_OF_YEAR);
+    }
+
     private void init(){
         View root = View.inflate(getContext(), R.layout.calendar_header_layout, this);
         TextView day = (TextView) root.findViewById(R.id.day1);
@@ -186,6 +194,10 @@ public class CalendarHeaderView extends FrameLayout{
         daysToday[5] = dayPoint;
         dayPoint = root.findViewById(R.id.day7today);
         daysToday[6] = dayPoint;
+    }
+
+    public interface OnDayClickListener {
+        void onClickDay(Calendar day);
     }
 
 
