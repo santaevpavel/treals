@@ -1,18 +1,13 @@
 package ru.nsu.fit.nsuschedule.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v4.os.ResultReceiver;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebResourceError;
@@ -20,13 +15,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import ru.nsu.fit.nsuschedule.R;
-import ru.nsu.fit.nsuschedule.api.ApiService;
-import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
-import ru.nsu.fit.nsuschedule.api.response.NewsResponse;
 
 public class SingleNewsActivity extends AppCompatActivity {
 
@@ -35,6 +25,12 @@ public class SingleNewsActivity extends AppCompatActivity {
     private String url;
     private WebView webView;
     private ProgressBar progressBar;
+
+    public static void start(Activity activity, String url) {
+        Intent intent = new Intent(activity, SingleNewsActivity.class);
+        intent.putExtra(KEY_URL, url);
+        activity.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +61,24 @@ public class SingleNewsActivity extends AppCompatActivity {
                 Snackbar.make(webView, "Не удалось загрузить страницу", Snackbar.LENGTH_LONG).show();
             }
 
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browserIntent);
+                return true;
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, request.getUrl());
+                    startActivity(browserIntent);
+                }
+                return true;
+            }
         });
+
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setMinimumFontSize(40);
@@ -83,11 +96,5 @@ public class SingleNewsActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public static void start(Activity activity, String url){
-        Intent intent = new Intent(activity, SingleNewsActivity.class);
-        intent.putExtra(KEY_URL, url);
-        activity.startActivity(intent);
     }
 }
