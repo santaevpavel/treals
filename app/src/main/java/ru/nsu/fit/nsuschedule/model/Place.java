@@ -41,6 +41,8 @@ public class Place implements Serializable {
     private double lat;
     @SerializedName("img")
     private String img;
+    @SerializedName("price")
+    private String price;
 
     public Place() {
     }
@@ -123,5 +125,13 @@ public class Place implements Serializable {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 }

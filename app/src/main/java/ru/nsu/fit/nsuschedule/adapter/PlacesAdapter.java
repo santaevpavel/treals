@@ -1,20 +1,23 @@
 package ru.nsu.fit.nsuschedule.adapter;
 
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
 import ru.nsu.fit.nsuschedule.NsuScheduleApplication;
 import ru.nsu.fit.nsuschedule.R;
+import ru.nsu.fit.nsuschedule.databinding.PlaceItemLayoutBinding;
 import ru.nsu.fit.nsuschedule.model.Place;
 import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
 
@@ -54,19 +57,11 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.news_item_layout, parent, false);
-        //View view = View.inflate(parent.getContext(), R.layout.news_item_layout, null);
-        TextView title = (TextView) view.findViewById(R.id.item_title);
-        TextView desc = (TextView) view.findViewById(R.id.item_dest);
-        TextView date = (TextView) view.findViewById(R.id.item_date);
-        TextView type = (TextView) view.findViewById(R.id.item_type);
-        ImageView img = (ImageView) view.findViewById(R.id.image);
-        ImageView imgSmall = (ImageView) view.findViewById(R.id.imageSmall);
-
-        PlacesViewHolder viewHolder = new PlacesViewHolder(view, title, desc, date, img, type, imgSmall);
-        view.setOnClickListener(this);
-        view.setTag(viewHolder);
+        PlaceItemLayoutBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.place_item_layout, parent, false);
+        PlacesViewHolder viewHolder = new PlacesViewHolder(binding.getRoot(), binding);
+        binding.getRoot().setOnClickListener(this);
+        binding.getRoot().setTag(viewHolder);
 
         return viewHolder;
     }
@@ -75,27 +70,23 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final PlacesViewHolder placesViewHolder = (PlacesViewHolder) holder;
         Place item = places.get(position);
-        placesViewHolder.title.setText(item.getTitle());
-        placesViewHolder.date.setText(item.getPlace());
+        placesViewHolder.binding.itemTitle.setText(item.getTitle());
+        placesViewHolder.binding.itemAddress.setText(item.getPlace());
+        placesViewHolder.binding.itemPrice.setText(item.getPrice() + " руб");
+        placesViewHolder.binding.itemDistance.setText(String.format(Locale.ENGLISH, "~%dм", new Random().nextInt(8) * 100));
 
         String type = item.getType();
         if (type != null && !type.isEmpty()) {
             type = type.length() > 30 ? type.substring(0, 30) + "..." : type;
-            placesViewHolder.type.setText(type);
-            placesViewHolder.type.setVisibility(View.VISIBLE);
+            placesViewHolder.binding.itemType.setText(type);
+            placesViewHolder.binding.itemType.setVisibility(View.VISIBLE);
         } else {
-            placesViewHolder.type.setVisibility(View.GONE);
+            placesViewHolder.binding.itemType.setVisibility(View.GONE);
         }
-        String description = item.getDescription();
-        description = description.length() > MAX_LENGTH_DESCRIPTION
-                ? description.substring(0, MAX_LENGTH_DESCRIPTION) + "..." : description;
-        placesViewHolder.desc.setText(description);
-        // Add a request (in this example, called stringRequest) to your RequestQueue.
+
         String url = item.getImg();
-
-        final long id = holder.getItemId();//getItemId(position);
+        final long id = holder.getItemId();
         if (url != null && !url.isEmpty()) {
-
             ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader().get(url, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -112,8 +103,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             }, 1000, 1000, ImageView.ScaleType.CENTER_CROP);
         } else {
-            placesViewHolder.image.setVisibility(View.GONE);
-            placesViewHolder.imageSmall.setVisibility(View.GONE);
+            placesViewHolder.binding.image.setVisibility(View.GONE);
         }
     }
 
@@ -134,22 +124,11 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class PlacesViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView title;
-        public TextView desc;
-        public TextView date;
-        public TextView type;
-        public ImageView image;
-        public ImageView imageSmall;
+        public PlaceItemLayoutBinding binding;
 
-        public PlacesViewHolder(View itemView, TextView title,
-                                TextView desc, TextView date, ImageView image, TextView type, ImageView imageSmall) {
+        public PlacesViewHolder(View itemView, PlaceItemLayoutBinding binding) {
             super(itemView);
-            this.title = title;
-            this.desc = desc;
-            this.date = date;
-            this.image = image;
-            this.type = type;
-            this.imageSmall = imageSmall;
+            this.binding = binding;
         }
     }
 

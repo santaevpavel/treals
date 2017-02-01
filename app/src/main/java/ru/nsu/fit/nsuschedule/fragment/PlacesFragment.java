@@ -129,18 +129,9 @@ public class PlacesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         if (holderFromChild == null) {
             return;
         }
-        if (isSmall(bmp)) {
-            holderFromChild.imageSmall.setImageBitmap(bmp);
-            holderFromChild.image.setVisibility(View.GONE);
-            holderFromChild.imageSmall.setVisibility(View.VISIBLE);
-            imageViewAnimatedChange(getActivity(), holderFromChild.imageSmall);
-
-        } else {
-            holderFromChild.image.setImageBitmap(bmp);
-            holderFromChild.image.setVisibility(View.VISIBLE);
-            holderFromChild.imageSmall.setVisibility(View.GONE);
-            imageViewAnimatedChange(getActivity(), holderFromChild.image);
-        }
+        holderFromChild.binding.image.setImageBitmap(bmp);
+        holderFromChild.binding.image.setVisibility(View.VISIBLE);
+        imageViewAnimatedChange(getActivity(), holderFromChild.binding.image);
     }
 
     public interface IPlacesFragmentParent {

@@ -2,12 +2,12 @@ package ru.nsu.fit.nsuschedule.activity;
 
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.os.ResultReceiver;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Set;
 
 import ru.nsu.fit.nsuschedule.R;
-import ru.nsu.fit.nsuschedule.adapter.NewsAdapter;
 import ru.nsu.fit.nsuschedule.api.ApiService;
 import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
 import ru.nsu.fit.nsuschedule.api.response.AllNewsResponse;
@@ -32,6 +31,22 @@ public class NewsActivity extends AppCompatActivity implements NewsFragment.INew
     private List<News> news;
     private Map<String, List<News>> sections;
     private ActivityNewsBinding binding;
+    private boolean[] checked;
+
+    public static Map<String, List<News>> getSections(List<News> news) {
+        Map<String, List<News>> res = new HashMap<>();
+        for (News n : news) {
+            String section = n.getSection();
+            if (res.containsKey(section)) {
+                res.get(section).add(n);
+            } else {
+                List<News> newsList = new ArrayList<>();
+                newsList.add(n);
+                res.put(section, newsList);
+            }
+        }
+        return res;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,21 +66,6 @@ public class NewsActivity extends AppCompatActivity implements NewsFragment.INew
                 .commit();
 
         loadNews();
-    }
-
-    public static Map<String, List<News>> getSections(List<News> news){
-        Map<String, List<News>> res = new HashMap<>();
-        for (News n : news) {
-            String section = n.getSection();
-            if (res.containsKey(section)){
-                res.get(section).add(n);
-            } else {
-                List<News> newsList = new ArrayList<>();
-                newsList.add(n);
-                res.put(section, newsList);
-            }
-        }
-        return res;
     }
 
     @Override
@@ -90,7 +90,13 @@ public class NewsActivity extends AppCompatActivity implements NewsFragment.INew
 
     private void onNewsLoaded(List<News> news){
         sections = getSections(news);
-        showNews(news);
+        if (checked == null) {
+            checked = new boolean[sections.size()];
+            for (int i = 0; i < checked.length; i++) {
+                checked[i] = true;
+            }
+        }
+        showFiltered();
     }
 
     private void onNewsLoadFailed(){
@@ -104,10 +110,10 @@ public class NewsActivity extends AppCompatActivity implements NewsFragment.INew
         final Set<String> keySet = sections.keySet();
 
         final String[] keys = keySet.toArray(new String[keySet.size()]);
-        final boolean[] checked = new boolean[keys.length];
+        /*final boolean[] checked = new boolean[keys.length];
         for (int i = 0; i < checked.length; i++) {
             checked[i] = true;
-        }
+        }*/
         new AlertDialog.Builder(this).setMultiChoiceItems(keys, checked, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -116,15 +122,22 @@ public class NewsActivity extends AppCompatActivity implements NewsFragment.INew
         }).setPositiveButton("Выбрать", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                List<News> filtered = new ArrayList<News>();
-                for (int i = 0; i < checked.length; i++) {
-                    if (checked[i]){
-                        filtered.addAll(sections.get(keys[i]));
-                    }
-                }
-                showNews(filtered);
+                showFiltered();
             }
         }).setTitle("Выберите категории").show();
+    }
+
+    private void showFiltered() {
+        final Set<String> keySet = sections.keySet();
+        final String[] keys = keySet.toArray(new String[keySet.size()]);
+
+        List<News> filtered = new ArrayList<News>();
+        for (int i = 0; i < checked.length; i++) {
+            if (checked[i]) {
+                filtered.addAll(sections.get(keys[i]));
+            }
+        }
+        showNews(filtered);
     }
 
     private void showNews(List<News> news){

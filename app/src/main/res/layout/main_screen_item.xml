@@ -24,11 +24,12 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="12dp"
             android:scaleType="fitCenter"
+            android:tint="#fff"
             android:visibility="gone" />
 
         <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
