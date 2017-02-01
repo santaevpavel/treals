@@ -1,5 +1,6 @@
 package ru.nsu.fit.nsuschedule.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -38,12 +39,14 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
 
     private NewsFragment fragmentEvents;
     private PlacesFragment fragmentLocations;
-    private Map<String, List<News>> sections;
-    private List<News> news;
 
+    private Map<String, List<News>> sections;
+    private Map<String, List<Place>> placeSections;
+
+    private List<News> news;
     private List<Place> places;
 
-    public static Map<String, List<News>> getSections(List<News> news) {
+    public static Map<String, List<News>> getNewsSections(List<News> news) {
         Map<String, List<News>> res = new HashMap<>();
         for (News n : news) {
             String section = n.getSection();
@@ -56,6 +59,52 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
             }
         }
         return res;
+    }
+
+    public static Map<String, List<Place>> getPlaceSections(List<Place> places) {
+        Map<String, List<Place>> res = new HashMap<>();
+        for (Place n : places) {
+            String section = n.getType();
+            if (res.containsKey(section)) {
+                res.get(section).add(n);
+            } else {
+                List<Place> placeList = new ArrayList<>();
+                placeList.add(n);
+                res.put(section, placeList);
+            }
+        }
+        return res;
+    }
+
+    public static <T> void showCategoryDialog(Context context, final List<T> list, final Map<String, List<T>> sections,
+                                              final IOnCategoryChooseListener<T> listener) {
+        if (null == list) return;
+
+        Set<String> keySet = sections.keySet();
+
+        final String[] keys = keySet.toArray(new String[keySet.size()]);
+        final boolean[] checked = new boolean[keys.length];
+        for (int i = 0; i < checked.length; i++) {
+            checked[i] = true;
+        }
+        new AlertDialog.Builder(context).setMultiChoiceItems(keys, checked, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                checked[which] = isChecked;
+            }
+        }).setPositiveButton("Выбрать", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                List<T> filtered = new ArrayList<>();
+                for (int i = 0; i < checked.length; i++) {
+                    if (checked[i]) {
+                        filtered.addAll(sections.get(keys[i]));
+                    }
+                }
+                //showPlaces(filtered);
+                listener.onChoose(checked, filtered);
+            }
+        }).setTitle("Выберите категории").show();
     }
 
     @Override
@@ -72,7 +121,6 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         loadNews();
-        //loadPlaces();
 
         fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -168,11 +216,12 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
     }
 
     private void onNewsLoaded(List<News> news){
-        sections =  getSections(news);
+        sections = getNewsSections(news);
         showNews(news);
     }
 
     private void onPlacesLoaded(List<Place> places) {
+        placeSections = getPlaceSections(places);
         showPlaces(places);
     }
 
@@ -185,33 +234,12 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
     }
 
     private void onClickFilter() {
-        if (null == news){
-            return;
-        }
-        final Set<String> keySet = sections.keySet();
+        showCategoryDialog(this, places, placeSections, new IOnCategoryChooseListener<Place>() {
+            @Override
+            public void onChoose(boolean[] checked, List<Place> checkedItems) {
 
-        final String[] keys = keySet.toArray(new String[keySet.size()]);
-        final boolean[] checked = new boolean[keys.length];
-        for (int i = 0; i < checked.length; i++) {
-            checked[i] = true;
-        }
-        new AlertDialog.Builder(this).setMultiChoiceItems(keys, checked, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                checked[which] = isChecked;
             }
-        }).setPositiveButton("Выбрать", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                List<News> filtered = new ArrayList<News>();
-                for (int i = 0; i < checked.length; i++) {
-                    if (checked[i]){
-                        filtered.addAll(sections.get(keys[i]));
-                    }
-                }
-                showNews(filtered);
-            }
-        }).setTitle("Выберите категории").show();
+        });
     }
 
     private void showNews(List<News> newsList) {
@@ -258,5 +286,9 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
                 loadPlaces();
                 break;
         }
+    }
+
+    public interface IOnCategoryChooseListener<T> {
+        void onChoose(boolean[] checked, List<T> checkedItems);
     }
 }

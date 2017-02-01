@@ -1,17 +1,23 @@
 package ru.nsu.fit.nsuschedule.fragment;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -28,9 +34,10 @@ import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
  * Created by Pavel on 18.01.2017.
  */
 
-public class PlaceFragment extends Fragment {
+public class PlaceFragment extends Fragment implements View.OnClickListener {
 
     public static final String KEY_PLACE = "KEY_PLACE";
+    public static final int MAX_SIZE_DESCRIPTION = 200;
 
     private FragmentPlacesBinding binding;
     private Place place;
@@ -70,38 +77,58 @@ public class PlaceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_places, container, false);
 
-        binding.descr.setText(place.getDescription());
         binding.address.setText(place.getPlace());
 
-        //binding.title.setText(place.getTitle());
         binding.time.setText(place.getTime());
         binding.phone.setText(place.getPhone());
 
-        /*ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader()
-                .get(place.getImg(), new ImageLoader.ImageListener() {
-                    @Override
-                    public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                        Bitmap bitmap = response.getBitmap();
-                        if (null != bitmap) {
-                            //binding.photo.setImageBitmap(bitmap);
-                        }
-                    }
+        binding.price.setText(place.getPrice() + " руб.");
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                });*/
+        binding.address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGoogleMapInBrowser();
+            }
+        });
 
-        /*String mapUrl = String.format(Locale.ENGLISH,
-                "https://static-maps.yandex.ru/1.x/?ll=%f,%f&size=650,450&z=17&l=map",
-                place.getLng(), place.getLat());*/
-        /*String mapUrl = String.format(Locale.ENGLISH,
-                "http://static.maps.2gis.com/1.0?zoom=17&size=1080,600&markers=%f,%f",
-                place.getLng(), place.getLat());*/
+        binding.site.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //openUrl(place.get
+            }
+        });
+
+        binding.phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPhoneDialog();
+            }
+        });
+
+        addPaddingToItem(binding.phoneItem, place.getPhone());
+        addPaddingToItem(binding.timeItem, place.getTime());
+
+        boolean isNeedShowExpand = place.getDescription().length() > MAX_SIZE_DESCRIPTION;
+        String shortDescr = isNeedShowExpand
+                ? place.getDescription().substring(0, MAX_SIZE_DESCRIPTION) + "..."
+                : place.getDescription();
+
+        binding.descr.setText(shortDescr);
+        binding.descr.setVisibility(place.getDescription().isEmpty() ? View.GONE : View.VISIBLE);
+
+        binding.descrExpand.setVisibility(isNeedShowExpand ? View.VISIBLE : View.GONE);
+
+        binding.descrExpand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.descr.setText(place.getDescription());
+                binding.descrExpand.setVisibility(View.GONE);
+            }
+        });
 
         String mapUrl = String.format(Locale.ENGLISH,
-                "https://maps.googleapis.com/maps/api/staticmap?center=%f,%f&zoom=17&size=640x300&maptype=roadmap\n" +
-                        "&scale=2&markers=color:red|size:mid|%f,%f&key=AIzaSyDN6VPwntOEAb93xQUQPrm0PvUyNl2xbM4",
+                "https://maps.googleapis.com/maps/api/staticmap?center=%f,%f&zoom=17&size=640x300&maptype=roadmap" +
+                        "&scale=2&markers=%f,%f&key=AIzaSyDN6VPwntOEAb93xQUQPrm0PvUyNl2xbM4",
                 place.getLat(), place.getLng(), place.getLat(), place.getLng());
 
         ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader()
@@ -111,6 +138,12 @@ public class PlaceFragment extends Fragment {
                         Bitmap bitmap = response.getBitmap();
                         if (null != bitmap) {
                             binding.map.setImageBitmap(bitmap);
+                            binding.map.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    openGoogleMapInBrowser();
+                                }
+                            });
                         }
                     }
 
@@ -121,5 +154,60 @@ public class PlaceFragment extends Fragment {
 
         return binding.getRoot();
     }
+
+    private void openGoogleMapInBrowser() {
+        String mapUrl = String.format(Locale.ENGLISH, "https://www.google.ru/maps?&z=18&q=%f+%f&ll%f+%f",
+                place.getLat(), place.getLng(), place.getLat(), place.getLng());
+        openUrl(mapUrl);
+    }
+
+    private void openUrl(String url) {
+        try {
+            Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(myIntent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getActivity(), "No application can handle this request."
+                    + " Please install a webbrowser", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+    private void openPhoneDialog() {
+        final String[] phones = place.getPhone().split("\\n");
+
+        if (phones.length == 1) {
+            openPhone(phones[0]);
+            return;
+        }
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Позвонить")
+                .setSingleChoiceItems(phones, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openPhone(phones[which]);
+                    }
+                }).show();
+    }
+
+    private void openPhone(String phone) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phone));
+        startActivity(intent);
+    }
+
+    private void addPaddingToItem(View view, String text) {
+        int phoneCount = text.split("\\n").length;
+        int additionalPadding = (int) ((phoneCount - 1) * getResources().getDimension(R.dimen.place_item_height_add));
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.height = layoutParams.height + additionalPadding;
+        view.setLayoutParams(layoutParams);
+    }
+
+    @Override
+    public void onClick(View v) {
+        openGoogleMapInBrowser();
+    }
+
 }
 
