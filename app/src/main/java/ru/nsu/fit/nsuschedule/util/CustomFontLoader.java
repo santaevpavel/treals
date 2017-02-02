@@ -11,6 +11,10 @@ public class CustomFontLoader {
     public static final int CENTURY_GOTHIC_BOLD = 0;
     public static final int CENTURY_GOTHIC_NORMAL = 1;
 
+    public static final int ROBOTO_REGULAR = 2;
+    public static final int ROBOTO_BOLD = 3;
+    public static final int ROBOTO_MEDIUM = 4;
+
 
     private static final int NUM_OF_CUSTOM_FONTS = 2;
 
@@ -20,7 +24,10 @@ public class CustomFontLoader {
 
     private static String[] fontPath = {
             "fonts/century_gothic_bold.ttf",
-            "fonts/century_gothic_normal.ttf"
+            "fonts/century_gothic_normal.ttf",
+            "fonts/Roboto-Regular.ttf",
+            "fonts/Roboto-Bold.ttf",
+            "fonts/Roboto-Medium.ttf",
     };
 
 
