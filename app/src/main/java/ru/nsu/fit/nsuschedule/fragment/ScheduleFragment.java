@@ -172,6 +172,11 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
         return root;
     }
 
+    private void showFullStudyDay() {
+        int height = 20;//weekView.getMinEffectiveHourHeight();
+        weekView.setHourHeight(height);
+    }
+
     private void goToDate(Calendar date) {
         selectedDay = date;
         adapter.update(date);
@@ -286,7 +291,14 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
     public void onStart() {
         super.onStart();
         Calendar now = Calendar.getInstance();
-        weekView.goToHour(now.get(Calendar.HOUR_OF_DAY));
+        //weekView.goToHour(now.get(Calendar.HOUR_OF_DAY));
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showFullStudyDay();
     }
 
     @Override

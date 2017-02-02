@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="ru.nsu.fit.nsuschedule.fragment.LoginFragment">
 
     <android.support.v4.view.ViewPager
@@ -15,39 +15,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/view_pager"
         android:paddingBottom="8dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="8dp"
-        android:layout_below="@+id/view_pager">
+        android:paddingTop="8dp">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true">
+            android:orientation="vertical">
 
             <com.alamkanak.weekview.WeekView
                 android:id="@+id/weekView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:columnGap="8dp"
+                app:dayBackgroundColor="#05000000"
+                app:eventCornerRadius="1dp"
+                app:eventMarginVertical="1dp"
+                app:eventPadding="1dp"
                 app:eventTextColor="@android:color/white"
-                app:textSize="12sp"
-                app:hourHeight="60dp"
+                app:headerColumnBackground="#ffffffff"
                 app:headerColumnPadding="8dp"
                 app:headerColumnTextColor="#8f000000"
-                app:columnGap="8dp"
-                app:noOfVisibleDays="1"
-                app:eventPadding="1dp"
-                app:eventMarginVertical="1dp"
-                app:eventCornerRadius="1dp"
                 app:headerRowBackgroundColor="#ffefefef"
-                app:dayBackgroundColor="#05000000"
-                app:todayBackgroundColor="#0fff"
-                app:headerColumnBackground="#ffffffff"
+                app:hourHeight="60dp"
+                app:noOfVisibleDays="1"
+                app:nowLineColor="@color/now_line_color"
                 app:showNowLine="true"
-                app:nowLineColor="@color/now_line_color" />
+                app:textSize="11sp"
+                app:todayBackgroundColor="#0fff" />
 
         </LinearLayout>
     </RelativeLayout>
