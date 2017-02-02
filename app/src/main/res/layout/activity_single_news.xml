@@ -28,19 +28,28 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <WebView
-            android:id="@+id/webView"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp" />
+            android:background="#fff">
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp" />
+
+        </android.support.v4.widget.NestedScrollView>
 
         <ProgressBar
             android:id="@+id/progress"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
 
     </RelativeLayout>
 
