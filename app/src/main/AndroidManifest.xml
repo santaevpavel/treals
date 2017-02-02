@@ -40,7 +40,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AcademActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeAcadem" />
         <activity
             android:name=".activity.SingleNewsActivity"
             android:screenOrientation="portrait" />

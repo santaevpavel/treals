@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+            <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
                 android:id="@+id/descr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -19,9 +19,10 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="16dp"
                 android:text="Описание Описание Описание Описание\nОписание Описание Описание Описание\nОписание"
-                android:textColor="#777" />
+                android:textColor="#777"
+                android:textSize="@dimen/place_list_main_text_size" />
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+            <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
                 android:id="@+id/descr_expand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,7 +30,8 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="4dp"
                 android:text="Показать полностью..."
-                android:textColor="#9cb1c7" />
+                android:textColor="#9cb1c7"
+                android:textSize="@dimen/place_list_main_text_size" />
 
 
             <RelativeLayout
@@ -46,19 +48,6 @@
                     android:src="@drawable/ic_location_on_black_24dp"
                     android:tint="#7b899b" />
 
-                <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
-                    android:id="@+id/address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="32dp"
-                    android:layout_toEndOf="@+id/icon_address"
-                    android:layout_toRightOf="@+id/icon_address"
-                    android:text="ул. Пирогова, д. 4"
-                    android:textColor="@color/place_item_color_text" />
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -67,25 +56,23 @@
                     android:layout_marginRight="16dp"
                     android:background="@color/divider_color" />
 
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/icon_address"
+                    android:layout_toEndOf="@+id/icon_address"
+                    android:layout_toRightOf="@+id/icon_address"
+                    android:text="ул. Пирогова, д. 4"
+                    android:textColor="@color/place_item_color_text"
+                    android:textSize="@dimen/place_list_main_text_size" />
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/price_item"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/place_item_height">
-
-                <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
-                    android:id="@+id/price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="32dp"
-                    android:layout_toEndOf="@+id/icon_price"
-                    android:layout_toRightOf="@+id/icon_price"
-                    android:text="1000 руб."
-                    android:textColor="@color/place_item_color_text" />
 
                 <View
                     android:layout_width="match_parent"
@@ -105,6 +92,17 @@
                     android:src="@drawable/ic_receipt_black_24dp"
                     android:tint="#7b899b" />
 
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+                    android:id="@+id/price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/icon_price"
+                    android:layout_toRightOf="@+id/icon_price"
+                    android:text="1000 руб."
+                    android:textColor="@color/place_item_color_text"
+                    android:textSize="@dimen/place_list_main_text_size" />
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -112,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/place_item_height">
 
-                <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
                     android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -124,7 +122,8 @@
                     android:layout_toRightOf="@+id/icon_phone"
                     android:lineSpacingMultiplier="1.5"
                     android:text="+7-999-124-12-34"
-                    android:textColor="@color/place_item_color_text" />
+                    android:textColor="@color/place_item_color_text"
+                    android:textSize="@dimen/place_list_main_text_size" />
 
                 <View
                     android:layout_width="match_parent"
@@ -169,7 +168,7 @@
                     android:src="@drawable/ic_schedule_black_24dp"
                     android:tint="#7b899b" />
 
-                <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
                     android:id="@+id/time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -178,7 +177,8 @@
                     android:layout_toRightOf="@+id/icon_time"
                     android:lineSpacingMultiplier="1.5"
                     android:text="Пн-Пт 08:00 - 20:00\nСб-Вс 10:00 - 18:00"
-                    android:textColor="@color/place_item_color_text" />
+                    android:textColor="@color/place_item_color_text"
+                    android:textSize="@dimen/place_list_main_text_size" />
 
             </RelativeLayout>
 
@@ -196,7 +196,7 @@
                     android:src="@drawable/ic_language_black_24dp"
                     android:tint="#7b899b" />
 
-                <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
                     android:id="@+id/site"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -204,7 +204,8 @@
                     android:layout_toEndOf="@+id/icon_site"
                     android:layout_toRightOf="@+id/icon_site"
                     android:text="my-site.domain.com"
-                    android:textColor="@color/place_item_color_text" />
+                    android:textColor="@color/place_item_color_text"
+                    android:textSize="@dimen/place_list_main_text_size" />
 
             </RelativeLayout>
 

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context="ru.nsu.fit.nsuschedule.activity.NewsActivity"
+        android:background="@color/news_second_bg_color"
         android:orientation="vertical"
-        android:background="@color/news_second_bg_color">
+        tools:context="ru.nsu.fit.nsuschedule.activity.NewsActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -20,18 +19,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:titleTextColor="#fff"
                 android:theme="@style/MyApp.ActionBarTheme"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:titleTextColor="#fff" />
+
+            <!--<android.support.design.widget.TabLayout
+                android:id="@+id/tablayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabBackground="@android:color/white"
+                app:tabIndicatorColor="?attr/colorPrimary"
+                app:tabIndicatorHeight="3dp"
+                app:tabTextColor="#aeaeae"
+                app:tabSelectedTextColor="#3d3d3d"
+                app:tabGravity="fill"
+                app:tabMode="fixed"/>-->
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tablayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabIndicatorColor="#fff"
-                app:tabIndicatorHeight="2dp"
                 app:tabGravity="fill"
+                app:tabIndicatorColor="#fff"
+                app:tabIndicatorHeight="3dp"
                 app:tabMode="fixed"/>
 
         </android.support.design.widget.AppBarLayout>

@@ -86,6 +86,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         String url = item.getImg();
         final long id = holder.getItemId();
+        placesViewHolder.binding.image.setVisibility(View.GONE);
         if (url != null && !url.isEmpty()) {
             ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader().get(url, new ImageLoader.ImageListener() {
                 @Override

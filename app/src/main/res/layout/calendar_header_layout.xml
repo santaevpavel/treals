@@ -1,314 +1,315 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:paddingBottom="4dp">
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="@dimen/calendar_header_wee_day_text_size"
-            android:textColor="@color/calendar_header_week_day_text_color"
             android:layout_weight="1"
-            android:text="пн" />
+            android:gravity="center"
+            android:text="пн"
+            android:textColor="@color/calendar_header_week_day_text_color"
+            android:textSize="@dimen/calendar_header_wee_day_text_size" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="@dimen/calendar_header_wee_day_text_size"
-            android:textColor="@color/calendar_header_week_day_text_color"
             android:layout_weight="1"
-            android:text="вт" />
+            android:gravity="center"
+            android:text="вт"
+            android:textColor="@color/calendar_header_week_day_text_color"
+            android:textSize="@dimen/calendar_header_wee_day_text_size" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="@dimen/calendar_header_wee_day_text_size"
-            android:textColor="@color/calendar_header_week_day_text_color"
             android:layout_weight="1"
-            android:text="ср" />
+            android:gravity="center"
+            android:text="ср"
+            android:textColor="@color/calendar_header_week_day_text_color"
+            android:textSize="@dimen/calendar_header_wee_day_text_size" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="@dimen/calendar_header_wee_day_text_size"
-            android:textColor="@color/calendar_header_week_day_text_color"
             android:layout_weight="1"
-            android:text="чт" />
+            android:gravity="center"
+            android:text="чт"
+            android:textColor="@color/calendar_header_week_day_text_color"
+            android:textSize="@dimen/calendar_header_wee_day_text_size" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="@dimen/calendar_header_wee_day_text_size"
-            android:textColor="@color/calendar_header_week_day_text_color"
             android:layout_weight="1"
-            android:text="пт" />
+            android:gravity="center"
+            android:text="пт"
+            android:textColor="@color/calendar_header_week_day_text_color"
+            android:textSize="@dimen/calendar_header_wee_day_text_size" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="@dimen/calendar_header_wee_day_text_size"
-            android:textColor="@color/calendar_header_week_day_text_color"
             android:layout_weight="1"
-            android:text="сб" />
+            android:gravity="center"
+            android:text="сб"
+            android:textColor="@color/calendar_header_week_day_text_color"
+            android:textSize="@dimen/calendar_header_wee_day_text_size" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="@dimen/calendar_header_wee_day_text_size"
-            android:textColor="@color/calendar_header_week_day_text_color"
             android:layout_weight="1"
-            android:text="вс" />
+            android:gravity="center"
+            android:text="вс"
+            android:textColor="@color/calendar_header_week_day_text_color"
+            android:textSize="@dimen/calendar_header_wee_day_text_size" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/day1layout"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <ImageView
-                android:layout_centerInParent="true"
+                android:id="@+id/day1bg"
                 android:layout_width="@dimen/calendar_header_day_bg_size"
                 android:layout_height="@dimen/calendar_header_day_bg_size"
-                android:id="@+id/day1bg"
+                android:layout_centerInParent="true"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+            <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
+                android:id="@+id/day1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:textSize="@dimen/calendar_header_day_num_text_size"
+                android:text="15"
                 android:textColor="@color/calendar_header_day_num_text_color"
-                android:id="@+id/day1"
-                android:text="15" />
+                android:textSize="@dimen/calendar_header_day_num_text_size" />
 
             <View
                 android:id="@+id/day1today"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/calendar_header_day_bg_selected"
+                android:layout_below="@id/day1"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:layout_below="@id/day1"/>
+                android:background="@drawable/calendar_header_day_bg_selected" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/day2layout"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <ImageView
-                android:layout_centerInParent="true"
+                android:id="@+id/day2bg"
                 android:layout_width="@dimen/calendar_header_day_bg_size"
                 android:layout_height="@dimen/calendar_header_day_bg_size"
-                android:id="@+id/day2bg"
+                android:layout_centerInParent="true"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+            <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
+                android:id="@+id/day2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:textSize="@dimen/calendar_header_day_num_text_size"
+                android:text="15"
                 android:textColor="@color/calendar_header_day_num_text_color"
-                android:id="@+id/day2"
-                android:text="15" />
+                android:textSize="@dimen/calendar_header_day_num_text_size" />
 
             <View
                 android:id="@+id/day2today"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/calendar_header_day_bg_selected"
+                android:layout_below="@id/day2"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:layout_below="@id/day2"/>
+                android:background="@drawable/calendar_header_day_bg_selected" />
 
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/day3layout"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <ImageView
-                android:layout_centerInParent="true"
+                android:id="@+id/day3bg"
                 android:layout_width="@dimen/calendar_header_day_bg_size"
                 android:layout_height="@dimen/calendar_header_day_bg_size"
-                android:id="@+id/day3bg"
+                android:layout_centerInParent="true"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+            <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
+                android:id="@+id/day3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:textSize="@dimen/calendar_header_day_num_text_size"
+                android:text="15"
                 android:textColor="@color/calendar_header_day_num_text_color"
-                android:id="@+id/day3"
-                android:text="15" />
+                android:textSize="@dimen/calendar_header_day_num_text_size" />
 
             <View
                 android:id="@+id/day3today"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/calendar_header_day_bg_selected"
+                android:layout_below="@id/day3"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:layout_below="@id/day3"/>
+                android:background="@drawable/calendar_header_day_bg_selected" />
 
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/day4layout"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <ImageView
-                android:layout_centerInParent="true"
+                android:id="@+id/day4bg"
                 android:layout_width="@dimen/calendar_header_day_bg_size"
                 android:layout_height="@dimen/calendar_header_day_bg_size"
-                android:id="@+id/day4bg"
+                android:layout_centerInParent="true"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+            <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
+                android:id="@+id/day4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:textSize="@dimen/calendar_header_day_num_text_size"
+                android:text="15"
                 android:textColor="@color/calendar_header_day_num_text_color"
-                android:id="@+id/day4"
-                android:text="15" />
+                android:textSize="@dimen/calendar_header_day_num_text_size" />
 
             <View
                 android:id="@+id/day4today"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/calendar_header_day_bg_selected"
+                android:layout_below="@id/day4"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:layout_below="@id/day4"/>
+                android:background="@drawable/calendar_header_day_bg_selected" />
 
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/day5layout"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <ImageView
-                android:layout_centerInParent="true"
+                android:id="@+id/day5bg"
                 android:layout_width="@dimen/calendar_header_day_bg_size"
                 android:layout_height="@dimen/calendar_header_day_bg_size"
-                android:id="@+id/day5bg"
+                android:layout_centerInParent="true"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+            <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
+                android:id="@+id/day5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:textSize="@dimen/calendar_header_day_num_text_size"
+                android:text="15"
                 android:textColor="@color/calendar_header_day_num_text_color"
-                android:id="@+id/day5"
-                android:text="15" />
+                android:textSize="@dimen/calendar_header_day_num_text_size" />
 
             <View
                 android:id="@+id/day5today"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/calendar_header_day_bg_selected"
+                android:layout_below="@id/day5"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:layout_below="@id/day5"/>
+                android:background="@drawable/calendar_header_day_bg_selected" />
 
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/day6layout"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <ImageView
-                android:layout_centerInParent="true"
+                android:id="@+id/day6bg"
                 android:layout_width="@dimen/calendar_header_day_bg_size"
                 android:layout_height="@dimen/calendar_header_day_bg_size"
-                android:id="@+id/day6bg"
+                android:layout_centerInParent="true"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+            <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
+                android:id="@+id/day6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:textSize="@dimen/calendar_header_day_num_text_size"
+                android:text="15"
                 android:textColor="@color/calendar_header_day_num_text_color"
-                android:id="@+id/day6"
-                android:text="15" />
+                android:textSize="@dimen/calendar_header_day_num_text_size" />
 
             <View
                 android:id="@+id/day6today"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/calendar_header_day_bg_selected"
+                android:layout_below="@id/day6"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:layout_below="@id/day6"/>
+                android:background="@drawable/calendar_header_day_bg_selected" />
 
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/day7layout"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <ImageView
-                android:layout_centerInParent="true"
+                android:id="@+id/day7bg"
                 android:layout_width="@dimen/calendar_header_day_bg_size"
                 android:layout_height="@dimen/calendar_header_day_bg_size"
-                android:id="@+id/day7bg"
+                android:layout_centerInParent="true"
                 android:src="@drawable/calendar_header_day_bg_selected"/>
 
-            <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+            <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
+                android:id="@+id/day7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:textSize="@dimen/calendar_header_day_num_text_size"
+                android:text="15"
                 android:textColor="@color/calendar_header_day_num_text_color"
-                android:id="@+id/day7"
-                android:text="15" />
+                android:textSize="@dimen/calendar_header_day_num_text_size" />
 
             <View
                 android:id="@+id/day7today"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/calendar_header_day_bg_selected"
+                android:layout_below="@id/day7"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:layout_below="@id/day7"/>
+                android:background="@drawable/calendar_header_day_bg_selected" />
 
         </RelativeLayout>
 

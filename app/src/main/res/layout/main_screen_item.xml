@@ -32,7 +32,7 @@
             android:tint="#fff"
             android:visibility="gone" />
 
-        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+        <ru.nsu.fit.nsuschedule.view.TextViewRobotoBold
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

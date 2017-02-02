@@ -15,4 +15,5 @@
     <dimen name="place_item_height">64dp</dimen>
 
     <dimen name="place_item_height_add">16dp</dimen>
+    <dimen name="place_list_main_text_size">14sp</dimen>
 </resources>

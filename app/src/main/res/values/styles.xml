@@ -10,6 +10,16 @@
         <item name="actionBarTheme">@style/MyApp.ActionBarTheme</item>
     </style>
 
+    <!-- Base application theme. -->
+    <style name="AppThemeAcadem" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryAcadem</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkAcadem</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">#fff</item>
+        <item name="actionBarTheme">@style/MyApp.ActionBarTheme</item>
+    </style>
+
     <style name="ColoredButton" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/button_login</item>
         <item name="android:textColor">#fff</item>

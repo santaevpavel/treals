@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#356087</color>
     <color name="colorAccent">#aa1e4d79</color>
 
+    <color name="colorPrimaryAcadem">#ef6c00</color>
+    <color name="colorPrimaryDarkAcadem">#e66800</color>
+
     <color name="color_main_screen_item_stroke">#aa1e4d79</color>
 
     <color name="color_main_screen_item_bg">#73000000</color>
