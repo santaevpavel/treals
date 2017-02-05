@@ -43,6 +43,7 @@ public class Place implements Serializable {
     private String img;
     @SerializedName("price")
     private String price;
+    private double dist;
 
     public Place() {
     }
@@ -133,5 +134,13 @@ public class Place implements Serializable {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public double getDist() {
+        return dist;
+    }
+
+    public void setDist(double dist) {
+        this.dist = dist;
     }
 }

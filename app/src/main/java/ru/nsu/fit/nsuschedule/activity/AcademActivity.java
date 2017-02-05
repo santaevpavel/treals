@@ -3,6 +3,7 @@ package ru.nsu.fit.nsuschedule.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -11,10 +12,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.os.ResultReceiver;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +34,7 @@ import ru.nsu.fit.nsuschedule.fragment.NewsFragment;
 import ru.nsu.fit.nsuschedule.fragment.PlacesFragment;
 import ru.nsu.fit.nsuschedule.model.News;
 import ru.nsu.fit.nsuschedule.model.Place;
+import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
 
 public class AcademActivity extends AppCompatActivity implements NewsFragment.INewsFragmentParent, PlacesFragment.IPlacesFragmentParent {
 
@@ -221,8 +226,32 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
     }
 
     private void onPlacesLoaded(List<Place> places) {
+        sortPlaces();
         placeSections = getPlaceSections(places);
         showPlaces(places);
+    }
+
+    private void sortPlaces() {
+        final Pair<Double, Double> location = PreferenceHelper.getLocation();
+        if (location != null) {
+            final Location me = new Location("Me");
+            me.setLatitude(location.first);
+            me.setLongitude(location.second);
+
+            for (Place place : places) {
+                Location loc = new Location("loc");
+                loc.setLatitude(place.getLat());
+                loc.setLongitude(place.getLng());
+                place.setDist(loc.distanceTo(me));
+            }
+
+            Collections.sort(places, new Comparator<Place>() {
+                @Override
+                public int compare(Place o1, Place o2) {
+                    return (int) Math.signum(o1.getDist() - o2.getDist());
+                }
+            });
+        }
     }
 
     private void onNewsLoadFailed(){

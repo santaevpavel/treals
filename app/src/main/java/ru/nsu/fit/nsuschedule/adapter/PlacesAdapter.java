@@ -12,8 +12,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
 import java.util.List;
-import java.util.Locale;
-import java.util.Random;
 
 import ru.nsu.fit.nsuschedule.NsuScheduleApplication;
 import ru.nsu.fit.nsuschedule.R;
@@ -73,7 +71,8 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         placesViewHolder.binding.itemTitle.setText(item.getTitle());
         placesViewHolder.binding.itemAddress.setText(item.getPlace());
         placesViewHolder.binding.itemPrice.setText(item.getPrice() + " руб");
-        placesViewHolder.binding.itemDistance.setText(String.format(Locale.ENGLISH, "~%dм", new Random().nextInt(8) * 100));
+        //placesViewHolder.binding.itemDistance.setText(String.format(Locale.ENGLISH, "~%dм", new Random().nextInt(8) * 100));
+        placesViewHolder.binding.itemDistance.setText(getDistanceString((int) item.getDist()));
 
         String type = item.getType();
         if (type != null && !type.isEmpty()) {
@@ -95,7 +94,6 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (bitmap != null) {
                         listener.onLoadedImg(position, id, bitmap, placesViewHolder);
                     }
-
                 }
 
                 @Override
@@ -106,6 +104,20 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             placesViewHolder.binding.image.setVisibility(View.GONE);
         }
+    }
+
+    public String getDistanceString(int dist) {
+        int tenMeters = dist / 10;
+        int hundredMeters = dist / 100;
+        int kiloMeters = dist / 1000;
+
+        if (kiloMeters != 0) {
+            return "~" + kiloMeters + " км";
+        }
+        if (hundredMeters != 0) {
+            return "~" + hundredMeters * 100 + " м";
+        }
+        return "~" + tenMeters * 10 + " м";
     }
 
     @Override

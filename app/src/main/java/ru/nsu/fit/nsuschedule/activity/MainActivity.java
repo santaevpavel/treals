@@ -1,13 +1,23 @@
 package ru.nsu.fit.nsuschedule.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.fragment.LoginFragment;
@@ -15,10 +25,11 @@ import ru.nsu.fit.nsuschedule.fragment.MainScreenFragment;
 import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener,
-        MainScreenFragment.OnFragmentInteractionListener{
+        MainScreenFragment.OnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private Toolbar toolbar;
     private FrameLayout container;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +40,53 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         container = (FrameLayout) findViewById(R.id.container);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setVisibility(View.GONE);
-        //setSupportActionBar(toolbar);
 
         setStatusBarTranslucent(true);
 
-        if (PreferenceHelper.getGroup() == null){
+        if (PreferenceHelper.getGroup() == null) {
             openLoginFragment();
         } else {
             openMainScreenFragment();
         }
-        //openMainScreenFragment();
+
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+        PreferenceHelper.setLocation(-1, -1);
     }
 
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (location != null) {
+            PreferenceHelper.setLocation(location.getLatitude(), location.getLongitude());
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
 
     private void openLoginFragment(){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -83,6 +129,16 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
     private void openAcadem(){
         Intent i = new Intent(this, AcademActivity.class);
         startActivity(i);
+    }
+
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
     @Override
