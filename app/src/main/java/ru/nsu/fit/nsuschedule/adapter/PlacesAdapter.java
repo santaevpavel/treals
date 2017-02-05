@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
 import java.util.List;
+import java.util.Locale;
 
 import ru.nsu.fit.nsuschedule.NsuScheduleApplication;
 import ru.nsu.fit.nsuschedule.R;
@@ -70,8 +71,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         Place item = places.get(position);
         placesViewHolder.binding.itemTitle.setText(item.getTitle());
         placesViewHolder.binding.itemAddress.setText(item.getPlace());
-        placesViewHolder.binding.itemPrice.setText(item.getPrice() + " руб");
-        //placesViewHolder.binding.itemDistance.setText(String.format(Locale.ENGLISH, "~%dм", new Random().nextInt(8) * 100));
+        placesViewHolder.binding.itemPrice.setText("Средний чек • " + item.getPrice() + "\u20BD");
         placesViewHolder.binding.itemDistance.setText(getDistanceString((int) item.getDist()));
 
         String type = item.getType();
@@ -85,14 +85,18 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         String url = item.getImg();
         final long id = holder.getItemId();
-        placesViewHolder.binding.image.setVisibility(View.GONE);
+        placesViewHolder.binding.progress.setVisibility(View.VISIBLE);
         if (url != null && !url.isEmpty()) {
-            ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader().get(url, new ImageLoader.ImageListener() {
+            ImageLoader imageLoader = ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader();
+            boolean isCached = imageLoader.isCached(url, 1000, 1000);
+            placesViewHolder.binding.image.setImageResource(R.color.place_item_img_def_color);
+            imageLoader.get(url, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     Bitmap bitmap = response.getBitmap();
                     if (bitmap != null) {
                         listener.onLoadedImg(position, id, bitmap, placesViewHolder);
+                        placesViewHolder.binding.progress.setVisibility(View.GONE);
                     }
                 }
 
@@ -101,23 +105,24 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 }
             }, 1000, 1000, ImageView.ScaleType.CENTER_CROP);
+
         } else {
             placesViewHolder.binding.image.setVisibility(View.GONE);
+            placesViewHolder.binding.progress.setVisibility(View.GONE);
         }
     }
 
     public String getDistanceString(int dist) {
         int tenMeters = dist / 10;
-        int hundredMeters = dist / 100;
-        int kiloMeters = dist / 1000;
+        float kiloMeters = dist / 1000;
 
-        if (kiloMeters != 0) {
-            return "~" + kiloMeters + " км";
+        if (kiloMeters >= 1) {
+            return String.format(Locale.ENGLISH, "%.1f км", kiloMeters);
         }
-        if (hundredMeters != 0) {
-            return "~" + hundredMeters * 100 + " м";
+        if (tenMeters >= 10) {
+            return String.format(Locale.ENGLISH, "%d м", tenMeters * 10);
         }
-        return "~" + tenMeters * 10 + " м";
+        return tenMeters * 10 + " м";
     }
 
     @Override

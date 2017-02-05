@@ -42,5 +42,6 @@
 
     <color name="divider_color">#ddd</color>
     <color name="place_item_color_text">#4c5359</color>
+    <color name="place_item_img_def_color">#aaa</color>
 
 </resources>
