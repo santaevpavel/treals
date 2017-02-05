@@ -142,7 +142,9 @@ public class NewsActivity extends AppCompatActivity implements NewsFragment.INew
 
     private void showNews(List<News> news){
         NewsFragment newsFragment = (NewsFragment) getSupportFragmentManager().findFragmentByTag(KEY_ACADEM);
-        newsFragment.setNews(news);
+        if (newsFragment != null) {
+            newsFragment.setNews(news);
+        }
     }
 
     @Override

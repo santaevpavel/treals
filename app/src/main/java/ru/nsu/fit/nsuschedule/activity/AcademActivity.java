@@ -255,11 +255,15 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
     }
 
     private void onNewsLoadFailed(){
-        fragmentEvents.setNews(null);
+        if (fragmentEvents != null) {
+            fragmentEvents.setNews(null);
+        }
     }
 
     private void onPlacesLoadFailed() {
-        fragmentLocations.setPlaces(null);
+        if (fragmentLocations != null) {
+            fragmentLocations.setPlaces(null);
+        }
     }
 
     private void onClickFilter() {
@@ -272,11 +276,15 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
     }
 
     private void showNews(List<News> newsList) {
-        fragmentEvents.setNews(newsList);
+        if (fragmentEvents != null) {
+            fragmentEvents.setNews(newsList);
+        }
     }
 
     private void showPlaces(List<Place> newsList) {
-        fragmentLocations.setPlaces(newsList);
+        if (fragmentLocations != null) {
+            fragmentLocations.setPlaces(newsList);
+        }
     }
 
     @Override
