@@ -1,135 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fcfcfc"
-        android:orientation="vertical">
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="4dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp">
 
-        <ImageView
-            android:id="@+id/image"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="8dp">
+            android:background="#fcfcfc"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:orientation="vertical">
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:paddingRight="8dp">
-
-                        <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
-                            android:id="@+id/item_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingRight="8dp"
-                            android:text="Title"
-                            android:textColor="@color/news_item_title_color"
-                            android:textSize="16sp" />
-
-                        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
-                            android:id="@+id/item_dest"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="4dp"
-                            android:text="Desc Desc \n Desc "
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/news_item_desc_color"
-                            android:textSize="14sp" />
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/imageSmall"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_weight="0"
-                        android:adjustViewBounds="true" />
-                </LinearLayout>
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
+                    android:id="@+id/item_date"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="8dp">
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="Тип Тип"
+                    android:textColor="#aaa"
+                    android:textSize="12sp" />
 
-                    <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
-                        android:id="@+id/item_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_toLeftOf="@+id/item_type"
-                        android:ellipsize="end"
-                        android:paddingRight="8dp"
-                        android:text="12.23.16"
-                        android:textColor="#7894a5"
-                        android:textSize="12sp" />
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
+                    android:id="@+id/item_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="Тип Тип"
+                    android:textAllCaps="true"
+                    android:textColor="#aaa"
+                    android:textSize="12sp" />
 
-
-                    <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
-                        android:id="@+id/item_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="right"
-                        android:background="@drawable/news_type_bg"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:paddingLeft="4dp"
-                        android:paddingRight="4dp"
-                        android:text="Тип Тип"
-                        android:textAllCaps="true"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="#555"
-                        android:textSize="10sp" />
-
-                </RelativeLayout>
 
             </LinearLayout>
 
-        </RelativeLayout>
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop" />
 
-    </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/news_item_content_padding_bottom"
+                android:paddingLeft="@dimen/news_item_content_padding_horiz"
+                android:paddingRight="16dp"
+                android:paddingTop="@dimen/news_item_content_padding_top_small">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/news_second_bg_color"
-        android:orientation="vertical">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#c1c1c1"/>
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingRight="8dp">
+
+                            <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+                                android:id="@+id/item_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="8dp"
+                                android:text="Title"
+                                android:textColor="@color/news_item_title_color"
+                                android:textSize="14sp" />
+
+                            <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
+                                android:id="@+id/item_dest"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="4dp"
+                                android:text="Desc Desc \nDesc Desc Desc Desc Desc\nDesc Desc Desc "
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/news_item_desc_color"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imageSmall"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="0"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

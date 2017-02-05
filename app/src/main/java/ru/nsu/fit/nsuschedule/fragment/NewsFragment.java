@@ -31,16 +31,8 @@ import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
 
 public class NewsFragment extends Fragment implements NewsAdapter.INewsAdapterParent, SwipeRefreshLayout.OnRefreshListener {
 
-    private INewsFragmentParent parent;
-
-    public interface INewsFragmentParent{
-        List<News> getNews(int code);
-        void onAttach(NewsFragment fragment, int code);
-        void onDetach(NewsFragment fragment, int code);
-        void onRefresh(int code);
-    }
-
     public static final String KEY_CODE = "KEY_CODE";
+    private INewsFragmentParent parent;
     private FragmentNewsBinding binding;
     private NewsAdapter adapter;
     private int code;
@@ -51,6 +43,17 @@ public class NewsFragment extends Fragment implements NewsAdapter.INewsAdapterPa
         args.putInt(KEY_CODE, code);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private static boolean isSmall(Bitmap bmp) {
+        int minWidth = 256;
+        double minRate = 3. / 4;
+        return bmp.getWidth() < minWidth || minRate < ((double) bmp.getHeight() / bmp.getWidth());
+    }
+
+    public static void imageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
+        final Animation anim_in = AnimationUtils.loadAnimation(c, android.R.anim.fade_in);
+        v.startAnimation(anim_in);
     }
 
     @Override
@@ -127,12 +130,21 @@ public class NewsFragment extends Fragment implements NewsAdapter.INewsAdapterPa
         if (holderFromChild == null){
             return;
         }
-        if (isSmall(bmp)) {
+        boolean small = isSmall(bmp);
+
+        int paddindHoriz = (int) getResources().getDimension(R.dimen.news_item_content_padding_horiz);
+        int paddindBottom = (int) getResources().getDimension(R.dimen.news_item_content_padding_bottom);
+        int paddindTop = (int) getResources().getDimension(small
+                ? R.dimen.news_item_content_padding_top_small
+                : R.dimen.news_item_content_padding_top_big);
+
+        holderFromChild.content.setPadding(paddindHoriz, paddindTop, paddindHoriz, paddindBottom);
+
+        if (small) {
             holderFromChild.imageSmall.setImageBitmap(bmp);
             holderFromChild.image.setVisibility(View.GONE);
             holderFromChild.imageSmall.setVisibility(View.VISIBLE);
             imageViewAnimatedChange(getActivity(), holderFromChild.imageSmall, bmp);
-
         } else {
             holderFromChild.image.setImageBitmap(bmp);
             holderFromChild.image.setVisibility(View.VISIBLE);
@@ -141,14 +153,13 @@ public class NewsFragment extends Fragment implements NewsAdapter.INewsAdapterPa
         }
     }
 
-    private static boolean isSmall(Bitmap bmp){
-        int minWidth = 256;
-        double minRate = 3. / 4;
-        return bmp.getWidth() < minWidth || minRate < ((double) bmp.getHeight() / bmp.getWidth());
-    }
+    public interface INewsFragmentParent {
+        List<News> getNews(int code);
 
-    public static void imageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
-        final Animation anim_in  = AnimationUtils.loadAnimation(c, android.R.anim.fade_in);
-        v.startAnimation(anim_in);
+        void onAttach(NewsFragment fragment, int code);
+
+        void onDetach(NewsFragment fragment, int code);
+
+        void onRefresh(int code);
     }
 }

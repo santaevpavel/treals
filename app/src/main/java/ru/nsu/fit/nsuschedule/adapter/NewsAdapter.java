@@ -61,8 +61,10 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView type = (TextView) view.findViewById(R.id.item_type);
         ImageView img = (ImageView) view.findViewById(R.id.image);
         ImageView imgSmall = (ImageView) view.findViewById(R.id.imageSmall);
+        View content = view.findViewById(R.id.content);
 
-        NewsViewHolder viewHolder = new NewsViewHolder(view, title, desc, date, img, type, imgSmall);
+        NewsViewHolder viewHolder = new NewsViewHolder(view, title, desc, date, img, type,
+                imgSmall, content);
         view.setOnClickListener(this);
         view.setTag(viewHolder);
 
@@ -112,9 +114,6 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             newsViewHolder.imageSmall.setVisibility(View.GONE);
         }
 
-        /*ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext())
-                .getImageLoader()
-                .get(url, ImageLoader.getImageListener(newsViewHolder.image, R.drawable.menu_img_academ, R.drawable.menu_img_academ));*/
     }
 
     @Override
@@ -140,9 +139,10 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         public TextView type;
         public ImageView image;
         public ImageView imageSmall;
+        public View content;
 
-        public NewsViewHolder(View itemView, TextView title,
-                              TextView desc, TextView date, ImageView image, TextView type, ImageView imageSmall) {
+        public NewsViewHolder(View itemView, TextView title, TextView desc, TextView date, ImageView image,
+                              TextView type, ImageView imageSmall, View content) {
             super(itemView);
             this.title = title;
             this.desc = desc;
@@ -150,8 +150,11 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             this.image = image;
             this.type = type;
             this.imageSmall = imageSmall;
+            this.content = content;
         }
     }
 
 }
+
+
 
