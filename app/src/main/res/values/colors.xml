@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#396791</color>
-    <color name="colorPrimaryDark">#356087</color>
-    <color name="colorAccent">#aa1e4d79</color>
+    <color name="colorPrimary">#00796B</color>
+    <color name="colorPrimaryDark">#00695C</color>
+    <color name="colorAccent">#ef6c00</color>
 
     <color name="colorPrimaryAcadem">#ef6c00</color>
     <color name="colorPrimaryDarkAcadem">#e66800</color>
+
+    <color name="colorPrimaryNews">#1976D2</color>
+    <color name="colorPrimaryDarkNews">#1565C0</color>
 
     <color name="color_main_screen_item_stroke">#aa1e4d79</color>
 

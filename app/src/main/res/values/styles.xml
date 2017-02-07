@@ -20,6 +20,16 @@
         <item name="actionBarTheme">@style/MyApp.ActionBarTheme</item>
     </style>
 
+    <!-- Base application theme. -->
+    <style name="AppThemeNews" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryNews</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkNews</item>
+        <item name="colorAccent">@color/colorPrimaryDarkNews</item>
+        <item name="colorControlNormal">#fff</item>
+        <item name="actionBarTheme">@style/MyApp.ActionBarTheme</item>
+    </style>
+
     <style name="ProgressTheme" parent="AppTheme">
         <!-- Customize your theme here. -->
         <item name="colorAccent">#fff</item>

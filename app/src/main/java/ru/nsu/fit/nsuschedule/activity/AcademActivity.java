@@ -30,19 +30,19 @@ import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
 import ru.nsu.fit.nsuschedule.api.response.AllNewsResponse;
 import ru.nsu.fit.nsuschedule.api.response.AllPlacesResponse;
 import ru.nsu.fit.nsuschedule.databinding.ActivityAcademBinding;
-import ru.nsu.fit.nsuschedule.fragment.NewsFragment;
+import ru.nsu.fit.nsuschedule.fragment.EventsFragment;
 import ru.nsu.fit.nsuschedule.fragment.PlacesFragment;
 import ru.nsu.fit.nsuschedule.model.News;
 import ru.nsu.fit.nsuschedule.model.Place;
 import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
 
-public class AcademActivity extends AppCompatActivity implements NewsFragment.INewsFragmentParent, PlacesFragment.IPlacesFragmentParent {
+public class AcademActivity extends AppCompatActivity implements PlacesFragment.IPlacesFragmentParent,
+        EventsFragment.IEventsFragmentParent {
 
-    public static final String KEY_ACADEM = "KEY_ACADEM";
     private ActivityAcademBinding binding;
     private FragmentPagerAdapter fragmentPagerAdapter;
 
-    private NewsFragment fragmentEvents;
+    private EventsFragment fragmentEvents;
     private PlacesFragment fragmentLocations;
 
     private Map<String, List<News>> sections;
@@ -125,12 +125,12 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        loadNews();
+        loadEvents();
 
         fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return 0 == position ? NewsFragment.getInstance(position) : PlacesFragment.getInstance(position);
+                return 0 == position ? EventsFragment.getInstance() : PlacesFragment.getInstance();
             }
 
             @Override
@@ -148,7 +148,7 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
         binding.tablayout.setupWithViewPager(binding.pager, true);
     }
 
-    private void loadNews(){
+    private void loadEvents() {
         ApiServiceHelper.getAllAcademNews(this, new ResultReceiver(new Handler()){
             @Override
             protected void onReceiveResult(int resultCode, Bundle resultData) {
@@ -215,11 +215,6 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public List<News> getNews(int code) {
-        return news;
-    }
-
     private void onNewsLoaded(List<News> news){
         sections = getNewsSections(news);
         showNews(news);
@@ -256,7 +251,7 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
 
     private void onNewsLoadFailed(){
         if (fragmentEvents != null) {
-            fragmentEvents.setNews(null);
+            fragmentEvents.setEvents(null);
         }
     }
 
@@ -277,7 +272,7 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
 
     private void showNews(List<News> newsList) {
         if (fragmentEvents != null) {
-            fragmentEvents.setNews(newsList);
+            fragmentEvents.setEvents(newsList);
         }
     }
 
@@ -288,41 +283,33 @@ public class AcademActivity extends AppCompatActivity implements NewsFragment.IN
     }
 
     @Override
-    public void onAttach(NewsFragment fragment, int code) {
-        fragmentEvents = fragment;
-    }
-
-    @Override
-    public void onDetach(NewsFragment fragment, int code) {
-        fragmentEvents = null;
-        fragmentLocations = null;
-    }
-
-    @Override
-    public List<Place> getPlaces(int code) {
-        return places;
-    }
-
-    @Override
-    public void onAttach(PlacesFragment fragment, int code) {
+    public void onAttach(PlacesFragment fragment) {
         fragmentLocations = fragment;
     }
 
     @Override
-    public void onDetach(PlacesFragment fragment, int code) {
+    public void onDetach(PlacesFragment fragment) {
         fragmentLocations = null;
     }
 
     @Override
-    public void onRefresh(int code) {
-        switch (code) {
-            case 0:
-                loadNews();
-                break;
-            case 1:
-                loadPlaces();
-                break;
-        }
+    public void onRefreshPlaces() {
+        loadPlaces();
+    }
+
+    @Override
+    public void onAttach(EventsFragment fragment) {
+        fragmentEvents = fragment;
+    }
+
+    @Override
+    public void onDetach(EventsFragment fragment) {
+        fragmentEvents = null;
+    }
+
+    @Override
+    public void onRefreshEvents() {
+        loadEvents();
     }
 
     public interface IOnCategoryChooseListener<T> {

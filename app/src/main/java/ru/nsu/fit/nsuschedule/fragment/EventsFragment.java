@@ -19,46 +19,40 @@ import android.widget.ImageView;
 import java.util.List;
 
 import ru.nsu.fit.nsuschedule.R;
-import ru.nsu.fit.nsuschedule.activity.PlaceActivity;
-import ru.nsu.fit.nsuschedule.adapter.PlacesAdapter;
-import ru.nsu.fit.nsuschedule.databinding.FragmentNewsBinding;
-import ru.nsu.fit.nsuschedule.model.Place;
+import ru.nsu.fit.nsuschedule.activity.SingleNewsActivity;
+import ru.nsu.fit.nsuschedule.adapter.EventAdapter;
+import ru.nsu.fit.nsuschedule.databinding.FragmentEventsBinding;
+import ru.nsu.fit.nsuschedule.model.News;
 import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
 
 /**
  * Created by Pavel on 18.01.2017.
  */
 
-public class PlacesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, PlacesAdapter.IPlacesAdapterParent {
+public class EventsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, EventAdapter.IEventAdapterParent {
 
-    private IPlacesFragmentParent parent;
-    private FragmentNewsBinding binding;
-    private PlacesAdapter adapter;
+    private IEventsFragmentParent parent;
+    private FragmentEventsBinding binding;
+    private EventAdapter adapter;
 
-    public static PlacesFragment getInstance() {
-        return new PlacesFragment();
+    public static EventsFragment getInstance() {
+        return new EventsFragment();
     }
 
-    private static boolean isSmall(Bitmap bmp) {
-        int minWidth = 256;
-        double minRate = 3. / 4;
-        return bmp.getWidth() < minWidth || minRate < ((double) bmp.getHeight() / bmp.getWidth());
-    }
-
-    public static void imageViewAnimatedChange(Context c, final ImageView v) {
+    public static void imageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
         final Animation anim_in = AnimationUtils.loadAnimation(c, android.R.anim.fade_in);
         v.startAnimation(anim_in);
     }
 
     @Override
     public void onRefresh() {
-        parent.onRefreshPlaces();
+        parent.onRefreshEvents();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        parent = (IPlacesFragmentParent) context;
+        parent = (IEventsFragmentParent) context;
         parent.onAttach(this);
     }
 
@@ -77,9 +71,9 @@ public class PlacesFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_news, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_events, container, false);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        adapter = new PlacesAdapter();
+        adapter = new EventAdapter();
         adapter.setListener(this);
         binding.listNews.setAdapter(adapter);
         binding.listNews.setLayoutManager(mLayoutManager);
@@ -95,44 +89,46 @@ public class PlacesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         return binding.getRoot();
     }
 
-    public void setPlaces(List<Place> places) {
+    public void setEvents(List<News> news) {
         binding.swipeContainer.setRefreshing(false);
-        if (null == places) {
+        if (null == news) {
             return;
         }
-        adapter.setPlaces(places);
+        adapter.setNews(news);
         adapter.notifyDataSetChanged();
         binding.progress.setVisibility(View.INVISIBLE);
     }
 
     @Override
-    public void onClickPlace(Place place) {
-        PlaceActivity.start(getActivity(), place);
+    public void onClickNews(News news) {
+        SingleNewsActivity.start(getActivity(), news.getLink());
     }
 
-    public void onLoadedImg(int pos, long id, Bitmap bmp, PlacesAdapter.PlacesViewHolder placesViewHolder) {
+    @Override
+    public void onLoadedImg(int pos, long id, Bitmap bmp, EventAdapter.EventViewHolder holder) {
         if (!isAdded()) {
             return;
         }
-        PlacesAdapter.PlacesViewHolder holderFromChild = (PlacesAdapter.PlacesViewHolder)
+        EventAdapter.EventViewHolder holderFromChild = (EventAdapter.EventViewHolder)
                 binding.listNews.findViewHolderForItemId(pos);
-        if (placesViewHolder.getItemId() == id) {
-            holderFromChild = placesViewHolder;
+        if (holder.getItemId() == id) {
+            holderFromChild = holder;
         }
         if (holderFromChild == null) {
             return;
         }
-        holderFromChild.binding.image.setImageBitmap(bmp);
-        holderFromChild.binding.image.setVisibility(View.VISIBLE);
-        imageViewAnimatedChange(getActivity(), holderFromChild.binding.image);
+
+        holderFromChild.image.setImageBitmap(bmp);
+        holderFromChild.image.setVisibility(View.VISIBLE);
+        imageViewAnimatedChange(getActivity(), holderFromChild.image, bmp);
     }
 
-    public interface IPlacesFragmentParent {
+    public interface IEventsFragmentParent {
 
-        void onAttach(PlacesFragment fragment);
+        void onAttach(EventsFragment fragment);
 
-        void onDetach(PlacesFragment fragment);
+        void onDetach(EventsFragment fragment);
 
-        void onRefreshPlaces();
+        void onRefreshEvents();
     }
 }
