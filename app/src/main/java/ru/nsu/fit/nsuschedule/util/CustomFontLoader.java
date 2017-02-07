@@ -14,13 +14,14 @@ public class CustomFontLoader {
     public static final int ROBOTO_REGULAR = 2;
     public static final int ROBOTO_BOLD = 3;
     public static final int ROBOTO_MEDIUM = 4;
+    public static final int ROBOTO_THIN = 5;
 
 
-    private static final int NUM_OF_CUSTOM_FONTS = 5;
+    private static final int NUM_OF_CUSTOM_FONTS = 6;
 
     private static boolean fontsLoaded = false;
 
-    private static Typeface[] fonts = new Typeface[5];
+    private static Typeface[] fonts = new Typeface[NUM_OF_CUSTOM_FONTS];
 
     private static String[] fontPath = {
             "fonts/century_gothic_bold.ttf",
@@ -28,6 +29,7 @@ public class CustomFontLoader {
             "fonts/roboto_regular.ttf",
             "fonts/roboto_bold.ttf",
             "fonts/roboto_medium.ttf",
+            "fonts/roboto_thin.ttf",
     };
 
 
