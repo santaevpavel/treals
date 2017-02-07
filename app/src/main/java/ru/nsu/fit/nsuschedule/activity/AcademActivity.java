@@ -265,7 +265,7 @@ public class AcademActivity extends AppCompatActivity implements PlacesFragment.
         showCategoryDialog(this, places, placeSections, new IOnCategoryChooseListener<Place>() {
             @Override
             public void onChoose(boolean[] checked, List<Place> checkedItems) {
-
+                showPlaces(checkedItems);
             }
         });
     }

@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,6 +139,12 @@ public class NewsActivity extends AppCompatActivity implements NewsFragment.INew
                 filtered.addAll(sections.get(keys[i]));
             }
         }
+        Collections.sort(filtered, new Comparator<News>() {
+            @Override
+            public int compare(News o1, News o2) {
+                return (int) Math.signum(o2.getIssueDate() - o1.getIssueDate());
+            }
+        });
         showNews(filtered);
     }
 

@@ -59,9 +59,10 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         TextView desc = (TextView) view.findViewById(R.id.item_dest);
         TextView type = (TextView) view.findViewById(R.id.item_date);
         ImageView img = (ImageView) view.findViewById(R.id.image);
+        ImageView placeHoler = (ImageView) view.findViewById(R.id.placeHolder);
         View content = view.findViewById(R.id.content);
 
-        EventViewHolder viewHolder = new EventViewHolder(view, title, desc, img, type, content);
+        EventViewHolder viewHolder = new EventViewHolder(view, title, desc, img, type, content, placeHoler);
         view.setOnClickListener(this);
         view.setTag(viewHolder);
 
@@ -80,6 +81,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         // Add a request (in this example, called stringRequest) to your RequestQueue.
         String url = item.getImg();
 
+        eventViewHolder.placeHoler.setVisibility(View.VISIBLE);
         final long id = holder.getItemId();//getItemId(position);
         if (url != null && !url.isEmpty()) {
 
@@ -90,7 +92,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     if (bitmap != null) {
                         listener.onLoadedImg(position, id, bitmap, eventViewHolder);
                     }
-
+                    eventViewHolder.placeHoler.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -125,16 +127,18 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public TextView desc;
         public TextView type;
         public ImageView image;
+        public ImageView placeHoler;
         public View content;
 
         public EventViewHolder(View itemView, TextView title, TextView desc, ImageView image,
-                               TextView type, View content) {
+                               TextView type, View content, ImageView placeHoler) {
             super(itemView);
             this.title = title;
             this.desc = desc;
             this.image = image;
             this.type = type;
             this.content = content;
+            this.placeHoler = placeHoler;
         }
     }
 

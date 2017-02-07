@@ -32,8 +32,18 @@ public class News implements Serializable{
     private String date;
     @SerializedName("section")
     private String section;
+    @SerializedName("issue_date")
+    private long issueDate;
 
     public News() {
+    }
+
+    public long getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(long issueDate) {
+        this.issueDate = issueDate;
     }
 
     public String getTitle() {

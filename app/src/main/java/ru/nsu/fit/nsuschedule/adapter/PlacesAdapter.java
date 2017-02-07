@@ -1,5 +1,6 @@
 package ru.nsu.fit.nsuschedule.adapter;
 
+import android.animation.Animator;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -86,10 +87,10 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         String url = item.getImg();
         final long id = holder.getItemId();
         placesViewHolder.binding.progress.setVisibility(View.VISIBLE);
+        placesViewHolder.binding.placeHolder.setVisibility(View.VISIBLE);
         if (url != null && !url.isEmpty()) {
             ImageLoader imageLoader = ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader();
             boolean isCached = imageLoader.isCached(url, 1000, 1000);
-            placesViewHolder.binding.image.setImageResource(R.color.place_item_img_def_color);
             imageLoader.get(url, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -97,6 +98,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (bitmap != null) {
                         listener.onLoadedImg(position, id, bitmap, placesViewHolder);
                         placesViewHolder.binding.progress.setVisibility(View.GONE);
+                        animatePlaceholder(placesViewHolder.binding.placeHolder);
                     }
                 }
 
@@ -110,6 +112,32 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             placesViewHolder.binding.image.setVisibility(View.GONE);
             placesViewHolder.binding.progress.setVisibility(View.GONE);
         }
+    }
+
+    private void animatePlaceholder(final View view) {
+        view.setVisibility(View.VISIBLE);
+        view.animate().alpha(0).setDuration(200).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                view.setVisibility(View.INVISIBLE);
+                view.setAlpha(1);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
     public String getDistanceString(int dist) {

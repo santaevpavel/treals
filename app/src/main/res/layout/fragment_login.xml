@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="ru.nsu.fit.nsuschedule.fragment.LoginFragment">
 
     <ImageView
@@ -18,18 +18,18 @@
         android:background="#6000"/>
 
     <FrameLayout
+        android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/content_frame">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -37,11 +37,11 @@
                     android:layout_weight="2">
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="128dp"
@@ -49,25 +49,27 @@
                             android:layout_gravity="center"
                             android:src="@drawable/logo_no_border"/>
 
-                        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+                        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
+                            android:id="@+id/textViewRobotoThin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="40sp"
+                            android:layout_marginLeft="18dp"
+                            android:layout_marginRight="18dp"
                             android:gravity="center"
                             android:text="NSU | Today"
-                            android:layout_marginLeft="18dp"
-                            android:layout_marginRight="18dp"
-                            android:textColor="#fff"/>
+                            android:textColor="#fff"
+                            android:textSize="40sp" />
 
-                        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothic
+                        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="18dp"
                             android:layout_marginRight="18dp"
-                            android:textSize="16sp"
+                            android:layout_marginTop="8dp"
                             android:gravity="center"
                             android:text="Студенческая жизнь \nу тебя в кармане"
-                            android:textColor="#fff"/>
+                            android:textColor="#fff"
+                            android:textSize="16sp" />
 
                     </LinearLayout>
 
@@ -75,31 +77,31 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
+                    android:orientation="vertical"
                     android:weightSum="1">
 
                     <LinearLayout
-                        android:layout_centerInParent="true"
-                        android:orientation="vertical"
-                        android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:layout_marginTop="0dp">
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="0dp"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                        <ru.nsu.fit.nsuschedule.view.TextViewCenturyGothicBold
+                        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
+                            android:id="@+id/buttonOK"
+                            style="@style/ColoredButton"
                             android:layout_width="wrap_content"
                             android:layout_height="48dp"
                             android:layout_gravity="center_horizontal"
+                            android:background="@drawable/colored_button_bg"
                             android:paddingLeft="48dp"
                             android:paddingRight="48dp"
-                            android:background="@drawable/colored_button_bg"
-                            style="@style/ColoredButton"
-                            android:text="Выбрать группу"
-                            android:id="@+id/buttonOK" />
+                            android:text="Выбрать группу" />
 
                     </LinearLayout>
 
@@ -118,16 +120,16 @@
                 android:id="@+id/floating_search_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:animateLayoutChanges="true"
-                app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"
-                app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"
-                app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
-                app:floatingSearch_searchHint="Введите группу"
-                app:floatingSearch_suggestionsListAnimDuration="250"
-                app:floatingSearch_showSearchKey="false"
+                android:visibility="gone"
+                app:floatingSearch_close_search_on_keyboard_dismiss="true"
                 app:floatingSearch_leftActionMode="showSearch"
-                app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
+                app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"
+                app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
+                app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"
+                app:floatingSearch_searchHint="Введите группу"
+                app:floatingSearch_showSearchKey="false"
+                app:floatingSearch_suggestionsListAnimDuration="250" />
 
 
         </RelativeLayout>
