@@ -34,7 +34,7 @@
                 android:layout_height="match_parent"
                 app:columnGap="8dp"
                 app:dayBackgroundColor="#05000000"
-                app:eventCornerRadius="1dp"
+                app:eventCornerRadius="2dp"
                 app:eventMarginVertical="1dp"
                 app:eventPadding="1dp"
                 app:eventTextColor="@android:color/white"
@@ -44,7 +44,7 @@
                 app:headerRowBackgroundColor="#ffefefef"
                 app:hourHeight="60dp"
                 app:noOfVisibleDays="1"
-                app:nowLineColor="@color/now_line_color"
+                app:nowLineColor="@color/colorPrimary"
                 app:showNowLine="true"
                 app:textSize="11sp"
                 app:todayBackgroundColor="#0fff" />

@@ -24,16 +24,16 @@
     <color name="calendar_header_day_bg_color">#0000</color>
     <color name="calendar_header_day_bg_color_selected">#fff</color>
 
-    <color name="calendar_header_day_point_bg_color_selected">@color/colorPrimary</color>
+    <color name="calendar_header_day_point_bg_color_selected">@color/colorPrimaryDark</color>
 
 
-    <color name="lesson_color_lecture">#8cff6200</color>
+    <color name="lesson_color_lecture">#FF8A65</color>
     <color name="lesson_text_color_lecture">#cf5000</color>
 
-    <color name="lesson_color_seminar">#8c0088ff</color>
+    <color name="lesson_color_seminar">#4DB6AC</color>
     <color name="lesson_text_color_seminar">#0066bf</color>
 
-    <color name="lesson_color_other">#a600894d</color>
+    <color name="lesson_color_other">#B0BEC5</color>
     <color name="lesson_text_color_other">#008f51</color>
 
     <color name="news_second_bg_color">#e6e6e6</color>
@@ -44,7 +44,9 @@
     <color name="news_item_desc_color">#7e7e7e</color>
 
     <color name="divider_color">#ddd</color>
-    <color name="place_item_color_text">#4c5359</color>
+    <color name="place_item_color_text">#1d1d1d</color>
     <color name="place_item_img_def_color">#aaa</color>
+
+    <color name="place_item_icon_color">#ef6c00</color>
 
 </resources>

@@ -105,6 +105,13 @@ public class PlaceFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        binding.actionCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPhoneDialog();
+            }
+        });
+
         addPaddingToItem(binding.phoneItem, place.getPhone());
         addPaddingToItem(binding.timeItem, place.getTime());
 

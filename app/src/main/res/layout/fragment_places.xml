@@ -11,6 +11,87 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <RelativeLayout
+                    android:id="@+id/action_call"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_call_black_24dp"
+                            android:tint="@color/place_item_icon_color" />
+
+                        <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="4dp"
+                            android:text="Позвонить"
+                            android:textAllCaps="true"
+                            android:textColor="@color/place_item_icon_color"
+                            android:textSize="@dimen/place_list_main_text_size" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/action_site"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_public_black_24dp"
+                            android:tint="@color/place_item_icon_color" />
+
+                        <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="4dp"
+                            android:text="Сайт"
+                            android:textAllCaps="true"
+                            android:textColor="@color/place_item_icon_color"
+                            android:textSize="@dimen/place_list_main_text_size" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ebebeb" />
+
             <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
                 android:id="@+id/descr"
                 android:layout_width="match_parent"
@@ -19,7 +100,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="16dp"
                 android:text="Описание Описание Описание Описание\nОписание Описание Описание Описание\nОписание"
-                android:textColor="#777"
+                android:textColor="@color/place_item_color_text"
                 android:textSize="@dimen/place_list_main_text_size" />
 
             <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
@@ -30,7 +111,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="4dp"
                 android:text="Показать полностью..."
-                android:textColor="#9cb1c7"
+                android:textColor="#7a7a7a"
                 android:textSize="@dimen/place_list_main_text_size" />
 
 
@@ -43,18 +124,10 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="24dp"
                     android:src="@drawable/ic_location_on_black_24dp"
-                    android:tint="#7b899b" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="64dp"
-                    android:layout_marginRight="16dp"
-                    android:background="@color/divider_color" />
+                    android:tint="@color/place_item_icon_color" />
 
                 <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
                     android:id="@+id/address"
@@ -74,23 +147,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/place_item_height">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="64dp"
-                    android:layout_marginRight="16dp"
-                    android:background="@color/divider_color" />
-
                 <ImageView
                     android:id="@+id/icon_price"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="24dp"
                     android:src="@drawable/ic_receipt_black_24dp"
-                    android:tint="#7b899b" />
+                    android:tint="@color/place_item_icon_color" />
 
                 <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
                     android:id="@+id/price"
@@ -125,23 +190,17 @@
                     android:textColor="@color/place_item_color_text"
                     android:textSize="@dimen/place_list_main_text_size" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="64dp"
-                    android:layout_marginRight="16dp"
-                    android:background="@color/divider_color" />
-
                 <ImageView
                     android:id="@+id/icon_phone"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignTop="@+id/phone"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="24dp"
                     android:src="@drawable/ic_call_black_24dp"
-                    android:tint="#7b899b" />
+                    android:tint="@color/place_item_icon_color" />
 
             </RelativeLayout>
 
@@ -150,23 +209,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/place_item_height">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="64dp"
-                    android:layout_marginRight="16dp"
-                    android:background="@color/divider_color" />
-
                 <ImageView
                     android:id="@+id/icon_time"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="24dp"
                     android:src="@drawable/ic_schedule_black_24dp"
-                    android:tint="#7b899b" />
+                    android:tint="@color/place_item_icon_color" />
 
                 <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
                     android:id="@+id/time"
@@ -191,10 +242,10 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="16dp"
-                    android:src="@drawable/ic_language_black_24dp"
-                    android:tint="#7b899b" />
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="24dp"
+                    android:src="@drawable/ic_public_black_24dp"
+                    android:tint="@color/place_item_icon_color" />
 
                 <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
                     android:id="@+id/site"

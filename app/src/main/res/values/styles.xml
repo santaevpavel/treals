@@ -15,7 +15,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryAcadem</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkAcadem</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="colorControlNormal">#fff</item>
         <item name="actionBarTheme">@style/MyApp.ActionBarTheme</item>
     </style>
@@ -25,7 +25,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryNews</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkNews</item>
-        <item name="colorAccent">@color/colorPrimaryDarkNews</item>
+        <item name="colorAccent">@color/colorPrimaryAcadem</item>
         <item name="colorControlNormal">#fff</item>
         <item name="actionBarTheme">@style/MyApp.ActionBarTheme</item>
     </style>
