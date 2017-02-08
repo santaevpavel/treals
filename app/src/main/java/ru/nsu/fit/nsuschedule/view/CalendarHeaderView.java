@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -20,7 +19,7 @@ public class CalendarHeaderView extends FrameLayout{
     private TextView daysTextViews[] = new TextView[7];
     private ImageView daysBgs[] = new ImageView[7];
     private View daysLayout[] = new View[7];
-    private View daysToday[] = new View[7];
+
     private OnDayClickListener onDayClickListener;
 
     public CalendarHeaderView(Context context) {
@@ -61,7 +60,6 @@ public class CalendarHeaderView extends FrameLayout{
         } else {
             monday.add(Calendar.DATE, (isInFirstWeek ? 1 : 0) * 7);
         }
-        boolean marginIsAdded = false;
         for (int i = 0; i < 7; i++){
             int bgId = (i != mondayOffset || !isShowSelectedDay)
                     ? R.drawable.calendar_header_day_bg
@@ -70,35 +68,13 @@ public class CalendarHeaderView extends FrameLayout{
                     ? R.color.calendar_header_day_num_text_color
                     : R.color.calendar_header_day_num_text_color_selected;
             daysBgs[i].setImageResource(bgId);
-            /*if (i == mondayOffset){
-                daysBgs[i].animate().translationX(300).setDuration(500);
-            }*/
             daysTextViews[i].setText("" + monday.get(Calendar.DATE));
-            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) daysToday[i].getLayoutParams();
 
             if (today.get(Calendar.DAY_OF_YEAR) == monday.get(Calendar.DAY_OF_YEAR)){
                 if (i == mondayOffset && isShowSelectedDay) {
-                    daysToday[i].setBackgroundResource(R.drawable.calendar_header_day_point_bg_today);
-                    lp.setMargins(0, (int)(getContext().getResources().getDimension(R.dimen.calendar_header_today_point_margin_top)), 0, 0);
-                    daysToday[i].setLayoutParams(lp);
-                } else {
-                    daysToday[i].setBackgroundResource(R.drawable.calendar_header_day_bg_selected);
-                    lp.setMargins(0, (int)(getContext().getResources().getDimension(R.dimen.calendar_header_today_point_margin_top_selected)), 0, 0);
-                    daysToday[i].setLayoutParams(lp);
-                    marginIsAdded = true;
-                }
-                daysToday[i].setVisibility(VISIBLE);
-            } else {
-                daysToday[i].setVisibility(INVISIBLE);
-                if (!marginIsAdded){
-                    lp.setMargins(0, (int)(getContext().getResources().getDimension(R.dimen.calendar_header_today_point_margin_top_selected)), 0, 0);
-                    daysToday[i].setLayoutParams(lp);
-                    marginIsAdded = true;
+                    daysBgs[i].setBackgroundResource(R.drawable.calendar_header_day_point_bg_today);
                 }
             }
-            //daysTextViews[i].setPaintFlags(daysTextViews[i].getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            //daysTextViews[i].setPaintFlags(daysTextViews[i].getPaintFlags() & ~Paint.UNDERLINE_TEXT_FLAG);
-
             daysTextViews[i].setTextColor(getContext().getResources().getColor(textColorId));
 
 
@@ -113,7 +89,6 @@ public class CalendarHeaderView extends FrameLayout{
             });
 
             monday.add(Calendar.DATE, 1);
-
         }
 
         return isInFirstWeek;
@@ -180,20 +155,6 @@ public class CalendarHeaderView extends FrameLayout{
         dayLayout = root.findViewById(R.id.day7layout);
         daysLayout[6] = dayLayout;
 
-        View dayPoint = root.findViewById(R.id.day1today);
-        daysToday[0] = dayPoint;
-        dayPoint = root.findViewById(R.id.day2today);
-        daysToday[1] = dayPoint;
-        dayPoint = root.findViewById(R.id.day3today);
-        daysToday[2] = dayPoint;
-        dayPoint = root.findViewById(R.id.day4today);
-        daysToday[3] = dayPoint;
-        dayPoint = root.findViewById(R.id.day5today);
-        daysToday[4] = dayPoint;
-        dayPoint = root.findViewById(R.id.day6today);
-        daysToday[5] = dayPoint;
-        dayPoint = root.findViewById(R.id.day7today);
-        daysToday[6] = dayPoint;
     }
 
     public interface OnDayClickListener {

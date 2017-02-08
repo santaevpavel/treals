@@ -103,15 +103,6 @@
                 android:textColor="@color/calendar_header_day_num_text_color"
                 android:textSize="@dimen/calendar_header_day_num_text_size" />
 
-            <View
-                android:id="@+id/day1today"
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:layout_below="@id/day1"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:background="@drawable/calendar_header_day_bg_selected" />
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -137,15 +128,6 @@
                 android:textColor="@color/calendar_header_day_num_text_color"
                 android:textSize="@dimen/calendar_header_day_num_text_size" />
 
-            <View
-                android:id="@+id/day2today"
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:layout_below="@id/day2"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:background="@drawable/calendar_header_day_bg_selected" />
-
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/day3layout"
@@ -169,15 +151,6 @@
                 android:text="15"
                 android:textColor="@color/calendar_header_day_num_text_color"
                 android:textSize="@dimen/calendar_header_day_num_text_size" />
-
-            <View
-                android:id="@+id/day3today"
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:layout_below="@id/day3"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:background="@drawable/calendar_header_day_bg_selected" />
 
         </RelativeLayout>
         <RelativeLayout
@@ -203,15 +176,6 @@
                 android:textColor="@color/calendar_header_day_num_text_color"
                 android:textSize="@dimen/calendar_header_day_num_text_size" />
 
-            <View
-                android:id="@+id/day4today"
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:layout_below="@id/day4"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:background="@drawable/calendar_header_day_bg_selected" />
-
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/day5layout"
@@ -235,15 +199,6 @@
                 android:text="15"
                 android:textColor="@color/calendar_header_day_num_text_color"
                 android:textSize="@dimen/calendar_header_day_num_text_size" />
-
-            <View
-                android:id="@+id/day5today"
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:layout_below="@id/day5"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:background="@drawable/calendar_header_day_bg_selected" />
 
         </RelativeLayout>
         <RelativeLayout
@@ -269,15 +224,6 @@
                 android:textColor="@color/calendar_header_day_num_text_color"
                 android:textSize="@dimen/calendar_header_day_num_text_size" />
 
-            <View
-                android:id="@+id/day6today"
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:layout_below="@id/day6"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:background="@drawable/calendar_header_day_bg_selected" />
-
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/day7layout"
@@ -301,15 +247,6 @@
                 android:text="15"
                 android:textColor="@color/calendar_header_day_num_text_color"
                 android:textSize="@dimen/calendar_header_day_num_text_size" />
-
-            <View
-                android:id="@+id/day7today"
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:layout_below="@id/day7"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/calendar_header_today_point_margin_top"
-                android:background="@drawable/calendar_header_day_bg_selected" />
 
         </RelativeLayout>
 
