@@ -13,10 +13,11 @@ import com.android.volley.toolbox.ImageLoader;
 
 import java.util.List;
 
-import ru.nsu.fit.nsuschedule.NsuScheduleApplication;
 import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.model.News;
 import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
+
+import static ru.nsu.fit.nsuschedule.NsuScheduleApplication.getAppContext;
 
 /**
  * Created by Pavel on 19.10.2016.
@@ -94,7 +95,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         final long id = holder.getItemId();//getItemId(position);
         if (url != null && !url.isEmpty()) {
 
-            ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader().get(url, new ImageLoader.ImageListener() {
+            ImageLoaderSingleton.getInstance(getAppContext()).getImageLoader().get(url, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     Bitmap bitmap = response.getBitmap();
@@ -110,6 +111,10 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 }
             }, 1000, 1000, ImageView.ScaleType.CENTER_CROP);
         } else {
+            int paddindHoriz = (int) getAppContext().getResources().getDimension(R.dimen.news_item_content_padding_horiz);
+            int paddindBottom = (int) getAppContext().getResources().getDimension(R.dimen.news_item_content_padding_bottom);
+            int paddindTop = (int) getAppContext().getResources().getDimension(R.dimen.news_item_content_padding_top_small);
+            newsViewHolder.content.setPadding(paddindHoriz, paddindTop, paddindHoriz, paddindBottom);
             newsViewHolder.image.setVisibility(View.GONE);
             newsViewHolder.imageSmall.setVisibility(View.GONE);
         }
