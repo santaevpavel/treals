@@ -126,7 +126,7 @@ public class NewsActivity extends AppCompatActivity implements NewsFragment.INew
             public void onClick(DialogInterface dialog, int which) {
                 showFiltered();
             }
-        }).setTitle("Выберите категории").show();
+        }).setTitle("Фильтр").show();
     }
 
     private void showFiltered() {
