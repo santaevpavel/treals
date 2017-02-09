@@ -173,7 +173,7 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
     }
 
     private void showFullStudyDay() {
-        int height = 20;//weekView.getMinEffectiveHourHeight();
+        int height = 20;
         weekView.setHourHeight(height);
     }
 
@@ -290,9 +290,6 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
     @Override
     public void onStart() {
         super.onStart();
-        Calendar now = Calendar.getInstance();
-        //weekView.goToHour(now.get(Calendar.HOUR_OF_DAY));
-
     }
 
     @Override
@@ -304,7 +301,6 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        //inflater.inflate(R.menu.menu_schedule, menu);
     }
 
     @Override
@@ -324,13 +320,6 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
-        /*if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
-
     }
 
     @Override

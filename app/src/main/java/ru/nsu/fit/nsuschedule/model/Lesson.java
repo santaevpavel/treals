@@ -16,65 +16,24 @@ import java.util.List;
  */
 public class Lesson implements Serializable {
 
-    @JsonAdapter(TypeJsonAdapter.class)
-    public enum Type{
-        UNKNOWN,
-        LECTURE,
-        PRACTICUM,
-        SEMINAR
-    }
-
-    public class TypeJsonAdapter extends TypeAdapter<Type>{
-
-        @Override
-        public void write(JsonWriter out, Type value) throws IOException {
-        }
-
-        @Override
-        public Type read(JsonReader in) throws IOException {
-
-            String name = in.nextString();
-            switch (name){
-                case "lecture":
-                    return Type.LECTURE;
-                case "practicum":
-                    return Type.PRACTICUM;
-                case "seminar":
-                    return Type.SEMINAR;
-                default:
-                    return Type.UNKNOWN;
-            }
-        }
-    }
-
-
     @SerializedName("lesson_id")
     private String id;
-
     @SerializedName("group_id")
     private String groupId;
-
     @SerializedName("name")
     private String name;
-
     @SerializedName("time_start")
     private String startTime;
-
     @SerializedName("time_end")
     private String endTime;
-
     @SerializedName("place")
     private String room;
-
     @SerializedName("type")
     private Type type;
-
     @SerializedName("days")
     private List<Date> days;
-
     @SerializedName("teacher_id")
     private String teacherId;
-
     @SerializedName("teacher_name")
     private String teacherName;
 
@@ -169,5 +128,42 @@ public class Lesson implements Serializable {
 
     public void setTeacherName(String teacherName) {
         this.teacherName = teacherName;
+    }
+
+    @JsonAdapter(TypeJsonAdapter.class)
+    public enum Type {
+        UNKNOWN(""),
+        LECTURE("Лекция"),
+        PRACTICUM("Практикум"),
+        SEMINAR("Семинар");
+
+        public final String name;
+
+        Type(String name) {
+            this.name = name;
+        }
+    }
+
+    public class TypeJsonAdapter extends TypeAdapter<Type> {
+
+        @Override
+        public void write(JsonWriter out, Type value) throws IOException {
+        }
+
+        @Override
+        public Type read(JsonReader in) throws IOException {
+
+            String name = in.nextString();
+            switch (name) {
+                case "lecture":
+                    return Type.LECTURE;
+                case "practicum":
+                    return Type.PRACTICUM;
+                case "seminar":
+                    return Type.SEMINAR;
+                default:
+                    return Type.UNKNOWN;
+            }
+        }
     }
 }
