@@ -2,6 +2,7 @@ package ru.nsu.fit.nsuschedule.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -16,6 +17,8 @@ import com.android.volley.toolbox.ImageLoader;
 
 import ru.nsu.fit.nsuschedule.NsuScheduleApplication;
 import ru.nsu.fit.nsuschedule.R;
+import ru.nsu.fit.nsuschedule.adapter.PlacesAdapter;
+import ru.nsu.fit.nsuschedule.databinding.ActivityPlaceBinding;
 import ru.nsu.fit.nsuschedule.fragment.PlaceFragment;
 import ru.nsu.fit.nsuschedule.model.Place;
 import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
@@ -25,6 +28,7 @@ public class PlaceActivity extends AppCompatActivity {
     public static final String KEY_PLACE = "KEY_PLACE";
 
     private Place place;
+    private ActivityPlaceBinding binding;
 
     public static void start(Activity activity, Place place) {
         Intent intent = new Intent(activity, PlaceActivity.class);
@@ -40,7 +44,7 @@ public class PlaceActivity extends AppCompatActivity {
 
         place = (Place) getIntent().getSerializableExtra(KEY_PLACE);
 
-        setContentView(R.layout.activity_place);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_place);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,9 +54,8 @@ public class PlaceActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        collapsingToolbar.setTitle(place.getTitle());
-        //collapsingToolbar.setExpandedTitleTypeface(CustomFontLoader.getTypeface(this, CustomFontLoader.CENTURY_GOTHIC_BOLD));
-        //collapsingToolbar.setStatusBarScrimColor(getResources().getColor(android.R.color.holo_red_dark));
+        collapsingToolbar.setTitle(" ");
+        toolbar.setTitle(" ");
 
         ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader()
                 .get(place.getImg(), new ImageLoader.ImageListener() {
@@ -61,17 +64,24 @@ public class PlaceActivity extends AppCompatActivity {
                         Bitmap bitmap = response.getBitmap();
                         if (null != bitmap) {
                             ((ImageView) findViewById(R.id.image)).setImageBitmap(bitmap);
+                            binding.appBarLayout.setExpanded(true, true);
                         }
                     }
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        binding.appBarLayout.setExpanded(false, true);
                     }
                 });
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, PlaceFragment.getInstance(place)).commit();
 
+        binding.itemTitle.setText(place.getTitle());
+        binding.itemType.setText(place.getType());
+        binding.distance.setText(PlacesAdapter.getDistanceString((int) place.getDist()));
+
+        //binding.appBarLayout.setExpanded(false, true);
     }
 
     @Override

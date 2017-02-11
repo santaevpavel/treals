@@ -34,6 +34,19 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         setHasStableIds(true);
     }
 
+    public static String getDistanceString(int dist) {
+        int tenMeters = dist / 10;
+        float kiloMeters = dist / 1000;
+
+        if (kiloMeters >= 1) {
+            return String.format(Locale.ENGLISH, "%.1f км", kiloMeters);
+        }
+        if (tenMeters >= 10) {
+            return String.format(Locale.ENGLISH, "%d м", tenMeters * 10);
+        }
+        return tenMeters * 10 + " м";
+    }
+
     @Override
     public void onClick(View view) {
         PlacesViewHolder holder = (PlacesViewHolder) view.getTag();
@@ -138,19 +151,6 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             }
         });
-    }
-
-    public String getDistanceString(int dist) {
-        int tenMeters = dist / 10;
-        float kiloMeters = dist / 1000;
-
-        if (kiloMeters >= 1) {
-            return String.format(Locale.ENGLISH, "%.1f км", kiloMeters);
-        }
-        if (tenMeters >= 10) {
-            return String.format(Locale.ENGLISH, "%d м", tenMeters * 10);
-        }
-        return tenMeters * 10 + " м";
     }
 
     @Override

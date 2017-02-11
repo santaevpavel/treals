@@ -26,7 +26,7 @@ import java.util.Locale;
 
 import ru.nsu.fit.nsuschedule.NsuScheduleApplication;
 import ru.nsu.fit.nsuschedule.R;
-import ru.nsu.fit.nsuschedule.databinding.FragmentPlacesBinding;
+import ru.nsu.fit.nsuschedule.databinding.FragmentPlaceBinding;
 import ru.nsu.fit.nsuschedule.model.Place;
 import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
 
@@ -39,7 +39,7 @@ public class PlaceFragment extends Fragment implements View.OnClickListener {
     public static final String KEY_PLACE = "KEY_PLACE";
     public static final int MAX_SIZE_DESCRIPTION = 200;
 
-    private FragmentPlacesBinding binding;
+    private FragmentPlaceBinding binding;
     private Place place;
 
     public static PlaceFragment getInstance(Place place) {
@@ -75,7 +75,7 @@ public class PlaceFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_places, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_place, container, false);
 
         binding.address.setText(place.getPlace());
 
@@ -84,21 +84,28 @@ public class PlaceFragment extends Fragment implements View.OnClickListener {
 
         binding.price.setText(place.getPrice() + " руб.");
 
-        binding.address.setOnClickListener(new View.OnClickListener() {
+        binding.layoutAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openGoogleMapInBrowser();
             }
         });
 
-        binding.site.setOnClickListener(new View.OnClickListener() {
+
+        boolean hasSite = null != place.getSite() && !place.getSite().isEmpty();
+
+        binding.layoutSite.setVisibility(hasSite ? View.VISIBLE : View.GONE);
+        binding.actionSite.setVisibility(hasSite ? View.VISIBLE : View.GONE);
+
+        binding.layoutSite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //openUrl(place.get
+                openUrl(place.getSite());
             }
         });
+        binding.site.setText(place.getSite());
 
-        binding.phone.setOnClickListener(new View.OnClickListener() {
+        binding.layoutPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openPhoneDialog();
@@ -111,8 +118,14 @@ public class PlaceFragment extends Fragment implements View.OnClickListener {
                 openPhoneDialog();
             }
         });
+        binding.actionSite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openUrl(place.getSite());
+            }
+        });
 
-        addPaddingToItem(binding.phoneItem, place.getPhone());
+        addPaddingToItem(binding.layoutPhone, place.getPhone());
         addPaddingToItem(binding.timeItem, place.getTime());
 
         boolean isNeedShowExpand = place.getDescription().length() > MAX_SIZE_DESCRIPTION;

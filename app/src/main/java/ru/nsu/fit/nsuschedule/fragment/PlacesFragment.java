@@ -21,7 +21,7 @@ import java.util.List;
 import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.activity.PlaceActivity;
 import ru.nsu.fit.nsuschedule.adapter.PlacesAdapter;
-import ru.nsu.fit.nsuschedule.databinding.FragmentNewsBinding;
+import ru.nsu.fit.nsuschedule.databinding.FragmentPlacesBinding;
 import ru.nsu.fit.nsuschedule.model.Place;
 import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
 
@@ -32,7 +32,7 @@ import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
 public class PlacesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, PlacesAdapter.IPlacesAdapterParent {
 
     private IPlacesFragmentParent parent;
-    private FragmentNewsBinding binding;
+    private FragmentPlacesBinding binding;
     private PlacesAdapter adapter;
 
     public static PlacesFragment getInstance() {
@@ -77,7 +77,7 @@ public class PlacesFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_news, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_places, container, false);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         adapter = new PlacesAdapter();
         adapter.setListener(this);

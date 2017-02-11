@@ -43,9 +43,19 @@ public class Place implements Serializable {
     private String img;
     @SerializedName("price")
     private String price;
+    @SerializedName("site")
+    private String site;
     private double dist;
 
     public Place() {
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
     }
 
     public String getId() {
