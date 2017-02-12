@@ -2,6 +2,7 @@ package ru.nsu.fit.nsuschedule.api;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.os.ResultReceiver;
 
@@ -11,11 +12,14 @@ import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.List;
 
+import nl.qbusict.cupboard.CupboardFactory;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ru.nsu.fit.nsuschedule.NsuScheduleApplication;
 import ru.nsu.fit.nsuschedule.api.request.GetGroupsRequest;
 import ru.nsu.fit.nsuschedule.api.request.GetLessonsRequest;
 import ru.nsu.fit.nsuschedule.api.response.AllNewsResponse;
@@ -26,6 +30,8 @@ import ru.nsu.fit.nsuschedule.api.response.GroupListResponse;
 import ru.nsu.fit.nsuschedule.api.response.LessonsResponse;
 import ru.nsu.fit.nsuschedule.api.response.NewsResponse;
 import ru.nsu.fit.nsuschedule.api.response.WeatherResponse;
+import ru.nsu.fit.nsuschedule.db.CupboardSQLiteOpenHelper;
+import ru.nsu.fit.nsuschedule.model.Lesson;
 import ru.nsu.fit.nsuschedule.model.News;
 import ru.nsu.fit.nsuschedule.util.Helper;
 
@@ -165,10 +171,30 @@ public class ApiService extends IntentService{
         Bundle bundle = new Bundle();
         if (null != response && response.isSuccessful()) {
             bundle.putSerializable(KEY_RESPONSE, response.body());
+            saveLessons(response.body().lessons);
         } else {
             return buildError(new LessonsResponse(), "Ошибка при загрузке расписания");
         }
         return bundle;
+    }
+
+    private void saveLessons(List<Lesson> lessons) {
+        if (lessons == null) {
+            return;
+        }
+        SQLiteDatabase db = null;
+        try {
+            db = CupboardSQLiteOpenHelper.getDbHelper(NsuScheduleApplication.getAppContext()).getWritableDatabase();
+            db.delete("Lesson", "", new String[0]);
+            CupboardFactory.cupboard().withDatabase(db).put(lessons);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (db != null) {
+                db.close();
+            }
+        }
+
     }
 
     private Bundle getClasses(){

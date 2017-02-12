@@ -2,6 +2,7 @@ package ru.nsu.fit.nsuschedule.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -32,11 +33,14 @@ import ru.nsu.fit.nsuschedule.api.ApiService;
 import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
 import ru.nsu.fit.nsuschedule.api.request.GetLessonsRequest;
 import ru.nsu.fit.nsuschedule.api.response.LessonsResponse;
+import ru.nsu.fit.nsuschedule.db.CupboardSQLiteOpenHelper;
 import ru.nsu.fit.nsuschedule.model.Lesson;
 import ru.nsu.fit.nsuschedule.util.DialogHelper;
 import ru.nsu.fit.nsuschedule.util.Helper;
 import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
 import ru.nsu.fit.nsuschedule.view.CalendarHeaderView;
+
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -208,15 +212,29 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
                 if (null != response){
                     if (response.hasError()){
                         Snackbar.make(weekView, response.getErrorMsg(), Snackbar.LENGTH_LONG).show();
+                        loadLessonsFromDb();
                     } else {
                         requestInfo.finish(true);
                         updateLessons();
                     }
                 } else {
                     Snackbar.make(weekView, "Ошибка при загрузке расписания", Snackbar.LENGTH_LONG).show();
+                    loadLessonsFromDb();
                 }
             }
         }, new GetLessonsRequest(group));
+    }
+
+    private void loadLessonsFromDb() {
+        SQLiteDatabase db = CupboardSQLiteOpenHelper.getDbHelper(getActivity()).getReadableDatabase();
+        List<Lesson> lessons = cupboard().withDatabase(db).query(Lesson.class).query().list();
+        response = new LessonsResponse();
+        if (!lessons.isEmpty()) {
+            response = new LessonsResponse();
+            response.lessons = lessons;
+            updateLessons();
+        }
+        db.close();
     }
 
     private void updateLessons(){

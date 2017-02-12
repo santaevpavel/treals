@@ -14,10 +14,12 @@ import java.util.List;
 /**
  * Created by Pavel on 13.09.2016.
  */
+
 public class Lesson implements Serializable {
 
+    private Long _id;
     @SerializedName("lesson_id")
-    private String id;
+    private String lessonid;
     @SerializedName("group_id")
     private String groupId;
     @SerializedName("name")
@@ -37,9 +39,14 @@ public class Lesson implements Serializable {
     @SerializedName("teacher_name")
     private String teacherName;
 
-    public Lesson(String id, String groupId, String name, String startTime,
+    public Lesson() {
+        _id = null;
+    }
+
+    public Lesson(String lessonId, String groupId, String name, String startTime,
                   String endTime, String room, Type type, List<Date> days, String teacherId) {
-        this.id = id;
+        this._id = null;
+        this.lessonid = lessonId;
         this.groupId = groupId;
         this.name = name;
         this.startTime = startTime;
@@ -50,12 +57,16 @@ public class Lesson implements Serializable {
         this.teacherId = teacherId;
     }
 
-    public String getId() {
-        return id;
+    public Long getId() {
+        return _id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getLessonid() {
+        return lessonid;
+    }
+
+    public void setLessonid(String lessonid) {
+        this.lessonid = lessonid;
     }
 
     public String getGroupId() {
