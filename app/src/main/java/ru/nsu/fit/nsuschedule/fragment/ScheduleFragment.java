@@ -141,6 +141,11 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
                 boolean selectedFirst = adapter.isDateInFirstWeek(selectedDay);
                 Calendar dayTo = (Calendar) selectedDay.clone();
                 switch (position) {
@@ -157,11 +162,6 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
                         }
                         break;
                 }
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
             }
 
             @Override
