@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import ru.nsu.fit.nsuschedule.adapter.PlacesAdapter;
 import ru.nsu.fit.nsuschedule.databinding.ActivityPlaceBinding;
 import ru.nsu.fit.nsuschedule.fragment.PlaceFragment;
 import ru.nsu.fit.nsuschedule.model.Place;
+import ru.nsu.fit.nsuschedule.util.Helper;
 import ru.nsu.fit.nsuschedule.util.ImageLoaderSingleton;
 
 public class PlaceActivity extends AppCompatActivity {
@@ -54,8 +56,8 @@ public class PlaceActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        collapsingToolbar.setTitle(" ");
-        toolbar.setTitle(" ");
+        collapsingToolbar.setTitle(place.getTitle());
+        //toolbar.setTitle(" ");
 
         ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader()
                 .get(place.getImg(), new ImageLoader.ImageListener() {
@@ -85,14 +87,26 @@ public class PlaceActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_place, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
                 onBackPressed();
-                return true;
+                break;
+            case R.id.action_found_error:
+                Helper.sendEmail(this, "Сообщение об ошибке", String.format("Место: %s\n", place.getTitle()), "Сообщить об ошибке");
+                break;
+            case R.id.action_offer_place:
+                Helper.sendEmail(this, "Предложить место", "", "Предложить место");
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     public int getStatusBarHeight() {

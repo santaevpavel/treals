@@ -114,7 +114,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.INewsAdapterPa
 
     @Override
     public void onClickNews(News news) {
-        SingleNewsActivity.start(getActivity(), news.getLink());
+        SingleNewsActivity.start(getActivity(), news.getLink(), "Новости", R.style.AppThemeNews);
     }
 
     @Override

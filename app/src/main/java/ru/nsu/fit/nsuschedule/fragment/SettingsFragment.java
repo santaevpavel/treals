@@ -3,9 +3,7 @@ package ru.nsu.fit.nsuschedule.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -84,16 +82,10 @@ public class SettingsFragment extends BaseFragment {
         root.findViewById(R.id.settings_feedback).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                        "mailto","santaevp@gmail.com", null));
-                intent.putExtra(Intent.EXTRA_SUBJECT, "NsuSchedule отзыв");
-                intent.putExtra(Intent.EXTRA_TEXT, "");
-
-                startActivity(Intent.createChooser(intent, "Оставить отзыв"));
+                Helper.sendEmail(getActivity(), "Nsu Today отзыв", "", "Оставить отзыв");
             }
         });
 
-        //searchView = (FloatingSearchView) root.findViewById(R.id.floating_search_view);
         searchView = (FloatingSearchView) getActivity().findViewById(R.id.floating_search_view);
         searchView.setSearchFocusable(true);
         updateSuggestions();

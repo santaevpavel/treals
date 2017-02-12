@@ -21,28 +21,34 @@ import ru.nsu.fit.nsuschedule.R;
 public class SingleNewsActivity extends AppCompatActivity {
 
     public static final String KEY_URL = "KEY_URL";
+    public static final String KEY_THEME = "KEY_THEME";
+    public static final String KEY_TITLE = "KEY_TITLE";
 
     private String url;
     private WebView webView;
     private ProgressBar progressBar;
 
-    public static void start(Activity activity, String url) {
+    public static void start(Activity activity, String url, String title, int theme) {
         Intent intent = new Intent(activity, SingleNewsActivity.class);
         intent.putExtra(KEY_URL, url);
+        intent.putExtra(KEY_THEME, theme);
+        intent.putExtra(KEY_TITLE, title);
         activity.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(getIntent().getIntExtra(KEY_THEME, R.style.AppThemeNews));
         setContentView(R.layout.activity_single_news);
+
 
         url = getIntent().getStringExtra(KEY_URL);
         webView = (WebView) findViewById(R.id.webView);
         progressBar = (ProgressBar) findViewById(R.id.progress);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Новости");
+        toolbar.setTitle(getIntent().getStringExtra(KEY_TITLE));
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

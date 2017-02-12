@@ -34,6 +34,7 @@ import ru.nsu.fit.nsuschedule.fragment.EventsFragment;
 import ru.nsu.fit.nsuschedule.fragment.PlacesFragment;
 import ru.nsu.fit.nsuschedule.model.News;
 import ru.nsu.fit.nsuschedule.model.Place;
+import ru.nsu.fit.nsuschedule.util.Helper;
 import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
 
 public class AcademActivity extends AppCompatActivity implements PlacesFragment.IPlacesFragmentParent,
@@ -197,7 +198,7 @@ public class AcademActivity extends AppCompatActivity implements PlacesFragment.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_news, menu);
+        getMenuInflater().inflate(R.menu.menu_academ, menu);
         return true;
     }
 
@@ -210,6 +211,9 @@ public class AcademActivity extends AppCompatActivity implements PlacesFragment.
                 return true;
             case R.id.filter:
                 onClickFilter();
+                return true;
+            case R.id.action_offer:
+                Helper.sendEmail(this, "Предложить событие/место", "Название:\nДата:\nСайт:\n", "Предложить событие/место");
                 return true;
         }
         return super.onOptionsItemSelected(item);

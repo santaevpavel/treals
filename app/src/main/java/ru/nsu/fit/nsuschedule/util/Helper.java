@@ -1,15 +1,16 @@
 package ru.nsu.fit.nsuschedule.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 
 import java.util.Calendar;
 
@@ -55,5 +56,18 @@ public class Helper {
 
     public static String removeQuotes(String str){
         return str.replace("&quot;", "\"");
+    }
+
+    public static void sendEmail(Context context, String title, String text, String hintDialog) {
+        sendEmail(context, title, text, hintDialog, "santaevp@gmail.com");
+    }
+
+    public static void sendEmail(Context context, String title, String text, String hintDialog, String address) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", address, null));
+        intent.putExtra(Intent.EXTRA_SUBJECT, title);
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+
+        context.startActivity(Intent.createChooser(intent, hintDialog));
     }
 }

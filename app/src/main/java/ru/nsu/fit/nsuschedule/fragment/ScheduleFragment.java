@@ -276,7 +276,7 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
                 color = getContext().getResources().getColor(R.color.lesson_color_seminar);
                 break;
             case PRACTICUM:
-                color = getContext().getResources().getColor(R.color.lesson_color_other);
+                color = getContext().getResources().getColor(R.color.lesson_color_seminar);
                 break;
             case UNKNOWN:
                 color = getContext().getResources().getColor(R.color.lesson_color_other);

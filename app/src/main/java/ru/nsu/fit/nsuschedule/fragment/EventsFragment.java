@@ -101,7 +101,7 @@ public class EventsFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onClickNews(News news) {
-        SingleNewsActivity.start(getActivity(), news.getLink());
+        SingleNewsActivity.start(getActivity(), news.getLink(), "Событие", R.style.AppThemeAcadem);
     }
 
     @Override

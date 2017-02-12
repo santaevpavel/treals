@@ -30,7 +30,7 @@
     <color name="lesson_color_lecture">#FF8A65</color>
     <color name="lesson_text_color_lecture">#cf5000</color>
 
-    <color name="lesson_color_seminar">#4DB6AC</color>
+    <color name="lesson_color_seminar">#26a69a</color>
     <color name="lesson_text_color_seminar">#0066bf</color>
 
     <color name="lesson_color_other">#B0BEC5</color>
