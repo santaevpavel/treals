@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
@@ -57,7 +58,10 @@ public class PlaceActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         collapsingToolbar.setTitle(place.getTitle());
-        //toolbar.setTitle(" ");
+
+        toolbar.setTitle(" ");
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) toolbar.getLayoutParams();
+        lp.setMargins(0, getStatusBarHeight(), 0, 0);
 
         ImageLoaderSingleton.getInstance(NsuScheduleApplication.getAppContext()).getImageLoader()
                 .get(place.getImg(), new ImageLoader.ImageListener() {

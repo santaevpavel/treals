@@ -108,7 +108,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="20dp"
                     android:theme="@style/MyApp.ActionBarTheme"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -124,7 +124,6 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#000"
             android:fitsSystemWindows="true"
             app:layout_anchorGravity="top|start"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
