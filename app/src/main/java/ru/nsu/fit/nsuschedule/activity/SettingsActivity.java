@@ -1,5 +1,6 @@
 package ru.nsu.fit.nsuschedule.activity;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import ru.nsu.fit.nsuschedule.R;
+import ru.nsu.fit.nsuschedule.db.CupboardSQLiteOpenHelper;
 import ru.nsu.fit.nsuschedule.fragment.SettingsFragment;
 import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
 
@@ -53,5 +55,16 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     public void onLogIn(String groupId, String groupName) {
         PreferenceHelper.setGroup(groupId);
         PreferenceHelper.setGroupName(groupName);
+
+        SQLiteDatabase db = null;
+        try {
+            db = CupboardSQLiteOpenHelper.getDbHelper(this).getWritableDatabase();
+            db.delete("Lesson", "", new String[0]);
+        } finally {
+            if (db != null) {
+                db.close();
+            }
+        }
+
     }
 }
