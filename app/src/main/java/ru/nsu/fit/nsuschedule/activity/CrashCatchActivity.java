@@ -52,7 +52,7 @@ public class CrashCatchActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("plain/text");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"santaevp@gmail.com"});
-        intent.putExtra(Intent.EXTRA_SUBJECT, "MyApp log file");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "[Treals] Отчет об ошибке");
 
         String fullName = extractLogToFile();
         if (fullName == null) {

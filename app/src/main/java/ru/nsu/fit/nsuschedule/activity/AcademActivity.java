@@ -230,7 +230,7 @@ public class AcademActivity extends AppCompatActivity implements PlacesFragment.
                 onBackPressed();
                 return true;
             case R.id.action_offer:
-                Helper.sendEmail(this, "Предложить событие/место", "Название:\nДата:\nСайт:\n", "Предложить событие/место");
+                Helper.sendEmail(this, "[Treals] Предложить событие/место", "Название:\nДата:\nСайт:\n", "Предложить событие/место");
                 return true;
         }
         return super.onOptionsItemSelected(item);
