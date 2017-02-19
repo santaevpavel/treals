@@ -30,11 +30,11 @@
     <color name="lesson_color_lecture">#FF8A65</color>
     <color name="lesson_text_color_lecture">#cf5000</color>
 
-    <color name="lesson_color_seminar">#26a69a</color>
+    <color name="lesson_color_seminar">@color/colorPrimary</color>
     <color name="lesson_text_color_seminar">#0066bf</color>
 
     <color name="lesson_color_other">#B0BEC5</color>
-    <color name="lesson_text_color_other">#008f51</color>
+    <color name="lesson_text_color_other">@color/colorPrimary</color>
 
     <color name="news_second_bg_color">#e6e6e6</color>
 
