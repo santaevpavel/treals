@@ -10,6 +10,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -19,6 +22,7 @@ import android.widget.ImageView;
 import java.util.List;
 
 import ru.nsu.fit.nsuschedule.R;
+import ru.nsu.fit.nsuschedule.activity.AcademActivity;
 import ru.nsu.fit.nsuschedule.activity.PlaceActivity;
 import ru.nsu.fit.nsuschedule.adapter.PlacesAdapter;
 import ru.nsu.fit.nsuschedule.databinding.FragmentPlacesBinding;
@@ -72,6 +76,7 @@ public class PlacesFragment extends Fragment implements SwipeRefreshLayout.OnRef
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ImageLoaderSingleton.getInstance(getActivity().getApplicationContext()).getRequestQueue();
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -103,6 +108,27 @@ public class PlacesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         adapter.setPlaces(places);
         adapter.notifyDataSetChanged();
         binding.progress.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_places, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.filter:
+                AcademActivity activity = (AcademActivity) getActivity();
+                if (activity != null) {
+                    activity.onClickFilter();
+                }
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
