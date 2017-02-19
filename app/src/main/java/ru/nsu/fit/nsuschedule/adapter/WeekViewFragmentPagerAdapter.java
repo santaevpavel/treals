@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.Calendar;
 
 import ru.nsu.fit.nsuschedule.fragment.WeekViewHeaderFragment;
+import ru.nsu.fit.nsuschedule.view.CalendarHeaderView;
 
 /**
  * Created by Pavel on 15.01.2017.
@@ -48,6 +49,11 @@ public class WeekViewFragmentPagerAdapter extends FragmentPagerAdapter {
     }
 
     public boolean isDateInFirstWeek(Calendar day) {
-        return first.getCalendarHeaderView().isInFirstWeek(true, day);
+        CalendarHeaderView calendarHeaderView = first.getCalendarHeaderView();
+        if (null != calendarHeaderView) {
+            return calendarHeaderView.isInFirstWeek(true, day);
+        } else {
+            return true;
+        }
     }
 }
