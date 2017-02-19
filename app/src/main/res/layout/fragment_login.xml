@@ -15,7 +15,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#6000"/>
+        android:background="#8000" />
 
     <FrameLayout
         android:id="@+id/content_frame"
@@ -34,7 +34,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="2">
+                    android:layout_weight="5">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -44,33 +44,19 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="128dp"
-                            android:layout_height="128dp"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/logo_no_border"/>
+                            android:src="@drawable/logo_big" />
 
-                        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
-                            android:id="@+id/textViewRobotoThin"
-                            android:layout_width="match_parent"
+                        <ru.nsu.fit.nsuschedule.view.TextViewRobotoBold
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="18dp"
-                            android:layout_marginRight="18dp"
-                            android:gravity="center"
-                            android:text="NSU | Today"
-                            android:textColor="#fff"
-                            android:textSize="40sp" />
-
-                        <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="18dp"
-                            android:layout_marginRight="18dp"
+                            android:layout_gravity="center"
                             android:layout_marginTop="8dp"
-                            android:gravity="center"
-                            android:text="Студенческая жизнь \nу тебя в кармане"
+                            android:text="The real schedule"
                             android:textColor="#fff"
-                            android:textSize="16sp" />
-
+                            android:textSize="24sp" />
                     </LinearLayout>
 
 
@@ -79,7 +65,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:weightSum="1">
 
