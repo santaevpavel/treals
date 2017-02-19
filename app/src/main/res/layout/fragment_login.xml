@@ -44,19 +44,15 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="96dp"
-                            android:layout_height="96dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/logo_big" />
-
-                        <ru.nsu.fit.nsuschedule.view.TextViewRobotoBold
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="8dp"
-                            android:text="The real schedule"
-                            android:textColor="#fff"
-                            android:textSize="24sp" />
+                            android:layout_marginLeft="64dp"
+                            android:layout_marginRight="64dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/logo_with_text" />
+
                     </LinearLayout>
 
 
@@ -64,10 +60,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:weightSum="1">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -75,19 +69,25 @@
                         android:layout_centerInParent="true"
                         android:layout_gravity="center"
                         android:layout_marginTop="0dp"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#5fff" />
 
                         <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
                             android:id="@+id/buttonOK"
-                            style="@style/ColoredButton"
                             android:layout_width="wrap_content"
                             android:layout_height="48dp"
                             android:layout_gravity="center_horizontal"
-                            android:background="@drawable/colored_button_bg"
+                            android:gravity="center"
                             android:paddingLeft="48dp"
                             android:paddingRight="48dp"
-                            android:text="Выбрать группу" />
+                            android:text="Выбрать группу"
+                            android:textAllCaps="true"
+                            android:textColor="#fff"
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
