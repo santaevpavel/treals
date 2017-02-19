@@ -92,7 +92,7 @@
                 android:layout_height="1dp"
                 android:background="#ebebeb" />
 
-            <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+            <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
                 android:id="@+id/descr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                 android:textColor="@color/place_item_color_text"
                 android:textSize="@dimen/place_list_main_text_size" />
 
-            <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+            <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
                 android:id="@+id/descr_expand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                     android:src="@drawable/ic_location_on_black_24dp"
                     android:tint="@color/place_item_icon_color" />
 
-                <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
                     android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -160,7 +160,7 @@
                     android:src="@drawable/ic_receipt_black_24dp"
                     android:tint="@color/place_item_icon_color" />
 
-                <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
                     android:id="@+id/price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
                 android:layout_height="@dimen/place_item_height"
                 android:background="?android:attr/selectableItemBackground">
 
-                <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
                     android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -224,7 +224,7 @@
                     android:src="@drawable/ic_schedule_black_24dp"
                     android:tint="@color/place_item_icon_color" />
 
-                <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
                     android:id="@+id/time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -254,7 +254,7 @@
                     android:src="@drawable/ic_public_black_24dp"
                     android:tint="@color/place_item_icon_color" />
 
-                <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
                     android:id="@+id/site"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
