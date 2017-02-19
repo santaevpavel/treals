@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -87,27 +88,46 @@ public class AcademActivity extends AppCompatActivity implements PlacesFragment.
         if (null == list) return;
 
         Set<String> keySet = sections.keySet();
+        final int size = keySet.size() + 1;
+        final ArrayList<String> keys = new ArrayList<>();
+        keys.add("Выбрать все");
+        keys.addAll(keySet);
 
-        final String[] keys = keySet.toArray(new String[keySet.size()]);
-        final boolean[] checked = new boolean[keys.length];
-        for (int i = 0; i < checked.length; i++) {
+        final boolean[] checked = new boolean[size];
+        for (int i = 0; i < size; i++) {
             checked[i] = true;
         }
-        new AlertDialog.Builder(context).setMultiChoiceItems(keys, checked, new DialogInterface.OnMultiChoiceClickListener() {
+        new AlertDialog.Builder(context).setMultiChoiceItems(keys.toArray(new String[size]), checked, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                checked[which] = isChecked;
+                ListView list = ((AlertDialog) dialog).getListView();
+                if (0 == which) {
+                    for (int i = 1; i < size; i++) {
+                        checked[i] = isChecked;
+                    }
+
+                    for (int i = 1; i < list.getCount(); i++) {
+                        list.setItemChecked(i, isChecked);
+                    }
+                } else {
+                    checked[which] = isChecked;
+                    boolean isCheckedAll = true;
+                    for (int i = 1; i < size; i++) {
+                        isCheckedAll = isCheckedAll && checked[i];
+                    }
+                    checked[0] = isCheckedAll;
+                    list.setItemChecked(0, isCheckedAll);
+                }
             }
         }).setPositiveButton("Выбрать", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 List<T> filtered = new ArrayList<>();
-                for (int i = 0; i < checked.length; i++) {
+                for (int i = 1; i < checked.length; i++) {
                     if (checked[i]) {
-                        filtered.addAll(sections.get(keys[i]));
+                        filtered.addAll(sections.get(keys.get(i)));
                     }
                 }
-                //showPlaces(filtered);
                 listener.onChoose(checked, filtered);
             }
         }).setTitle("Выберите категории").show();
@@ -209,9 +229,6 @@ public class AcademActivity extends AppCompatActivity implements PlacesFragment.
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case R.id.filter:
-                onClickFilter();
-                return true;
             case R.id.action_offer:
                 Helper.sendEmail(this, "Предложить событие/место", "Название:\nДата:\nСайт:\n", "Предложить событие/место");
                 return true;
@@ -265,7 +282,7 @@ public class AcademActivity extends AppCompatActivity implements PlacesFragment.
         }
     }
 
-    private void onClickFilter() {
+    public void onClickFilter() {
         showCategoryDialog(this, places, placeSections, new IOnCategoryChooseListener<Place>() {
             @Override
             public void onChoose(boolean[] checked, List<Place> checkedItems) {
