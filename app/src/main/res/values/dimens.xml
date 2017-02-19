@@ -17,7 +17,7 @@
 
     <dimen name="place_item_height_add">16dp</dimen>
     <dimen name="place_list_main_text_size">14sp</dimen>
-    <dimen name="news_item_content_padding_top_big">20dp</dimen>
+    <dimen name="news_item_content_padding_top_big">16dp</dimen>
     <dimen name="news_item_content_padding_top_small">0dp</dimen>
     <dimen name="news_item_content_padding_horiz">16dp</dimen>
     <dimen name="news_item_content_padding_bottom">16dp</dimen>
