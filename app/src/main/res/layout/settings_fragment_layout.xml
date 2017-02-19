@@ -19,7 +19,8 @@
                 android:id="@+id/settings_change_group"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:background="?android:attr/selectableItemBackground">
 
                 <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
                     android:id="@+id/change_group"
@@ -55,7 +56,8 @@
                 android:id="@+id/settings_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:background="?android:attr/selectableItemBackground">
 
                 <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
                     android:id="@+id/send_feedback"
@@ -72,6 +74,29 @@
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
                     android:background="#ddd"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/settings_about"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_gravity="center_horizontal"
+                android:background="?android:attr/selectableItemBackground">
+
+                <ru.nsu.fit.nsuschedule.view.TextViewRobotoMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:text="О приложении"
+                    android:textColor="#555"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#ddd" />
             </RelativeLayout>
         </LinearLayout>
 

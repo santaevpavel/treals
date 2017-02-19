@@ -3,11 +3,15 @@ package ru.nsu.fit.nsuschedule.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.databinding.DataBindingUtil;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatDialog;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +29,7 @@ import ru.nsu.fit.nsuschedule.R;
 import ru.nsu.fit.nsuschedule.api.ApiService;
 import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
 import ru.nsu.fit.nsuschedule.api.response.GroupListResponse;
+import ru.nsu.fit.nsuschedule.databinding.AboutDialogLayoutBinding;
 import ru.nsu.fit.nsuschedule.model.Group;
 import ru.nsu.fit.nsuschedule.model.GroupSuggestion;
 import ru.nsu.fit.nsuschedule.util.Helper;
@@ -86,6 +91,13 @@ public class SettingsFragment extends BaseFragment {
             }
         });
 
+        root.findViewById(R.id.settings_about).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAbout();
+            }
+        });
+
         searchView = (FloatingSearchView) getActivity().findViewById(R.id.floating_search_view);
         searchView.setSearchFocusable(true);
         updateSuggestions();
@@ -115,6 +127,26 @@ public class SettingsFragment extends BaseFragment {
         updateHintGroup();
 
         return root;
+    }
+
+    private void openAbout() {
+        AppCompatDialog dialog = new AppCompatDialog(getActivity());
+
+        AboutDialogLayoutBinding binding = DataBindingUtil.inflate(getLayoutInflater(null), R.layout.about_dialog_layout, null, false);
+        PackageInfo pInfo;
+        try {
+            pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+            String version = pInfo.versionName;
+            int verCode = pInfo.versionCode;
+            binding.textVersion.setText(version + " (" + verCode + ")");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            binding.textVersion.setText("-");
+        }
+
+        dialog.setContentView(binding.getRoot());
+        dialog.setTitle("О приложении");
+        dialog.show();
     }
 
     @Override
