@@ -59,7 +59,7 @@ public class Helper {
     }
 
     public static void sendEmail(Context context, String title, String text, String hintDialog) {
-        sendEmail(context, title, text, hintDialog, "santaevp@gmail.com");
+        sendEmail(context, title, text, hintDialog, "contact.treals@gmail.com");
     }
 
     public static void sendEmail(Context context, String title, String text, String hintDialog, String address) {

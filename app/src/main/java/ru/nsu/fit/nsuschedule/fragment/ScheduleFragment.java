@@ -23,6 +23,7 @@ import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -75,6 +76,7 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -318,17 +320,20 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_schedule, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_view_one_day:
-                weekView.setNumberOfVisibleDays(1);
-                break;
-            case R.id.action_view_three_day:
-                weekView.setNumberOfVisibleDays(3);
+            case R.id.action_found_error:
+                SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+                String group = PreferenceHelper.getGroupName();
+                String date = format.format(selectedDay.getTime());
+                Helper.sendEmail(getActivity(), "[Schedule] Сообщение об ошибке в расписании",
+                        String.format("Группа: %s\nДата: %s\n\n", group, date), "Сообщить об ошибке");
                 break;
         }
 
