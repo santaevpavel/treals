@@ -332,7 +332,7 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
                 SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d, yyyy");
                 String group = PreferenceHelper.getGroupName();
                 String date = format.format(selectedDay.getTime());
-                Helper.sendEmail(getActivity(), "[Schedule] Сообщение об ошибке в расписании",
+                Helper.sendEmail(getActivity(), "[Schedule][Android] Сообщение об ошибке в расписании",
                         String.format("Группа: %s\nДата: %s\n\n", group, date), "Сообщить об ошибке");
                 break;
         }

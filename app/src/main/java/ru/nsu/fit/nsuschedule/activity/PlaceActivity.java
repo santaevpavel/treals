@@ -104,10 +104,10 @@ public class PlaceActivity extends AppCompatActivity {
                 onBackPressed();
                 break;
             case R.id.action_found_error:
-                Helper.sendEmail(this, "[Treals] Сообщение об ошибке", String.format("Место: %s\n", place.getTitle()), "Сообщить об ошибке");
+                Helper.sendEmail(this, "[Place][Android] Сообщение об ошибке", String.format("Место: %s\n", place.getTitle()), "Сообщить об ошибке");
                 break;
             case R.id.action_offer_place:
-                Helper.sendEmail(this, "[Treals] Предложить место", "", "Предложить место");
+                Helper.sendEmail(this, "[Place][Android] Предложить место", "", "Предложить место");
                 break;
         }
         return true;

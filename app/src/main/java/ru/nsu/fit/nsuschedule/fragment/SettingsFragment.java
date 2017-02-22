@@ -87,7 +87,7 @@ public class SettingsFragment extends BaseFragment {
         root.findViewById(R.id.settings_feedback).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Helper.sendEmail(getActivity(), "Treals [отзыв]", "", "Оставить отзыв");
+                Helper.sendEmail(getActivity(), "[Feedback][Android] Отзыв", "", "Оставить отзыв");
             }
         });
 
