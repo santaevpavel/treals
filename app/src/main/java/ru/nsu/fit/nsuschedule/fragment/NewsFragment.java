@@ -46,7 +46,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.INewsAdapterPa
     }
 
     private static boolean isSmall(Bitmap bmp) {
-        int minWidth = 256;
+        int minWidth = 256 + 128;
         double minRate = 3. / 4;
         return bmp.getWidth() < minWidth || minRate < ((double) bmp.getHeight() / bmp.getWidth());
     }
@@ -114,7 +114,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.INewsAdapterPa
 
     @Override
     public void onClickNews(News news) {
-        SingleNewsActivity.start(getActivity(), news.getLink(), "Новости", R.style.AppThemeNews);
+        SingleNewsActivity.start(getActivity(), news.getLink(), "Новости", R.style.AppTheme);
     }
 
     @Override

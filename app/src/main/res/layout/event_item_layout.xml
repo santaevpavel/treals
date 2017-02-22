@@ -95,7 +95,7 @@
                             android:paddingRight="8dp"
                             android:text="Title"
                             android:textColor="#fff"
-                            android:textSize="24sp" />
+                            android:textSize="20sp" />
 
                         <ru.nsu.fit.nsuschedule.view.TextViewRobotoRegular
                             android:id="@+id/item_dest"
