@@ -3,6 +3,7 @@ package ru.nsu.fit.nsuschedule.fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.os.ResultReceiver;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +36,7 @@ import ru.nsu.fit.nsuschedule.api.ApiService;
 import ru.nsu.fit.nsuschedule.api.ApiServiceHelper;
 import ru.nsu.fit.nsuschedule.api.request.GetLessonsRequest;
 import ru.nsu.fit.nsuschedule.api.response.LessonsResponse;
+import ru.nsu.fit.nsuschedule.databinding.ScheduleDialogLayoutBinding;
 import ru.nsu.fit.nsuschedule.db.CupboardSQLiteOpenHelper;
 import ru.nsu.fit.nsuschedule.model.Lesson;
 import ru.nsu.fit.nsuschedule.util.DialogHelper;
@@ -335,6 +338,9 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
                 Helper.sendEmail(getActivity(), "[Schedule][Android] Сообщение об ошибке в расписании",
                         String.format("Группа: %s\nДата: %s\n\n", group, date), "Сообщить об ошибке");
                 break;
+            case R.id.action_schedule:
+                openScheduleDialog();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -359,6 +365,15 @@ public class ScheduleFragment extends BaseFragment implements CalendarHeaderView
     }
 
 
+    private void openScheduleDialog() {
+        AppCompatDialog dialog = new AppCompatDialog(getActivity());
+
+        ScheduleDialogLayoutBinding binding = DataBindingUtil.inflate(getLayoutInflater(null), R.layout.schedule_dialog_layout, null, false);
+        dialog.setContentView(binding.getRoot());
+        //dialog.getWindow().
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

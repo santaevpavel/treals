@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import ru.nsu.fit.nsuschedule.activity.CrashCatchActivity;
 import ru.nsu.fit.nsuschedule.util.PreferenceHelper;
@@ -39,15 +40,19 @@ public class NsuScheduleApplication extends Application {
 
     public void handleUncaughtException(Thread thread, Throwable e) {
         e.printStackTrace();
+
         final Intent intent = new Intent(getApplicationContext(), CrashCatchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         StringBuilder stringBuilder = new StringBuilder();
         StackTraceElement[] stackTrace = e.getStackTrace();
+        String errorMsg = stringBuilder.toString();
         for (int i = 0; i < stackTrace.length; i++) {
             stringBuilder.append(stackTrace[i]);
         }
-        intent.putExtra(KEY_STACK_TRACE, stringBuilder.toString());
+        Log.e(TAG, errorMsg);
+
+        intent.putExtra(KEY_STACK_TRACE, errorMsg);
 
         final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
         try {
